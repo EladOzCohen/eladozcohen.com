@@ -2,7 +2,7 @@
 author: The R Markdown Team @RStudio
 cascade:
   author: The R Markdown Team @RStudio
-  show_author_byline: true
+  show_author_byline: true 
   show_comments: true
   show_post_date: true
   sidebar:
@@ -20,7 +20,7 @@ sidebar:
   author: The R Markdown Team @RStudio
   description: "This is a fully featured blog that supports categories,\ntags, series,
     and pagination. Even this sidebar offers \na ton of customizations.\n\nCheck out
-    the _index.md file in the /blog folder \nto edit this content. \n"
+    the _index.md file in the /blog folder \nto edit this content. \n" 
   show_sidebar_adunit: true
   text_link_label: Subscribe via RSS
   text_link_url: /index.xml
