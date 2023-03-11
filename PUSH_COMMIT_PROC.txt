@@ -1,0 +1,5 @@
+1) Open Git
+2) navigate to current folder
+3) git add .
+4) git commit "enter some messege"
+5) git push
