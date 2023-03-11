@@ -25,7 +25,7 @@ tags:
 title: Bakeoff
 ---
 
-![Formspree Logo](formspree-logo.png)
+![Formspree Logo](median_and_mean_pic.jpg)
 
 ## [Formspree](https://formspree.io) makes it easy to receive submissions from HTML forms on your static website.
 
