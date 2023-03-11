@@ -6,7 +6,7 @@ categories:
 - package
 date: "2019-07-01"
 draft: false
-excerpt: This is the COVID-19 project.
+excerpt: Israel 7km challenge
 
 layout: single
 
@@ -22,7 +22,7 @@ links:
 subtitle: Add the discreption of the coidv19
 tags:
 - hugo-site
-title: Covid-19 - SQL Analysis and Exploration
+title: israel buseses... add some
 ---
 
 ![Formspree Logo](median_and_mean_pic.jpg)

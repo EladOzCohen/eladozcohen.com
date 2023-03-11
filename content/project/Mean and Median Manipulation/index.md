@@ -7,9 +7,7 @@ categories:
 date: "2019-07-01"
 draft: false
 excerpt: Mean and median
-
 layout: single
-
 links:
 #- icon: door-open
 #  icon_pack: fas
