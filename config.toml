@@ -1,5 +1,5 @@
 baseURL = "https://eladozcohen.netlify.app/"
-theme = "hugo-apero"
+theme = "Elad Oz Cohen"
 languageCode = "en"
 title = "Hugo Apéro"
 author = "Alison Hill"
@@ -25,7 +25,8 @@ enableEmoji = true
     ordered = false
   [markup.highlight]
     # one of: https://xyproto.github.io/splash/docs/ 
-    style = "github"
+    style = "base16-snazzy" #this controls the stlye of code in my projects.
+                           # for all styles: https://xyproto.github.io/splash/docs/all.html
     
 [params]
   orgName = "RStudio"
@@ -79,6 +80,12 @@ enableEmoji = true
   # Configuration of math rendering
   [params.math]
     renderer = "katex" # one of "mathjax" / "katex" 
+    
+
+# THE FOLLOWING IS THE SOCIAL NETWORKS ICONS LINK #
+
+
+
 
   # Social icons may appear on homepage and in site header or footer
   # Configure show/hide above - add as many as you like below
@@ -88,31 +95,40 @@ enableEmoji = true
   [[params.social]]
       icon      = "github" # icon name without the 'fa-'
       icon_pack = "fab"
-      url       = "https://github.com/apreshill/apero"
+      url       = "https://github.com/EladOzCohen"
   [[params.social]]
-      icon      = "facebook-square" # icon name without the 'fa-'
-      icon_pack = "fab"
-      url       = "https://www.facebook.com/hashtag/ap%C3%A9ro"
+    icon      = "linkedin"
+    icon_pack = "fab"
+    url       = "https://www.linkedin.com/in/elad-oz-cohen/"    
   [[params.social]]
-      icon      = "instagram" # icon name without the 'fa-'
-      icon_pack = "fab"
-      url       = "https://www.instagram.com/explore/tags/apero/"
-  [[params.social]]
-      icon      = "twitter" # icon name without the 'fa-'
-      icon_pack = "fab"
-      url       = "https://twitter.com/hashtag/apéro"
-  [[params.social]]
-      icon      = "impactstory" # icon name without the 'fa-'
-      icon_pack = "ai"
-      url       = "https://impactstory.org/u/0000-0002-8082-1890"
-  [[params.social]]
-      icon      = "orcid" # icon name without the 'fa-'
-      icon_pack = "ai"
-      url       = "http://orcid.org/0000-0002-8082-1890"
-  [[params.social]]
-      icon      = "rss" # icon name without the 'fa-'
-      icon_pack = "fas"
-      url       = "/blog/index.xml"
+    icon      = "cv" # icon name without the 'fa-'
+    icon_pack = "ai"
+    url       = "CV_Builder/EladOzCohenCV.pdf" #full path: D:\OneDrive\mywebsite\eladozcohen.com\static\CV_Builder
+
+#  [[params.social]]
+#      icon      = "facebook-square" # icon name without the 'fa-'
+#      icon_pack = "fab"
+#      url       = "https://www.facebook.com/hashtag/ap%C3%A9ro"
+#  [[params.social]]
+#      icon      = "instagram" # icon name without the 'fa-'
+#      icon_pack = "fab"
+#      url       = "https://www.instagram.com/explore/tags/apero/"
+#  [[params.social]]
+#      icon      = "twitter" # icon name without the 'fa-'
+#      icon_pack = "fab"
+#      url       = "https://twitter.com/hashtag/apéro"
+#  [[params.social]]
+#      icon      = "impactstory" # icon name without the 'fa-'
+#      icon_pack = "ai"
+#      url       = "https://impactstory.org/u/0000-0002-8082-1890"
+#  [[params.social]]
+#      icon      = "orcid" # icon name without the 'fa-'
+#      icon_pack = "ai"
+#      url       = "http://orcid.org/0000-0002-8082-1890"
+#  [[params.social]]
+#      icon      = "rss" # icon name without the 'fa-'
+#      icon_pack = "fas"
+#      url       = "/blog/index.xml"
 
 [taxonomies]
   category = "categories"
@@ -126,48 +142,48 @@ enableEmoji = true
     title = "About Blogophonic"
     url = "/about/"
     weight = 1
-  [[menu.header]]
-    name = "Blog"
-    title = "Blog"
-    url = "/blog/"
+  [[menu.header]] #this is the publications folder
+    name = "Publications"
+    title = "Publications"
+    url = "/publications/"
     weight = 2
-  [[menu.header]]
+  [[menu.header]] #this is my projects folder
     name = "Projects"
     title = "Project Portfolio"
     url = "/project/"
     weight = 3
-  [[menu.header]]
-    name = "Talks"
-    title = "Talks"
-    url = "/talk/"
-    weight = 4
-  [[menu.header]]
-    name = "A collection"
-    title = "A collection"
-    url = "/collection/"
-    weight = 5
-  [[menu.header]]
-    name = "Elements"
-    title = "Element Page"
-    url = "/elements/"
-    weight = 6
+  [[menu.header]] #this is my vis folder
+    name = "Visualizations"
+    title = "Visualizations"
+    url = "/data-visualizations/"
+    weight = 3
+#  [[menu.header]]
+#    name = "A collection"
+#    title = "A collection"
+#    url = "/collection/"
+#    weight = 5
+#  [[menu.header]]
+#    name = "Elements"
+#    title = "Element Page"
+#    url = "/elements/"
+#    weight = 6
     
   # Configure footer  
-  [[menu.footer]]
-    name = "License"
-    title = "License"
-    url = "/license/"
-    weight = 1
-  [[menu.footer]]
-    name = "Contact"
-    title = "Contact form"
-    url = "/contact/"
-    weight = 2
-  [[menu.footer]]
-    name = "Contributors"
-    title = "Contributors"
-    url = "/contributors/"
-    weight = 3
+#  [[menu.footer]]
+#    name = "License"
+#    title = "License"
+#    url = "/license/"
+#    weight = 1
+#  [[menu.footer]]
+#    name = "Contact"
+#    title = "Contact form"
+#    url = "/contact/"
+#    weight = 2
+#  [[menu.footer]]
+#    name = "Contributors"
+#    title = "Contributors"
+#    url = "/contributors/"
+#    weight = 3
 
 # see https://gohugo.io/about/hugo-and-gdpr/    
 [privacy]

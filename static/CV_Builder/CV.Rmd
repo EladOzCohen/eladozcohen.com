@@ -1,0 +1,83 @@
+---
+name: Elad
+surname: Oz-Cohen
+phone: 054-2121084
+email: eladozcohen@gmail.com
+linkedin: elad-oz-cohen
+github: EladOzCohen
+www: eladozcohen.com
+date: "February 2023"
+output: 
+  vitae::awesomecv
+---
+
+```{=tex}
+\vspace{2mm}
+\vspace{2mm}
+```
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, 
+                      warning = FALSE, message = FALSE,
+                      results = "markup")
+
+# Packages #
+pacman::p_load(vitae, tidyverse, kableExtra)
+
+# Data #
+data <- readxl::read_excel("template.xlsx") %>% 
+  group_by(ID) %>% 
+  mutate(Why = strsplit(Why, split="\r\n")) %>% 
+  ungroup
+```
+
+# Skills
+
+**Software**: SQL, Tableau, R, Python, Excel.\
+**Languages**: Hebrew (native), English (fluent).
+
+
+
+# moreSkills
+```{r}
+data %>% 
+  filter(Section=="Projects1") %>% 
+  detailed_entries(what = Why) 
+```
+[*Webpage*](https://eladoz.shinyapps.io/Mean_and_Median_Manipulation/)
+
+
+
+# Projects
+
+\vspace{2mm}
+
+-   Programmed an interactive web application that explores the behavior of various measurements of central tendencies. [*Webpage*](https://eladoz.shinyapps.io/Mean_and_Median_Manipulation/)
+
+-   Data Analysis: Data Exploration and insights extraction via SQL and Tableau. [*Webpage*](https://EladOzCohen.github.io/Projects.html)
+
+-   Data Visualization: Collection of assorted ongoing data visualizations. [*Webpage*](https://EladOzCohen.github.io/Visualizations.html)
+
+\vspace{2mm}
+
+# Education
+
+```{r}
+data %>%  #The string behind this box gives the title for this section.
+          # What = 2nd hearder
+          # with = 1st header
+          # Section = in the xlsx file, tells R which lines to take the data from.
+  filter(Section=="Education and Professional Development") %>% 
+  detailed_entries(what = With, When, with = What, Where, Why)
+```
+
+# Experience
+
+```{r}
+data %>% 
+  filter(Section=="Professional Experience") %>% 
+  detailed_entries(what = With, When, with = What, Where, Why)
+```
+
+\vspace{2mm}
+
+\vspace{1.75mm}
