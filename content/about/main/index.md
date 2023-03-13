@@ -1,17 +1,15 @@
 ---
 ## Configure page content in wide column
-title: "Why apéro?" # leave blank to exclude
+title: "So, who am I?" # leave blank to exclude
 number_featured: 1 # pulling from mainSections in config.toml
 use_featured: false # if false, use most recent by date
 number_categories: 3 # set to zero to exclude
 show_intro: true
 intro: |
-  Apéro is a unique kind of casual get-together in French culture, when you gather with friends and get to know each other better over some apéritifs, snacks, and anything in between. A good apéro is one where you'd happily spend a few hours just hanging out.
-  
-  I hope this theme helps you create your own virtual apéro. A place where you and your site's visitors enjoy spending time, and one that helps folks get to know you better. 
-show_outro: true
+  As you’ve noticed, I’m Elad Oz-Cohen, an aspiring data analyst. I’ve come across both the SQL and R programming languages and statistics during my Master's Degree in Cognitive Psychology, and I have been hooked ever since then. Although this (wonderful!) encounter was not expected, as the phrase goes: "life is like a box of chocolate..." During my Master's I've also grown fond of data visualizations. Although my academic research supplied me with plenty of opportunities to visualize data, I craved more opportunities, hence discovering the "TidyTuesday" challenge, which I'll share (some) of my results here. I love the R community, data visualization challenges, and more recently other languages such as SQL, and Python, and doing baby steps in JS. That’s also what I blog about here. It could be curious questions I came across (such as probability, text-analysis) or challenges I faced somewhere, solved, and would like to share with my future self or you. Hope you enjoy your visit and again, reach out so I can get to know you better 😄
+show_outro: flase
 outro: |
-  <i class="fas fa-glass-cheers pr2"></i>Sincere thanks to [Maëlle Salmon](https://masalmon.eu/) for her help naming this Hugo theme!
+
 ---
 
 ** index doesn't contain a body, just front matter above.
