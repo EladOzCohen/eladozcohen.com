@@ -6,7 +6,7 @@ email: eladozcohen@gmail.com
 linkedin: elad-oz-cohen
 github: EladOzCohen
 www: eladozcohen.com
-date: "February 2023"
+date: "2023"
 output: 
   vitae::awesomecv
 ---
@@ -41,11 +41,11 @@ data <- readxl::read_excel("template.xlsx") %>%
 
 \vspace{2mm}
 
--   Programmed an interactive web application that explores the behavior of various measurements of central tendencies. [*Webpage*](https://eladoz.shinyapps.io/Mean_and_Median_Manipulation/)
+-   Programmed an interactive web application that explores the behavior of measurements of central tendencies. [*Webpage*](https://eladoz.shinyapps.io/Mean_and_Median_Manipulation/).
 
--   Data Analysis: Data Exploration and insights extraction via SQL and Tableau. [*Webpage*](https://www.eladozcohen.com/project/)
+-   Data Analysis: Data Exploration and insights extraction via SQL and Tableau. [*Webpage*](https://www.eladozcohen.com/project/).
 
--   Data Visualization: Collection of assorted ongoing data visualizations. [*Webpage*](https://www.eladozcohen.com/data-visualizations/)
+-   Data Visualization: Collection of assorted ongoing data visualization projects. [*Webpage*](https://www.eladozcohen.com/data-visualizations/).
 
 \vspace{2mm}
 
