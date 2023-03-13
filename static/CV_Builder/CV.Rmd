@@ -37,25 +37,15 @@ data <- readxl::read_excel("template.xlsx") %>%
 
 
 
-# moreSkills
-```{r}
-data %>% 
-  filter(Section=="Projects1") %>% 
-  detailed_entries(what = Why) 
-```
-[*Webpage*](https://eladoz.shinyapps.io/Mean_and_Median_Manipulation/)
-
-
-
 # Projects
 
 \vspace{2mm}
 
 -   Programmed an interactive web application that explores the behavior of various measurements of central tendencies. [*Webpage*](https://eladoz.shinyapps.io/Mean_and_Median_Manipulation/)
 
--   Data Analysis: Data Exploration and insights extraction via SQL and Tableau. [*Webpage*](https://EladOzCohen.github.io/Projects.html)
+-   Data Analysis: Data Exploration and insights extraction via SQL and Tableau. [*Webpage*](https://www.eladozcohen.com/project/)
 
--   Data Visualization: Collection of assorted ongoing data visualizations. [*Webpage*](https://EladOzCohen.github.io/Visualizations.html)
+-   Data Visualization: Collection of assorted ongoing data visualizations. [*Webpage*](https://www.eladozcohen.com/data-visualizations/)
 
 \vspace{2mm}
 

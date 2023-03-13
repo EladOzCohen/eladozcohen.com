@@ -2,7 +2,7 @@
 author: Elad Oz Cohen
 categories:
 #- Theme Features
-#- R
+ - SQL
 #- package
 date: "2023-01-15"
 draft: false

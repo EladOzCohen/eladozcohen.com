@@ -57,10 +57,10 @@ Enjoy!
 <!-- My tableau -->
 <div class="viz">
 
-## [Tableau Repository](https://raw.githubusercontent.com/EladOzCohen/Visualizations/main/tableau.jpg)
+## [Tableau Repository](https://public.tableau.com/app/profile/elad.oz.cohen)
 
 
-This is my Tableau public portfolio which contains all my project visualizations using Tableau software.
+This is my Tableau-public repository containing all the plots I've mad (so far) using the Tableau program.
 
 
 <img loading="lazy" loading="lazy" src = "https://raw.githubusercontent.com/EladOzCohen/Visualizations/main/tableau.jpg" width = "650">
