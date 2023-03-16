@@ -10,7 +10,7 @@ excerpt: Israel 7km challenge
 
 layout: single
 
-links:
+<!-- links:
 #- icon: door-open
 #  icon_pack: fas
 #  name: website
@@ -19,7 +19,7 @@ links:
   icon_pack: fab
   name: code
   url: https://github.com/EladOzCohen/SQL-Data-Exploartion---Covid-19
-subtitle: Add the discreption of the coidv19
+subtitle: Add the discreption of the coidv19 -->
 tags:
 - hugo-site
 title: israel buseses... add some
