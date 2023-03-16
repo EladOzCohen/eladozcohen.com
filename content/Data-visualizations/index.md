@@ -79,7 +79,7 @@ This is my Tableau-public repository containing all the plots I've mad (so far) 
 <!-- Israel buses density -->
 <div>
 
-## [Israel Bus Stops Density](https://github.com/EladOzCohen/Visualizations/blob/main/Israel%20Buses%20Density)
+## [Israel Bus Stops Density](https://github.com/EladOzCohen/Israel-Buses-Stops-Visualisation/blob/main/README.md)
 
 In this project, I visualized the amount of bus stops per 7 squared kilometers. And as indicated from the plot, the density is proportional to one's distance to the central districts of Israel.
 <br>
