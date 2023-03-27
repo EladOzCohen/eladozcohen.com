@@ -50,24 +50,22 @@ Enjoy!
 <hr> <!-- separating line -->
 
 
-
-
-
-
-<!-- My tableau -->
+<!-- My Dashboard -->
 <div class="viz">
 
-## [Tableau Repository](https://public.tableau.com/app/profile/elad.oz.cohen)
+## [Dashboard](https://public.tableau.com/app/profile/elad.oz.cohen/viz/SalesDashboardunderconstruction/Dashboard1)
 
 
-This is my Tableau-public repository containing all the plots I've mad (so far) using the Tableau program.
+In this Tableau project I created a dashboard analyzing the behavior of customers.
 
 
-<img loading="lazy" loading="lazy" src = "https://raw.githubusercontent.com/EladOzCohen/Visualizations/main/tableau.jpg" width = "650">
+<img loading="lazy" loading="lazy" src = "https://raw.githubusercontent.com/EladOzCohen/Visualizations/main/dashboard.png" width = "650">
 
 
 </div>
 <hr>
+
+
 
 
 
