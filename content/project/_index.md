@@ -9,7 +9,7 @@ cascade:
     text_link_label: View all projects
     text_link_url: /project/
 description: Here I will publish my personal projects using SQL, R, and sometimes Python. Enjoy! 
-layout: list-grid
+layout: list  <!-- list-grid -->
 show_author_byline: true
 show_button_links: false
 show_post_date: false
