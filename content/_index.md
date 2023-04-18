@@ -2,7 +2,7 @@
 action_label: Read More &rarr;
 action_link: /about
 action_type: text
-description: I’m an aspiring Data Analyst, currently live in Rishon-Lezion, Israel.  In my free time I enojy coding, crossfit, reading, and spending time with friends and family. I also enjoy and blog over data analytics, data visualization and coding languages such as R & SQL.
+description: I’m an aspiring Data Analyst, currently live in Rishon-Lezion, Israel.  In my free time I enjoy coding, crossfit, reading, and spending time with friends and family. I also enjoy and blog over data analytics, data visualization and coding languages such as SQL, R, and Python.
 image_left: false
 images:
 - img/profile_corruped.jpg 
