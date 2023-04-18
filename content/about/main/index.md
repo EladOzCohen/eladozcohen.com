@@ -6,7 +6,16 @@ use_featured: false # if false, use most recent by date
 number_categories: 3 # set to zero to exclude
 show_intro: true
 intro: |
-  As you’ve noticed, I’m Elad Oz-Cohen, an aspiring data analyst. I’ve come across both the SQL and R programming languages and statistics during my Master's Degree in Cognitive Psychology, and I have been hooked ever since then. Although this (wonderful!) encounter was not expected, as the phrase goes: "life is like a box of chocolate..." During my Master's I've also grown fond of data visualizations. Although my academic research supplied me with plenty of opportunities to visualize data, I craved more opportunities, hence discovering the "TidyTuesday" challenge, which I'll share (some) of my results here. I love the R community, data visualization challenges, and more recently other languages such as SQL, and Python, and doing baby steps in JS. That’s also what I blog about here. It could be curious questions I came across (such as probability, text-analysis) or challenges I faced somewhere, solved, and would like to share with my future self or you. Hope you enjoy your visit and again, reach out so I can get to know you better 😄
+
+Welcome to my website! I'm Elad, a highly skilled data analyst proficient in SQL, Tableau, Excel, R, and Python. In my academic years I've spearheaded dozens of experiments (some published in top journals) which provided me with extensive experience in analyzing, visualizing, and extracting valuable insights from big-data & developing a keen eye for detail and a passion for transforming data into actionable insights.
+
+I bring a strategic mindset to every project, using my expertise to identify patterns, trends, and valuable opportunities. Whether I'm building a dashboard in Tableau, conducting advanced statistical analysis in R, or crafting complex queries in SQL, I'm always pushing myself to deliver the highest-quality work possible.
+
+When I'm not immersed in data, I'm spending time with friends and family, talking long walks while listening to a good podcast, and breaking new personal records in CrossFit training. I believe that success requires balance, and I bring that same level of dedication and discipline to everything I do.
+
+Thank you for taking the time to learn more about me. If you're looking for a data analysis professional who will deliver results, I'm your person. Let's connect and start making data-driven decisions that drive success!
+  
+  
 show_outro: flase
 outro: |
 
