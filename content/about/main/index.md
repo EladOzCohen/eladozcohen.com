@@ -13,7 +13,7 @@ I bring a strategic mindset to every project, using my expertise to identify pat
 
 When I'm not immersed in data, I'm spending time with friends and family, talking long walks while listening to a good podcast, and breaking new personal records in CrossFit training. I believe that success requires balance, and I bring that same level of dedication and discipline to everything I do.
 
-Thank you for taking the time to learn more about me. If you're looking for a data analysis professional who will deliver results, I'm your person. Let's connect and start making data-driven decisions that drive success!
+Thank you for taking the time to learn more about me. If you're looking for a data analysis professional who will deliver results, I'm your person. Let's connect and start making data-driven decisions that drive success! :)
   
   
 show_outro: flase
