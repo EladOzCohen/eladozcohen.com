@@ -1,0 +1,23 @@
+y - the dependent variable; if the costumer agrees to subscribe to a term deposit (see below) yes/no.
+
+
+term deposit -  When you deposit money into a NORMAL savings account at a bank, you earn (low) interest on that money over time since the bank can now use that 		    money for it's other uses - the it's like compensation money. 
+			
+		A term deposit is a type of savings account that offers a higher interest rate than a regular savings account, but with some restrictions. When 			you open a term deposit, you agree to deposit a certain amount of money for a fixed period of time, ranging from several months to several 			years. During this time, you cannot withdraw the money without paying a penalty. In exchange for agreeing to these terms, the bank offers you a 		higher rate of interest on your deposit. 
+
+
+
+
+Employment Variation Rate -   Measures the percentage change in employment relative to the previous period.
+					It can be calculated for either a given job-sector or for the entire coutnry.
+
+
+
+Consumer Price Index (CPI) -  is a measure of the average change over time in the prices paid by consumers for a fixed basket of goods and services. In other 					words, it tracks how much the cost of a typical consumer's daily expenses, such as food, housing, transportation, and healthcare, 					changes over time.
+
+
+Consumer Confidence Index (cons_conf_index) - a measure of the level of confidence or optimism that consumers have about the overall state of the economy and 								their personal   financial situation.
+
+
+
+
