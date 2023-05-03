@@ -34,12 +34,12 @@ title: SQL Marketing Campaign Analysis
 ---
 
 #Q1
-Investigating the conversion rate for both the continues and categorical variables in the data set.
-The goal is to to stop which features are associated with higher conversion rate (note: conversion rate is the ratio between the number of sales to leads)
+### Investigating the conversion rate for both the continues and categorical variables in the data set.
+### The goal is to to stop which features are associated with higher conversion rate (note: conversion rate is ### the ratio between the number of sales to leads)
 
 
 
-## The continues variables:
+ The continues variables:
 
 ```{SQL}
 
@@ -54,7 +54,7 @@ GROUP BY y
 ```
 
 
-## The categorical variables:
+The categorical variables:
 
 ```{SQL}
 
@@ -97,7 +97,8 @@ ORDER BY 1 ASC
 ```
 
 The result of the previous analysis indicates:
-a) Conversion rate is not significantly effected by either age, employee variartion rate, CPI index score, and    consumer confidence index on 
+
+a) Conversion rate is not significantly effected by either age, employee variation rate, CPI index score, and    consumer confidence.
 
 b) The campaign's should on: 
     (1) Focus on the students and illiterate population as these have the highest conversion rate.
@@ -110,9 +111,8 @@ b) The campaign's should on:
 
 #Q2 - Seasonal Effects
 
-
-In this analysis I investigate the existence of seasonal effects in the campaign. 
-To put more simply: whether the conversation rate was higher in a particular time period.
+### In this analysis I investigate the existence of seasonal effects in the campaign. 
+### To put more simply: whether the conversation rate was higher in a particular time period.
 
 
 
