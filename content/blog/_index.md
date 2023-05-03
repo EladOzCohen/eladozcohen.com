@@ -14,10 +14,10 @@ layout: list-sidebar # list, list-sidebar, list-grid
 
 # for list-sidebar layout
 sidebar: 
-  title: A Sidebar for Your Thoughts
+  title: My Blog Place
   description: |
-    This is the place I'll put some of my thoughts, learnings and challenges iv'e overcame and wish to share with the world.
-    You will mainly find here posts about data analysis data visualization using R, SQL and/or Python.
+    Welcome to my blog place! this is where I will place some of my thoughts, learning, and challenges that I have overcame and wish to share with the world.
+    You will mainly find here posts about data analysis data visualization using R, SQL and/or Python, some philosophy and statistics.
     
 
   author: "Elad Oz Cohen"
