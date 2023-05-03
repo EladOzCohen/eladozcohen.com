@@ -33,9 +33,9 @@ title: SQL Marketing Campaign Analysis
 
 ---
 
-#Q1
-### Investigating the conversion rate for both the continues and categorical variables in the data set.
-### The goal is to to stop which features are associated with higher conversion rate (note: conversion rate is ### the ratio between the number of sales to leads)
+## Q1
+
+#### Investigating the conversion rate for both the continues and categorical variables in the data set.The goal is to to stop which features are associated with higher conversion rate (note: conversion rate is the ratio between the number of sales to leads)
 
 
 
@@ -109,10 +109,9 @@ b) The campaign's should on:
 
 
 
-#Q2 - Seasonal Effects
+## Q2 - Seasonal Effects
 
-### In this analysis I investigate the existence of seasonal effects in the campaign. 
-### To put more simply: whether the conversation rate was higher in a particular time period.
+#### In this analysis I investigate the existence of seasonal effects in the campaign.To put more simply: whether the conversation rate was higher in a particular time period.
 
 
 
