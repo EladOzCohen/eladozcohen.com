@@ -49,8 +49,23 @@ D:\OneDrive\Job_Hunt\mywebsite\eladozcohen.com\content\Data-visualizations\index
 -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+At: D:\OneDrive\Job_Hunt\mywebsite\eladozcohen.com\content\elements
+
+	Contains some information about styling.
 
 
+-------------------------------------------------------------------------------------------------------------------------------------------------------''
+
+
+
+At: D:\OneDrive\Job_Hunt\mywebsite\eladozcohen.com\content\project
+
+	The folder responsible for the "project" tab && it's  _index.md responsible for some of the wording in the page. 
+
+	* Each sub-folder correspond to each project and it's index.md responsible for everything in that project, 
+		including: 1) project content 
+			     2) header and sub-header in the main "project" page 
+			     3) project image.
 
 
 
