@@ -19,7 +19,7 @@ links:
 #  icon_pack: fab
 #  name: code
 #  url: https://github.com/EladOzCohen/SQL-Nashville-Housing-EDA
-subtitle: Exploring and analysing the famous Nashville housing data using SQL.
+subtitle: Exploring and analyzing the famous Nashville housing data using SQL.
 tags:
 - hugo-site
 title: Nashville Housing SQL Analysis
