@@ -20,7 +20,7 @@ links:
 subtitle: This application a draws distribution given the parameters - sample size, skewness, mean and standard deviation (S.D). In addition, the mean and median are visually displayed on the distribution itself to allow the user an interactive exploration of the mean and median behaviors in response to the changes.
 tags:
 - hugo-site
-title:  Mean and median Simulation
+title:  Mean and median Simulation using R
  
 ---
 ## Sample screenshot:

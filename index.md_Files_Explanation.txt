@@ -4,6 +4,7 @@ At: D:\OneDrive\Job_Hunt\mywebsite\eladozcohen.com    ===> The main folder that 
 										It's 'index.md' Dosen't do anything...
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
+About folder
 
 At: D:\OneDrive\Job_Hunt\mywebsite\eladozcohen.com\content\about ===>  
 
@@ -16,8 +17,11 @@ At: D:\OneDrive\Job_Hunt\mywebsite\eladozcohen.com\content\about ===>
 	*its '\sidebar' folder contains the wording for the sidebar in the 'about' page.
 
 
--------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+Blog folder
 
 At: D:\OneDrive\Job_Hunt\mywebsite\eladozcohen.com\content\blog ====>
 
@@ -30,7 +34,11 @@ At: D:\OneDrive\Job_Hunt\mywebsite\eladozcohen.com\content\blog ====>
 
 
 
+
+
+
 -------------------------------------------------------------------------------------------------------------------------------------------------------
+Data Visualizations folder
 
 At: D:\OneDrive\Job_Hunt\mywebsite\eladozcohen.com\content\Data-visualizations ====> 
 
@@ -46,17 +54,28 @@ D:\OneDrive\Job_Hunt\mywebsite\eladozcohen.com\content\Data-visualizations\index
 
 
 
--------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+Elements folder
 
 At: D:\OneDrive\Job_Hunt\mywebsite\eladozcohen.com\content\elements
 
 	Contains some information about styling.
 
 
+
+
+
+
+
+
+
 -------------------------------------------------------------------------------------------------------------------------------------------------------''
 
-
+Projects folder
 
 At: D:\OneDrive\Job_Hunt\mywebsite\eladozcohen.com\content\project
 

@@ -27,8 +27,9 @@ ORDER BY age
 --- Note that the percentage of responding 'yes' from all people was calcualted using the AVG.
 
 
--- There isn't a clear effect for education....
+/*Checking for education -- There isn't a clear effect for education */
 SELECT education, COUNT(education) as 'num education', SUM(y) 'num yes', ROUND(AVG(y),2) '% of yes'
+INTO  #education_table
 FROM bank_data
 GROUP BY education
 
@@ -37,7 +38,7 @@ GROUP BY education
 
 
 
--- Overall, there isn't a clear effect for age... (notice that the yougn and old were disproportionaly UNDERSAMPELD)
+/* Checking for age -- Overall, there isn't a clear effect for age */
 SELECT age, COUNT(age) as 'num age', SUM(y) 'num yes', ROUND(AVG(y),2)
 FROM bank_data
 GROUP BY age
@@ -46,33 +47,159 @@ ORDER BY age
 
 
 
---- It kinda looks like that around septemer-october people are more inclined to 'yes' (seasonal effect??)
-SELECT month, day_of_week, COUNT(y) 'count' ,AVG(y) '% yes'
+
+
+
+
+
+
+/*Checking for emp_var_rate -- Looks like emp_var_rate between [-3.4, -1.7] contributes to saying yes */
+SELECT emp_var_rate, ROUND(AVG(y),2)
 FROM bank_data
-GROUP BY month, day_of_week
+GROUP BY emp_var_rate
+ORDER BY 2
+
+
+/* Checking for marrige status - no effect */
+SELECT marital, AVG(y)
+FROM bank_data
+GROUP BY marital
+
+/* Checking for channel of communication - looks like cellular is better then telephone*/
+SELECT contact,COUNT(contact), AVG(y)
+FROM bank_data
+GROUP BY contact
+
+
+/* Checking for number of previous campaigns - customers who have been contacted max(3) times. */
+SELECT campaign, AVG(y)
+FROM bank_data
+GROUP BY campaign
+ORDER BY 2
+
+
+/* Checking job types - studets, retired, and unemployed */
+SELECT job, ROUND(AVG(y),2)
+FROM bank_data
+GROUP BY job
+ORDER BY 2
+
+
+
+
+SELECT emp_var_rate,CPI_index, cons_conf_index, ROUND(AVG(y),2)
+FROM bank_data
+GROUP BY emp_var_rate,CPI_index, cons_conf_index
 ORDER BY 4
+
+
+
+
+
+SELECT age,COUNT(y), AVG(y)
+FROM bank_data
+GROUP BY age
+ORDER BY age
+
+/* Q1: */
+
+
+SELECT y 'Campaign Result', 
+ROUND(AVG(age),2) 'Average Age', 
+ROUND(AVG(emp_var_rate),2) 'Average Employee Varation Rate',
+ROUND(AVG(CPI_index),2) 'CPI index', 
+ROUND(AVG(cons_conf_index),2) 'confidence index'
+FROM bank_data
+WHERE Duration > 10
+GROUP BY y
+/* Looks like emp_var_rate between [-3.4, -1.7] contributes to saying yes */
+
+
+
+
 
 
 
 
 /* Q2: */
 
-/* GPT ideas:
-What factors are most strongly associated with a customer's decision to subscribe to a term deposit? For example, does age, education level, or employment status have a significant impact on whether or not a customer subscribes? This can be answered using SQL queries that analyze the relationship between various demographic and socioeconomic factors and the subscription outcome.
+SELECT job, ROUND(AVG(y),2) 'Convertion Rate'
+FROM bank_data
+GROUP BY job
+HAVING job != 'unknown'
+ORDER BY 2 DESC
 
-Are there any seasonal patterns in the success of the marketing campaign? For example, do customers tend to be more likely to subscribe during certain months of the year or during certain holidays or events? This can be answered using SQL queries that group the data by date and analyze the subscription rates over time.
 
-How do the characteristics of the customers who subscribe to term deposits differ from those who do not? For example, are subscribers more likely to have higher incomes, larger account balances, or longer tenure with the bank? This can be answered using SQL queries that compare the demographic and socioeconomic characteristics of subscribers and non-subscribers.
 
-How does the success of the marketing campaign vary by the communication channels used? For example, are customers more likely to subscribe if they are contacted by phone, email, or SMS? This can be answered using SQL queries that group the data by communication channel and analyze the subscription rates for each channel.
+SELECT campaign, ROUND(AVG(y),2) 'Convertion Rate'
+FROM bank_data
+GROUP BY campaign
+ORDER BY 1 DESC
 
-*/
+
+
+SELECT contact, ROUND(AVG(y),2) 'Convertion Rate'
+FROM bank_data
+GROUP BY contact
+ORDER BY 1 DESC
+
+
+
+SELECT education, ROUND(AVG(y),2) 'Convertion Rate'
+FROM bank_data
+GROUP BY education
+HAVING education != 'unknown'
+ORDER BY 2 DESC
+
+
+
+SELECT TOP 10 pdays, ROUND(AVG(y),2) 'Convertion Rate'
+FROM bank_data
+GROUP BY pdays
+HAVING pdays != 0
+ORDER BY 1 ASC
+
+
+/* Result of previous campaigns - previous success predicts future success */
+
+SELECT poutcome, ROUND(AVG(y),2)
+FROM bank_data
+GROUP BY poutcome
+ORDER BY 2
+
+
+
+
+
+/* Conclusion: The banks should contact: students + people non-previosly contacted + via cellular + illiterates and people without education +
+people who's previosly been campaigned  + few days past */
+
+
+
+
 
 
 
 
 /* Q3: */
 
+
+
+SELECT month,COUNT(*) as 'Sampels',ROUND(AVG(y),2)  as '% yes'
+FROM bank_data
+GROUP BY month
+ORDER BY 3
+
+
+
+
+SELECT day_of_week,COUNT(*) as 'Sampels', ROUND(AVG(y),2)  as '% yes'
+FROM bank_data
+GROUP BY day_of_week
+ORDER BY 3
+
+
+/* Conclusion: it looks like the time around septemer-october was the msot fruitful for campaigning. */
 
 
 
