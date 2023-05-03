@@ -1,0 +1,59 @@
+Explanation of files in folders: 
+
+At: D:\OneDrive\Job_Hunt\mywebsite\eladozcohen.com    ===> The main folder that contains everything.
+										It's 'index.md' Dosen't do anything...
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+At: D:\OneDrive\Job_Hunt\mywebsite\eladozcohen.com\content\about ===>  
+
+	Contain folders that correspond to different parts in my "about" website && its _index.md dosent do anything.
+
+	*Its '\main' folder contains the index.md that responsbile for the "So, Who am I?" part in the website.
+
+	*Its '\header' folder.... not sure what it does and it's index.md file dosen't look important...
+
+	*its '\sidebar' folder contains the wording for the sidebar in the 'about' page.
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+At: D:\OneDrive\Job_Hunt\mywebsite\eladozcohen.com\content\blog ====>
+
+	Contains folders each correspond to a different blog post && its _index.md responsible for the wording in the left-sidebar of the page.
+
+
+	* Each blog post is a folder by itself that contains the image for the blog in 'featured.jpg' and index.md
+		that contains the structure and content for the blog itself via markdown code.
+
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+At: D:\OneDrive\Job_Hunt\mywebsite\eladozcohen.com\content\Data-visualizations ====> 
+
+	
+	Contains the folders responsible for my visualizations 
+
+1) Changes to the content in the VIZUALIZATION PROJECT PAGE ITSELF (meaning: the page that opens once I click the project.)
+ is done via the index.md of that project's folder.
+	
+
+2) Changes to the headers + sub-hearders + pictures + hyperlinks of each project in the "Visualizations" main page is via the "index.md" in the
+D:\OneDrive\Job_Hunt\mywebsite\eladozcohen.com\content\Data-visualizations\index.md folder.
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
