@@ -106,8 +106,8 @@ enableEmoji = true
   [[params.social]]
     icon      = "cv" # icon name without the 'fa-'
     icon_pack = "ai"
-    url       = Data_Analyst_SQL_Power_BI_R_Python_CV_-_Elad_Oz_C_1.pdf
-" #full path: D:/OneDrive/Job_Hunt/mywebsite/eladozcohen.com/Data_Analyst_SQL_Power_BI_R_Python_CV_-_Elad_Oz_C_1.pdf
+    url       = CV_Builder/EladOzCohenCV.pdf
+" #full path: D:/OneDrive/Job_Hunt/mywebsite/eladozcohen.com/static/CV_Builder/EladOzCohenCV.pdf
 
 #  [[params.social]]
 #      icon      = "facebook-square" # icon name without the 'fa-'
