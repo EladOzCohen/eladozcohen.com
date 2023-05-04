@@ -4,7 +4,7 @@ categories:
 #- Theme Features
 - SQL
 #- package
-date: "2019-07-01"
+# date: "2023-07-01"
 draft: false
 excerpt: Nashvile Housing SQL Analysis
 
@@ -19,10 +19,10 @@ links:
 #  icon_pack: fab
 #  name: code
 #  url: https://github.com/EladOzCohen/SQL-Nashville-Housing-EDA
-subtitle: Exploring and analyzing the famous Nashville housing data using SQL.
+subtitle: Using SQL to clean the famous Nashville housing data set.
 tags:
 - hugo-site
-title: Nashville Housing SQL Analysis
+title: SQL Nashville Housing Data set Cleaning
 
 ---
 
@@ -219,7 +219,6 @@ Select *,
 					) row_num
 
 From PortfolioProject.dbo.NashvilleHousing
---order by ParcelID
 )
 Select *
 From RowNumCTE
@@ -243,8 +242,6 @@ From PortfolioProject.dbo.NashvilleHousing
 ```SQL
 Select *
 From PortfolioProject.dbo.NashvilleHousing
-
-
 ALTER TABLE PortfolioProject.dbo.NashvilleHousing
 DROP COLUMN OwnerAddress, TaxDistrict, PropertyAddress, SaleDate
 ```
