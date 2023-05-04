@@ -106,7 +106,7 @@ enableEmoji = true
   [[params.social]]
     icon      = "cv" # icon name without the 'fa-'
     icon_pack = "ai"
-    url       = CV_Builder/EladOzCohenCV.pdf
+    url       = eladozcohen.com/CV_Builder/EladOzCohenCV.pdf
 " #full path: D:/OneDrive/Job_Hunt/mywebsite/eladozcohen.com/static/CV_Builder/EladOzCohenCV.pdf
 
 #  [[params.social]]
