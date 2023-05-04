@@ -33,7 +33,7 @@ title: SQL Marketing Campaign Analysis
 
 ---
 
-## Q1
+## Question 1 - Data Exploration
 
 #### Investigating the conversion rate for both the continues and categorical variables in the data set.The goal is to to stop which features are associated with higher conversion rate (note: conversion rate is the ratio between the number of sales to leads)
 
@@ -41,7 +41,7 @@ title: SQL Marketing Campaign Analysis
 
  The continues variables:
 
-```{SQL}
+```SQL
 
 SELECT y, 
 ROUND(AVG(age),2) 'Average Age', 
@@ -54,9 +54,15 @@ GROUP BY y
 ```
 
 
+
+
+
+
+
+
 The categorical variables:
 
-```{SQL}
+```SQL
 
 SELECT job, ROUND(AVG(y),2) 'Convertion Rate'
 FROM bank_data
@@ -96,9 +102,14 @@ ORDER BY 1 ASC
 
 ```
 
-The result of the previous analysis indicates:
 
-a) Conversion rate is not significantly effected by either age, employee variation rate, CPI index score, and    consumer confidence.
+
+
+
+
+Overall, the analysis of the continues variables indicates that: 
+
+a) Conversion rate is not significantly effected by either of the categorical variables (age, employee variation rate, CPI index score, and    consumer confidence.)
 
 b) The campaign's should on: 
     (1) Focus on the students and illiterate population as these have the highest conversion rate.
@@ -109,13 +120,13 @@ b) The campaign's should on:
 
 
 
-## Q2 - Seasonal Effects
+## Question 2 - Seasonal Effects
 
-#### In this analysis I investigate the existence of seasonal effects in the campaign.To put more simply: whether the conversation rate was higher in a particular time period.
+#### In this analysis I investigate the existence of seasonal effects in the campaign. To put more simply: whether the conversation rate was higher in a particular time period.
 
 
 
-```{SQL}
+```SQL
 SELECT month,COUNT(*) as 'Sampels',ROUND(AVG(y),2)  as '% yes'
 FROM bank_data
 GROUP BY month
@@ -132,13 +143,9 @@ ORDER BY 3
 
 
 
-
-
 It appears that although conversion rate is stable across all sampled days of the weeks,
-conversion rate was high on the months: September, October, November, and March.
+conversion rate was high on the following months: September, October, November, and March.
 In addition, 
-
-
 
 
 
