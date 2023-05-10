@@ -36,9 +36,12 @@ Data used: https://ourworldindata.org/
 
 
 
-### Q1: Exploring infections the death rates globally and by continents.
+### Q1: Exploring infections death rates both at a global scale and at a continent scale.
+
+
 
 ```SQL
+/* Using CTE to create a derived table with the relevent data at the continent scale */
 WITH continents_average 
 AS (
 SELECT  'Continent Average' as 'Location', 
@@ -52,7 +55,7 @@ WHERE cd.Location NOT LIKE '%income%' AND cd.Location NOT LIKE '%world%' AND cd.
 GROUP BY CONVERT(DATE,v.date,103)),
 
 
-
+/* Creating another CTE to create a derived table with the relevent data for the global scale */
 continents_cases
 AS (
 SELECT cd.continent 'Location',
@@ -87,19 +90,25 @@ Note: The calculation was executed for large countries defined as countries with
 
 
 ```SQL
-DROP TABLE IF EXISTS my_fully_vac_table
+/* Creating an inner-joined temporary table having the calculated column percentage of population fully vaccinated, along with some descriptive columns */
+
+DROP TABLE IF EXISTS my_fully_vac_table;
+
 SELECT v.location 'Country',
 		v.people_fully_vaccinated,
 		v.date,
 		cd.population,
-	       (v.people_fully_vaccinated/cd.population)* 100 'Percent Population Fully Vacinated'
-	   INTO my_fully_vac_table -- Creating a temporarly table 
+    (v.people_fully_vaccinated/cd.population)* 100 'Percent Population Fully Vacinated'
+INTO my_fully_vac_table
 FROM  vaccinations v INNER JOIN coviddeaths  cd 
 ON cd.date = v.date AND cd.location = v.location
-WHERE cd.location != cd.continent
+WHERE cd.location != cd.continent /* Removing duplicated rows from the dataset */
 GROUP BY v.location, v.people_fully_vaccinated ,cd.population, v.date
 HAVING cd.population > 3000000
 
+
+/* Creating another temporary table that contains the relevent information of the top 10 countries that
+were the first to reach herd immunity (according to the above definition of the term)*/
 
 DROP TABLE IF EXISTS top_10_vac
 SELECT TOP 10 Country, MAX(ROUND([Percent Population Fully Vacinated],2)) AS 'Percent Vaccinated' 
@@ -129,8 +138,13 @@ FROM top_10_vac
 
 ```SQL
 
-DROP TABLE IF EXISTS percent_table
-CREATE TABLE percent_table (Country NVARCHAR(20), fully_vaccinated BIGINT, population_size BIGINT ,date_time DATE, percent_fully_vaccinated FLOAT)
+DROP TABLE IF EXISTS percent_table;
+
+CREATE TABLE  percent_table (Country NVARCHAR(20), 
+              fully_vaccinated BIGINT, 
+              population_size BIGINT,
+              date_time DATE, 
+              percent_fully_vaccinated FLOAT);
 
 
 INSERT INTO percent_table(Country, fully_vaccinated, population_size, date_time, percent_fully_vaccinated)
@@ -141,13 +155,16 @@ SELECT v.location,
 		cd.date,
 	   (v.people_fully_vaccinated/cd.population)* 100 
 FROM  vaccinations v INNER JOIN coviddeaths  cd ON cd.date = v.date AND cd.location = v.location
-WHERE ((v.people_fully_vaccinated/cd.population)* 100) >= 70  AND -- keeping only those who crossed the "herd immunity" threshold.
+WHERE ((v.people_fully_vaccinated/cd.population)* 100) >= 70  /* keeping only those who crossed the "herd immunity"                                                                         threshold. */
+     AND 
 	   cd.location NOT LIKE '%income%' AND cd.Location NOT LIKE '%world%' -- removing non-relevent observations.
 
 
 GROUP BY v.location, cd.date, v.people_fully_vaccinated ,cd.population
 HAVING cd.population > 3000000 
 
+/* Deleting countries with over 100% of population vaccintaed.
+(note: these countries are small countries that also vaccinated non-residence people in their teritory.)*/
 
 DELETE FROM percent_table
 WHERE Country IN (
