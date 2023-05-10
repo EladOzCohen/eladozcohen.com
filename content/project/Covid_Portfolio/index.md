@@ -41,38 +41,46 @@ Data used: https://ourworldindata.org/
 
 
 ```SQL
-/* Using CTE to create a derived table with the relevent data at the continent scale */
-WITH continents_average 
-AS (
-SELECT  'Continent Average' as 'Location', 
-	      CONVERT(DATE,v.date,103) 'Date',
-		  ROUND(SUM(cd.new_cases)/COUNT(DISTINCT cd.continent),0) 'New Infections',
-		  ROUND(SUM(v.daily_vaccinations)/COUNT(DISTINCT cd.continent),0) 'Vaccinations',
-		  SUM(CAST(cd.new_deaths AS INT))/COUNT(DISTINCT cd.continent) 'New Deaths'
-FROM vaccinations v INNER JOIN coviddeaths cd 
-ON cd.date = v.date AND cd.iso_code = v.iso_code
-WHERE cd.Location NOT LIKE '%income%' AND cd.Location NOT LIKE '%world%' AND cd.Location != cd.continent
-GROUP BY CONVERT(DATE,v.date,103)),
+/* Using CTE to create a derived table with the relevant data at the continent scale */
+WITH continents_average AS (
+    SELECT 'Continent Average' AS 'Location', 
+           CONVERT(DATE,v.date,103) AS 'Date',
+           ROUND(SUM(cd.new_cases)/COUNT(DISTINCT cd.continent),0) AS 'New Infections',
+           ROUND(SUM(v.daily_vaccinations)/COUNT(DISTINCT cd.continent),0) AS 'Vaccinations',
+           SUM(CAST(cd.new_deaths AS INT))/COUNT(DISTINCT cd.continent) AS 'New Deaths'
+    FROM vaccinations v 
+    INNER JOIN coviddeaths cd ON cd.date = v.date AND cd.iso_code = v.iso_code
+    WHERE cd.Location NOT LIKE '%income%' AND cd.Location NOT LIKE '%world%' AND cd.Location != cd.continent
+    GROUP BY CONVERT(DATE,v.date,103)
+),
 
+/* Creating another CTE to create a derived table with the relevant data for the global scale */
+continents_cases AS (
+    SELECT cd.continent AS 'Location',
+           CONVERT(DATE,v.date,103) AS 'Date',
+           SUM(cd.new_cases) AS 'New Infections',
+           SUM(v.daily_vaccinations) AS 'Vaccinations',
+           SUM(CAST (cd.new_deaths AS INT)) AS 'New Deaths'
+    FROM vaccinations v 
+    INNER JOIN coviddeaths cd ON cd.date = v.date AND cd.location = v.location
+    WHERE cd.Location NOT LIKE '%income%' AND cd.Location NOT LIKE '%world%' AND cd.Location != cd.continent
+    GROUP BY cd.continent, CONVERT(DATE,v.date,103)
+)
 
-/* Creating another CTE to create a derived table with the relevent data for the global scale */
-continents_cases
-AS (
-SELECT cd.continent 'Location',
-	   CONVERT(DATE,v.date,103) 'Date',
-	   SUM(cd.new_cases) 'New Infections',
-	   SUM(v.daily_vaccinations) 'Vaccinations',
-	   SUM(CAST (cd.new_deaths AS INT)) 'New Deaths'
-		FROM vaccinations v INNER JOIN coviddeaths  cd 
-		ON cd.date = v.date AND cd.location = v.location
-	WHERE cd.Location NOT LIKE '%income%' AND cd.Location NOT LIKE '%world%' AND cd.Location != cd.continent
-		GROUP BY cd.continent, CONVERT(DATE,v.date,103))
-
-
-
-SELECT *  FROM continents_average
+/* Combining the two tables using UNION ALL */
+SELECT 'Continent Average' AS 'Location', 
+       [Date], 
+       [New Infections], 
+       [Vaccinations], 
+       [New Deaths]
+FROM continents_average
 UNION ALL
-SELECT *  FROM continents_cases
+SELECT [Location], 
+       [Date], 
+       [New Infections], 
+       [Vaccinations], 
+       [New Deaths]
+FROM continents_cases;
 ```
 
 ### Visual Results
@@ -90,39 +98,38 @@ Note: The calculation was executed for large countries defined as countries with
 
 
 ```SQL
-/* Creating an inner-joined temporary table having the calculated column percentage of population fully vaccinated, along with some descriptive columns */
+/* Creating a temporary table having the calculated column percentage of population fully vaccinated, along with some descriptive information */
 
 DROP TABLE IF EXISTS my_fully_vac_table;
 
-SELECT v.location 'Country',
-		v.people_fully_vaccinated,
-		v.date,
-		cd.population,
-    (v.people_fully_vaccinated/cd.population)* 100 'Percent Population Fully Vacinated'
+SELECT v.location AS 'Country/Territory',
+       v.people_fully_vaccinated,
+       v.date,
+       cd.population,
+       (v.people_fully_vaccinated/cd.population)* 100 AS 'Percent Population Fully Vaccinated'
 INTO my_fully_vac_table
-FROM  vaccinations v INNER JOIN coviddeaths  cd 
-ON cd.date = v.date AND cd.location = v.location
+FROM  vaccinations v 
+INNER JOIN coviddeaths cd ON cd.date = v.date AND cd.location = v.location
 WHERE cd.location != cd.continent /* Removing duplicated rows from the dataset */
 GROUP BY v.location, v.people_fully_vaccinated ,cd.population, v.date
-HAVING cd.population > 3000000
+HAVING cd.population > 3000000;
 
 
-/* Creating another temporary table that contains the relevent information of the top 10 countries that
-were the first to reach herd immunity (according to the above definition of the term)*/
+/* Creating another temporary table that contains the relevant information of the top 10 countries that were the first to reach herd immunity (according to the above definition of the term) */
 
-DROP TABLE IF EXISTS top_10_vac
-SELECT TOP 10 Country, MAX(ROUND([Percent Population Fully Vacinated],2)) AS 'Percent Vaccinated' 
+DROP TABLE IF EXISTS top_10_vac;
+
+SELECT TOP 10 [Country/Territory], 
+             MAX(ROUND([Percent Population Fully Vaccinated],2)) AS 'Percent Vaccinated' 
 INTO top_10_vac
 FROM my_fully_vac_table
-GROUP BY Country
-HAVING MAX([Percent Population Fully Vacinated]) <= 100 /*Note: due to vaccination of non-residentce, some contries
-														exceded vacinating 100% of their population, thus removed from output*/
-ORDER BY 2 DESC
-
+GROUP BY [Country/Territory]
+HAVING MAX([Percent Population Fully Vaccinated]) <= 100 /* Note: due to vaccination of non-residence, some countries exceeded vaccinating 100% of their population, thus removed from output*/
+ORDER BY 2 DESC;
 
 
 SELECT * 
-FROM top_10_vac
+FROM top_10_vac;
 ```
 
 
@@ -180,7 +187,7 @@ WHERE Country IN (
 
 
 ## Q3: Listing the first 10 countries that were the first to reach herd immunity.
-Note: Although a controversial topic, for the sake of practice I choose to define herd immunity as conuntries that atleast 70% of their population is fully vaccinated.
+Note: Although a controversial topic, for the sake of practice I choose to define herd immunity as countries that at least 70% of their population is fully vaccinated.
 
 
 ```SQL
@@ -213,7 +220,7 @@ ORDER BY date_time
 
 
 <br>
-It appears that not all those who were to first to reach herd immunity also ended being the most (fully) vaccinated countries. Perhaps the rate of vaccinations in former countries reached a platoo when these countries achieved herd immunity. In the next question I will test this hypothesis.
+It appears that not all those who were to first to reach herd immunity also ended being the most (fully) vaccinated countries. Perhaps the rate of vaccinations in former countries reached a plato when these countries achieved herd immunity. In the next question I will test this hypothesis.
 
 <br>
 <br>
@@ -270,7 +277,7 @@ ORDER BY Country, date
 <br>
 <br>
 
-It appears my hypothesize is correct as the slope of the vaccination rate is reaching asymptote around august, which is the month that most countries in Q2 have reached herd immunity.
+It appears my hypothesize is correct as the slope of the vaccination rate is reaching asymptotic around august, which is the month that most countries in Q2 have reached herd immunity.
 
 
 
