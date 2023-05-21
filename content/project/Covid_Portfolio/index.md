@@ -94,7 +94,8 @@ FROM continents_cases;
 
 
 ### Q2: Investigating what are the top 10 countries with the highest percentage of their population fully vaccinated.
-Note: The calculation was executed for large countries defined as countries with population over 3 million citizens.
+
+Note: The calculation was executed for large countries defined as countries with population over 3 million citizens 
 
 
 ```SQL
@@ -115,7 +116,7 @@ GROUP BY v.location, v.people_fully_vaccinated ,cd.population, v.date
 HAVING cd.population > 3000000;
 
 
-/* Creating another temporary table that contains the relevant information of the top 10 countries that were the first to reach herd immunity (according to the above definition of the term) */
+/* Creating another temporary table that contains the relevant information of the top 10 countries that were the first to reach herd immunity (70% of population fully vaccinated) */
 
 DROP TABLE IF EXISTS top_10_vac;
 
@@ -144,7 +145,7 @@ FROM top_10_vac;
 
 
 ```SQL
-
+/*Creating a temporary table and inserting the relevent data + */
 DROP TABLE IF EXISTS percent_table;
 
 CREATE TABLE  percent_table (Country NVARCHAR(20), 
@@ -156,21 +157,26 @@ CREATE TABLE  percent_table (Country NVARCHAR(20),
 
 INSERT INTO percent_table(Country, fully_vaccinated, population_size, date_time, percent_fully_vaccinated)
 
-SELECT v.location,
+SELECT  v.location,
 		v.people_fully_vaccinated,
 		cd.population,
 		cd.date,
-	   (v.people_fully_vaccinated/cd.population)* 100 
+	    (v.people_fully_vaccinated/cd.population)* 100 
 FROM  vaccinations v INNER JOIN coviddeaths  cd ON cd.date = v.date AND cd.location = v.location
-WHERE ((v.people_fully_vaccinated/cd.population)* 100) >= 70  /* keeping only those who crossed the "herd immunity"                                                                         threshold. */
-     AND 
-	   cd.location NOT LIKE '%income%' AND cd.Location NOT LIKE '%world%' -- removing non-relevent observations.
+WHERE ((v.people_fully_vaccinated/cd.population)* 100) >= 70  /* This condition filters countries who vaccinated less then 70% of their population*/ 
+
+     AND
+     
+	   cd.location NOT LIKE '%income%' AND cd.Location NOT LIKE '%world%' /* This condition removes irrelevent observations for the current analysis (mainly: global and regional data) */
 
 
 GROUP BY v.location, cd.date, v.people_fully_vaccinated ,cd.population
 HAVING cd.population > 3000000 
 
-/* Deleting countries with over 100% of population vaccintaed.
+
+
+
+/* Finally, deleting countries with over 100% of population vaccintaed.
 (note: these countries are small countries that also vaccinated non-residence people in their teritory.)*/
 
 DELETE FROM percent_table
@@ -220,7 +226,7 @@ ORDER BY date_time
 
 
 <br>
-It appears that not all those who were to first to reach herd immunity also ended being the most (fully) vaccinated countries. Perhaps the rate of vaccinations in former countries reached a plato when these countries achieved herd immunity. In the next question I will test this hypothesis.
+It appears that not all those who were to first to reach herd immunity also ended being the most (fully) vaccinated countries. Perhaps the rate of vaccinations in former countries reached a plateau upon reaching herd immunity. The next question investigates this hypothesis.
 
 <br>
 <br>
@@ -228,9 +234,14 @@ It appears that not all those who were to first to reach herd immunity also ende
 
 
 
-### Q4: Investegating how the vacination rates have changed across time for countries top countries who were first to reach herd immunity but weren't also th etop counttries who vaccinated most of their population.
+### Q4: Investegating how the vacination rates have changed across time for top countries who were among the first to reach herd immunity but weren't also the top countries who vaccinated most of their population.
 
 ```SQL
+
+/*Using CTE and windows-functions, extracting the relevent data for those countries 
+who were the first to reach herd immunity while not beign the top country to fully vaccinate their population. */
+
+
 WITH ranked_countries
 AS(
 SELECT *, ROW_NUMBER() OVER(PARTITION BY Country ORDER BY percent_fully_vaccinated) 'ranked'
@@ -242,6 +253,7 @@ AS (
 	FROM ranked_countries
 	WHERE ranked = 1
 	ORDER BY date_time),
+	
 	
 top_vac
 AS(
