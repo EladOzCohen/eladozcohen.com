@@ -4,7 +4,7 @@ categories:
 #- Theme Features
  - SQL
 #- package
-date: "2023-01-15"
+# date: "2023-01-15"
 draft: false
 excerpt: Using MSSQL & Tableu, I extract intriguing insights on the relationship between infections rate, mortality and vaccinations. Skills used - CTE, DML, Joins, Group By, Unions.
 
@@ -20,7 +20,7 @@ links:
 #  icon_pack: fab
 #  name: code
 #  url: https://github.com/EladOzCohen/SQL-Data-Exploartion---Covid-19
-#subtitle: Add the discreption of the coidv19
+#subtitle: Add the discreption of the covid19
 tags:
 - hugo-site
 title: SQL Data Analysis - Covid-19
