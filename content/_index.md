@@ -2,8 +2,7 @@
 action_label: Read More &rarr;
 action_link: /about
 action_type: text
-description: Hey there! I'm Elad, the data wizard of MatrixDnA, wielding Python and BI tools to sprinkle some magic on decision-making and growth. I'm based in Rishon-Lezion, Israel, where I fuel my coding spells with coffee (totally not an addict), stay fit with CrossFit, dive into books, and cherish moments with my people. In this cozy corner of the internet, I'll be your guide through the enchanting realms of data analytics, visualization, coding (think SQL, R, Python), and all things science. Join me for a ride through the data wilderness!
-
+description: Hey there, I'm Elad! I'm currently a data analyst at MatrixDnA where I sprinkle some analytical magic via python and Bi tools to optimize organizational behavior When I'm not conjuring up insights with Python and BI tools, I'm fueling my coding spells with coffee (totally not an addict), hitting CrossFit, or hanging with my crew. Here, I'll share fun and useful nuggets on data analytics, coding, and science. Let's dive into the data together!
 
 image_left: false
 images:
