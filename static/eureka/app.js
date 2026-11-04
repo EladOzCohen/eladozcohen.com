@@ -110,7 +110,7 @@ function card(v, opts = {}) {
   const hn = v.au >= 2 ? `<span class="hn" title="${v.au} different Hacker News users recommended this, ${hnYears(v)}">&#9650; ${v.au} on HN</span>` : "";
   return `<article class="card" data-id="${v.id}">
     <a class="tile" href="#/v/${v.id}" aria-label="${esc(v.t)}">
-      <div class="thumb"><img loading="lazy" src="${thumb(v.id)}" alt="" data-fb="${thumbFallback(v.id)}">
+      <div class="thumb"><img loading="${opts.eager ? "eager" : "lazy"}" src="${thumb(v.id)}" alt="" data-fb="${thumbFallback(v.id)}">
         <span class="dur">${fmtLen(v.l)}</span>${isDone(v.id) ? `<span class="done-mark">Watched</span>` : ""}
         ${p > .02 && !isDone(v.id) ? `<span class="prog"><i style="width:${Math.round(p * 100)}%"></i></span>` : ""}
       </div>
@@ -152,7 +152,7 @@ function drawGrid() {
   const list = filtered();
   const g = $("#grid"); if (!g) return;
   $("#count").textContent = `${list.length.toLocaleString()} videos`;
-  g.innerHTML = list.length ? list.slice(0, shown).map(v => card(v)).join("") : `<p class="empty" style="grid-column:1/-1">Nothing matches. Loosen a filter or turn on light pop-sci.</p>`;
+  g.innerHTML = list.length ? list.slice(0, shown).map((v, i) => card(v, { eager: i < 12 })).join("") : `<p class="empty" style="grid-column:1/-1">Nothing matches. Loosen a filter or turn on light pop-sci.</p>`;
   $("#more").innerHTML = list.length > shown ? `<button class="btn" id="moreBtn">Show more (${list.length - shown} left)</button>` : "";
 }
 
