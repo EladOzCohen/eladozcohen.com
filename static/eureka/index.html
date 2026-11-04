@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Eureka - videos that actually teach</title>
+<meta name="description" content="A hand-filtered library of science, math and AI videos that Hacker News keeps recommending, built to leave you able to do something, not just feeling like you learned something.">
+<meta name="color-scheme" content="dark light">
+<meta property="og:title" content="Eureka - videos that actually teach">
+<meta property="og:description" content="Science, math and AI videos that keep getting recommended by people who know the field. No accounts, no tracking, state stays in your browser.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0d12'/%3E%3Cpath d='M32 10c-9 0-16 7-16 16 0 6 3 10 6 13 2 2 3 4 3 7h14c0-3 1-5 3-7 3-3 6-7 6-13 0-9-7-16-16-16z' fill='%23ffb547'/%3E%3Crect x='25' y='50' width='14' height='4' rx='2' fill='%238b93a7'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="#/" aria-label="Eureka home"><span class="bulb" aria-hidden="true"></span>Eureka</a>
+  <form class="search" role="search" id="searchForm">
+    <input id="q" type="search" placeholder="Search titles, channels, topics" autocomplete="off" aria-label="Search">
+  </form>
+  <nav class="nav" aria-label="Main">
+    <a href="#/library" data-nav="library">Library</a>
+    <a href="#/review" data-nav="review">Review <span class="badge" id="dueBadge" hidden></span></a>
+    <a href="#/about" data-nav="about">About</a>
+  </nav>
+</header>
+<main id="app" tabindex="-1"></main>
+<footer class="foot">
+  <span>Part of <a href="/">eladozcohen.com</a>. No accounts, no tracking: your history, notes and picks live only in this browser.</span>
+  <span class="foot-actions"><button type="button" id="exportBtn" class="link">Export my data</button><label class="link" for="importFile">Import</label><input id="importFile" type="file" accept="application/json" hidden></span>
+</footer>
+<script src="app.js"></script>
+</body>
+</html>

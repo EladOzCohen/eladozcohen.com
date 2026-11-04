@@ -59,6 +59,8 @@ In `config.toml` under `[[params.social]]`: GitHub, LinkedIn, and a **CV** link 
 | `content/` | **All page content** (Markdown). This is where you spend your time. |
 | `assets/` | SCSS/JS that Hugo processes. Custom color theme: `assets/elad-hex.scss`. |
 | `static/` | Files served as-is (images under `static/`, the CV under `static/CV_Builder/`). |
+| `static/eureka/` | **Eureka** - a self-contained video library app served at `/eureka/` (plain HTML/CSS/JS, no build). Hugo copies it untouched. |
+| `tools/eureka/` | The Python pipeline that builds `static/eureka/videos.json` from Hacker News recommendations. Not part of the site build. See its README. |
 | `layouts/` | Site-specific layout overrides (currently just a blogdown shortcode). |
 | `data/` | Small config data (e.g. the Formspree contact-form blurb). |
 | `themes/hugo-apero/` | The theme. **Leave alone** — override via `assets/`, `layouts/`, `config.toml`. |

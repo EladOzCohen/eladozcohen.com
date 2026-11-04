@@ -161,6 +161,11 @@ enableEmoji = true
     title = "Visualizations"
     url = "/data-visualizations/"
     weight = 3
+  [[menu.header]] #Eureka: a library of videos that teach (static app in static/eureka/)
+    name = "Eureka"
+    title = "Eureka - videos that actually teach"
+    url = "/eureka/"
+    weight = 4
 #  [[menu.header]]
 #    name = "A collection"
 #    title = "A collection"
