@@ -1,5 +1,5 @@
 ---
-author: Elad Oz Cohen
+author: Elad Oz-Cohen
 categories:
 #- Theme Features
  - Python
@@ -21,7 +21,6 @@ links:
 #  url: https://github.com/EladOzCohen/SQL-Data-Exploartion---Covid-19
 #subtitle: Add the discreption of the coidv19
 tags:
-- hugo-site
 title: Python Web Scraping Project
 
 ---

@@ -1,7 +1,7 @@
-baseURL = "https://eladozcohen.netlify.app/"
+baseURL = "https://eladozcohen.com/"
 theme = "hugo-apero"
 languageCode = "en"
-title = "Personal website of Elad Oz-Cohen Data Analytics & Visualizations"
+title = "Elad Oz-Cohen"
 author = "Elad Oz-Cohen"
 copyright = "" # set to override the auto generated copyright using org info and now year
 googleAnalytics = ""
@@ -33,7 +33,7 @@ enableEmoji = true
   orgLocal = ""
   description = "Code, Data, Analytics & Visualizations"
   favicon = "/img/favicon.ico"
-  logo = "/img/blogophonic-mark-dark.png"
+  logo = ""
   mainSections = ["project","blog"]
   navallcaps = true
   # show/hide social icons in site header & footer
@@ -42,10 +42,7 @@ enableEmoji = true
   socialInFooter = true
   # Default image for social sharing and search engines. 
   # Place image file in `static` folder and specify image name here.
-  sharing_image = "/img/papillons.jpg"
-  # Twitter username (without @). Used when a visitor shares your site on Twitter.
-  #twitter = "apreshill"
-  
+  sharing_image = "/img/profile_corruped.jpg"
   # use a built-in color theme
   # one of: forest / grayscale / peach / plum /
   #         poppy / sky / violet / water 
@@ -71,8 +68,7 @@ enableEmoji = true
 
   # Configuration of https://utteranc.es/ for comments
   [params.utterances]
-    use_utterances = true
-    repo_name = "apreshill/apero"
+    use_utterances = false
     issue_term = "pathname" # url, pathname, or title
     theme = "boxy-light"
     label = "comments :crystal_ball:"
@@ -102,12 +98,7 @@ enableEmoji = true
   [[params.social]]
     icon      = "linkedin"
     icon_pack = "fab"
-    url       = "https://www.linkedin.com/in/elad-oz-cohen/"    
-  [[params.social]]
-    icon      = "cv" # icon name without the 'fa-'
-    icon_pack = "ai"
-    url       = "/CV_Builder/EladOzCohenCV.pdf"
- #full path: D:/OneDrive/Job_Hunt/mywebsite/eladozcohen.com/static/CV_Builder/EladOzCohenCV.pdf
+    url       = "https://www.linkedin.com/in/elad-oz-cohen/"
 
 #  [[params.social]]
 #      icon      = "facebook-square" # icon name without the 'fa-'
@@ -143,12 +134,12 @@ enableEmoji = true
   # Configure header 
   [[menu.header]]
     name = "About"
-    title = "About Blogophonic"
+    title = "About"
     url = "/about/"
     weight = 1
   [[menu.header]] #this is the publications folder
-    name = "blog"
-    title = "blog"
+    name = "Blog"
+    title = "Blog"
     url = "/blog/"
     weight = 2
   [[menu.header]] #this is my projects folder
@@ -160,12 +151,12 @@ enableEmoji = true
     name = "Visualizations"
     title = "Visualizations"
     url = "/data-visualizations/"
-    weight = 3
+    weight = 4
   [[menu.header]] #Eureka: a library of videos that teach (static app in static/eureka/)
     name = "Eureka"
     title = "Eureka - videos that actually teach"
     url = "/eureka/"
-    weight = 4
+    weight = 5
 #  [[menu.header]]
 #    name = "A collection"
 #    title = "A collection"

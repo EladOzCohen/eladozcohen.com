@@ -1,5 +1,5 @@
 ---
-author: Elad Oz Cohen
+author: Elad Oz-Cohen
 categories:
 #- Theme Features
  - SQL
@@ -22,7 +22,6 @@ links:
 #  url: https://github.com/EladOzCohen/SQL-Data-Exploartion---Covid-19
 #subtitle: Add the discreption of the covid19
 tags:
-- hugo-site
 title: SQL Data Analysis - Covid-19
 
 ---

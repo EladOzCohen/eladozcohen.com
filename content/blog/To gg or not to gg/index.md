@@ -1,9 +1,9 @@
 ---
 title: "The gg battle: 'ggplot' vs 'ggpubr', which is the better plotting package?"
 subtitle: ""
-excerpt: "Comparing two iconic plotting packeges in the R programming language"
+excerpt: "Comparing two iconic plotting packages in the R programming language"
 date: 2023-12-15
-author: "Elad Oz Cohen"
+author: "Elad Oz-Cohen"
 draft: false
 # layout options: single, single-sidebar
 layout: single

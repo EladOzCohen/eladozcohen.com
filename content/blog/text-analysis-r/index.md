@@ -3,7 +3,7 @@ title: "Text Analysis in R"
 subtitle: ""
 excerpt: "Get your first dip in the amazing world of text analysis using the R programming language"
 date: 2022-12-28
-author: "Elad Oz Cohen"
+author: "Elad Oz-Cohen"
 draft: false
 # layout options: single, single-sidebar
 layout: single

@@ -7,16 +7,14 @@ number_categories: 3 # set to zero to exclude
 show_intro: true
 intro: |
 
-  Welcome to my website! I'm Elad, a highly skilled data analyst proficient in SQL, Tableau, Excel, R, and Python. In my academic years I've spearheaded dozens of experiments (some published in top journals) which provided me with extensive experience in analyzing, visualizing, and extracting valuable insights from big-data & developing a keen eye for detail and a passion for transforming data into actionable insights.
+  Hi, I'm Elad. I'm a data analyst working with SQL, Python, R, Tableau and Excel.
 
-  I bring a strategic mindset to every project, using my expertise to identify patterns, trends, and valuable opportunities. Whether I'm building a dashboard in Tableau, conducting advanced statistical analysis in R, or crafting complex queries in SQL, I'm always pushing myself to deliver the highest-quality work possible.
+  Before moving into industry I spent several years in academic research, running experiments and analyzing their results with statistical models. Some of that work has been published, most recently *Bumpy ride ahead: Anticipated effort as emotional evidence?* in Cognitive, Affective, & Behavioral Neuroscience ([paper](https://doi.org/10.3758/s13415-024-01194-9), [data and code](https://github.com/EladOzCohen/Emotional_Evidence_Paper)). That background taught me to question a result before trusting it, and I still work that way.
 
-  When I'm not immersed in data, I'm spending time with friends and family, talking long walks while listening to a good podcast, and breaking new personal records in CrossFit training. I believe that success requires balance, and I bring that same level of dedication and discipline to everything I do.
+  Here you will find projects, visualizations and posts about data analysis. In my spare time I also build small tools and games, which you can find on [GitHub](https://github.com/EladOzCohen).
 
-  Thank you for taking the time to learn more about me. If you're looking for a data analysis professional who will deliver results, I'm your person. Let's connect and start making data-driven decisions that drive success! :)
-  
-  
-show_outro: flase
+  Outside of work I'm usually coding, training CrossFit, taking a long walk with a podcast, or spending time with friends and family.
+show_outro: false
 outro: |
 
 ---

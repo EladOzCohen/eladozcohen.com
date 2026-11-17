@@ -1,5 +1,5 @@
 ---
-author: Elad Oz Cohen
+author: Elad Oz-Cohen
 categories:
 #- Theme Features
 - SQL
@@ -21,7 +21,6 @@ links:
 #  url: https://github.com/EladOzCohen/SQL-Nashville-Housing-EDA
 subtitle: Using SQL to clean the famous Nashville housing data set.
 tags:
-- hugo-site
 title: SQL Nashville Housing Data set Cleaning
 
 ---

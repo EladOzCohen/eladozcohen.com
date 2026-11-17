@@ -1,6 +1,6 @@
 ---
 title: Data Visualization
-author: Elad
+author: Elad Oz-Cohen
 description: Collection of visualizations from challenges & work, and miscellaneous.
 categories: [Visualization]
 tags: []
@@ -14,7 +14,7 @@ format: hugo-md
 
 
 <style type="text/css">
-# Add some custom css:
+/* Custom CSS */
 .viz {
   color: black;
 }
@@ -29,7 +29,7 @@ format: hugo-md
 }
 </style>
 
-A page containing (an updating) visualizations from various projects and occasions.
+A collection of visualizations from various projects and occasions.
 
 <!-- 1.  [Tableau](#tableau-repository)
 
@@ -40,8 +40,6 @@ A page containing (an updating) visualizations from various projects and occasio
 4.  [TidyTuesday project](#tidytuesday) -->
 
 Visualizations titles are linked referencing either to the source code or to a gallery. Only selected visualizations are shown below.
-
-Enjoy!
 
 <br>
 <br>
@@ -81,7 +79,7 @@ In this Tableau project I created a dashboard analyzing the behavior of customer
 
 In this project, I visualized the amount of bus stops per 7 squared kilometers. And as indicated from the plot, the density is proportional to one's distance to the central districts of Israel.
 <br>
-I find this conclusion to be alarming since it indicates an alarming discrepancies of oppertunites as a functions of one's living.
+I find this conclusion concerning, since it points to unequal opportunities depending on where one lives.
 
 
 <img loading="lazy"  src ="https://raw.githubusercontent.com/EladOzCohen/Visualizations/main/israel_buses.png" width = "700">
