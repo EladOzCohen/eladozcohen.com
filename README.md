@@ -42,9 +42,8 @@ To add a new one, copy an existing folder and edit it, or use the theme archetyp
 ### The nav menu
 Defined in `config.toml` under `[menu]`: **About · Blog · Projects · Visualizations · Eureka**.
 
-### Social links & CV
-In `config.toml` under `[[params.social]]`: GitHub, LinkedIn, and a **CV** link pointing at
-`/CV_Builder/EladOzCohenCV.pdf` (that PDF lives in `static/CV_Builder/`).
+### Social links
+In `config.toml` under `[[params.social]]`: GitHub and LinkedIn. (The CV was removed from the site; the old CV builder files are in the private `archive` repo.)
 
 ---
 
@@ -55,7 +54,7 @@ In `config.toml` under `[[params.social]]`: GitHub, LinkedIn, and a **CV** link 
 | `config.toml` | **Main site configuration** — title, menu, social links, theme, fonts, colors. |
 | `content/` | **All page content** (Markdown). This is where you spend your time. |
 | `assets/` | SCSS/JS that Hugo processes. Custom color theme: `assets/elad-hex.scss`. |
-| `static/` | Files served as-is (images under `static/`, the CV under `static/CV_Builder/`). |
+| `static/` | Files served as-is (images under `static/`). |
 | `static/eureka/` | **Eureka** - a self-contained video library app served at `/eureka/` (plain HTML/CSS/JS, no build). Hugo copies it untouched. |
 | `tools/eureka/` | The Python pipeline that builds `static/eureka/videos.json` from Hacker News recommendations. Not part of the site build. See its README. |
 | `layouts/` | Site-specific layout overrides (currently just a blogdown shortcode). |
