@@ -1,9 +1,7 @@
 ---
-title: My Blogs
-description: |
-  This is a fully featured blog that supports categories, 
-  tags, series, and pagination.
-author: "Elad Oz Cohen"
+title: Blog
+description: Notes on data analysis, data visualization, SQL, R and Python.
+author: "Elad Oz-Cohen"
 show_post_thumbnail: true
 thumbnail_left: true # for list-sidebar only
 show_author_byline: true
@@ -14,23 +12,20 @@ layout: list-sidebar # list, list-sidebar, list-grid
 
 # for list-sidebar layout
 sidebar: 
-  title: My Blog Place
+  title: Notes on data and code
   description: |
-    Welcome to my blog place! this is where I will place some of my thoughts, learning, and challenges that I have overcame and wish to share with the world.
-    You will mainly find here posts about data analysis data visualization using R, SQL and/or Python, some philosophy and statistics.
-    
-
-  author: "Elad Oz Cohen"
+    Notes on data analysis and data visualization with R, SQL and Python, plus the occasional post on statistics.
+  author: "Elad Oz-Cohen"
   text_link_label: Subscribe via RSS
   text_link_url: /index.xml
-  show_sidebar_adunit: true # show ad container
+  show_sidebar_adunit: false # show ad container
 
 # set up common front matter for all pages inside blog/
 cascade:
-  author: "Elad Oz Cohen"
+  author: "Elad Oz-Cohen"
   show_author_byline: true
   show_post_date: true
-  show_comments: true # see site config to choose Disqus or Utterances
+  show_comments: false # see site config to choose Disqus or Utterances
   # for single-sidebar layout
   sidebar:
     text_link_label: View recent posts

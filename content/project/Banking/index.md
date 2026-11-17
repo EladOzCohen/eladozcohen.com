@@ -1,5 +1,5 @@
 ---
-author: Elad Oz Cohen
+author: Elad Oz-Cohen
 categories:
 #- Theme Features
 - SQL
@@ -23,8 +23,6 @@ links:
 #  url: 
 subtitle: 
 tags:
-- hugo-site
-
 #- the following is the main title.
 title: SQL Marketing Campaign Analysis
 

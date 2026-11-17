@@ -1,7 +1,7 @@
 # eladozcohen.com
 
 Personal website of **Elad Oz-Cohen** — Data Analytics & Visualizations.
-Live at **https://eladozcohen.netlify.app/**.
+Live at **https://eladozcohen.com/**.
 
 This README is the map. Read the section you need; skip the rest.
 
@@ -40,10 +40,7 @@ To add a new one, copy an existing folder and edit it, or use the theme archetyp
 `themes/hugo-apero/archetypes/`.
 
 ### The nav menu
-Defined in `config.toml` under `[menu]`: **About · blog · Projects · Visualizations**.
-(There are also `content/talk/`, `content/elements/`, `content/license.md`, and
-`content/contributors.md` folders left over from the theme's example site — they exist but
-are **not** in the menu. Safe to ignore, or delete later if you don't want them.)
+Defined in `config.toml` under `[menu]`: **About · Blog · Projects · Visualizations · Eureka**.
 
 ### Social links & CV
 In `config.toml` under `[[params.social]]`: GitHub, LinkedIn, and a **CV** link pointing at
@@ -62,7 +59,6 @@ In `config.toml` under `[[params.social]]`: GitHub, LinkedIn, and a **CV** link 
 | `static/eureka/` | **Eureka** - a self-contained video library app served at `/eureka/` (plain HTML/CSS/JS, no build). Hugo copies it untouched. |
 | `tools/eureka/` | The Python pipeline that builds `static/eureka/videos.json` from Hacker News recommendations. Not part of the site build. See its README. |
 | `layouts/` | Site-specific layout overrides (currently just a blogdown shortcode). |
-| `data/` | Small config data (e.g. the Formspree contact-form blurb). |
 | `themes/hugo-apero/` | The theme. **Leave alone** — override via `assets/`, `layouts/`, `config.toml`. |
 | `R/` | Optional blogdown build hooks (`build.R`, `build2.R`) — currently empty. |
 | `index.Rmd` | blogdown entry file. Do not edit. |

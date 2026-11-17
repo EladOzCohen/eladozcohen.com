@@ -3,7 +3,7 @@ title: "Windows Functions in MSSQL: How to Be the Life of the SQL Party"
 subtitle: ""
 excerpt: "Take your SQL skills to the next level with the almighty window functions"
 date: 2023-01-21
-author: "Elad Oz Cohen"
+author: "Elad Oz-Cohen"
 draft: false
 # layout options: single, single-sidebar
 layout: single

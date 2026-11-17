@@ -1,9 +1,9 @@
 ---
 title: "Sub-Queries in MSSQL: Unleashing the Power of Nested Queries"
 subtitle: ""
-excerpt: "Take your SQL skills to the next level with the almighty window functions"
+excerpt: "How nested queries work, and when to reach for them"
 date: 2023-02-02
-author: "Elad Oz Cohen"
+author: "Elad Oz-Cohen"
 draft: false
 # layout options: single, single-sidebar
 layout: single
