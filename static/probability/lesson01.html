@@ -1,0 +1,1381 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>שיעור 1 — איך מדברים במדויק על "סיכוי"?</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<style>
+:root {
+  --bg: #fbfaf7; --fg: #1c1d21; --muted: #62666f; --card: #ffffff; --line: #e4e2db;
+  --accent: #2563eb; --accent-soft: #dbe7fe; --accent2: #ea580c;
+  --warn: #b45309; --warn-bg: #fef3dc;
+  --ok: #15803d; --ok-bg: #e2f5e8;
+  --bad: #b91c1c; --bad-bg: #fde4e4;
+  --ml: #6d28d9; --ml-bg: #efe8fd;
+  --trick: #0e7490; --trick-bg: #dff3f8;
+  --hist: #6b5a43; --hist-bg: #f1ebe0;
+  --def: #1d4ed8; --def-bg: #e6eefe;
+  --code-bg: #f3f1ec;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #14151a; --fg: #e8e8ea; --muted: #9a9ea8; --card: #1d1f26; --line: #2f323c;
+    --accent: #6ea0ff; --accent-soft: #1f2d4d; --accent2: #fb923c;
+    --warn: #fbbf4a; --warn-bg: #3a2c10;
+    --ok: #4ade80; --ok-bg: #12301d;
+    --bad: #f87171; --bad-bg: #3b1717;
+    --ml: #b69cff; --ml-bg: #281f45;
+    --trick: #5fd0e8; --trick-bg: #10303a;
+    --hist: #d9c4a3; --hist-bg: #2c261c;
+    --def: #8fb4ff; --def-bg: #1a2644;
+    --code-bg: #101116;
+  }
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font-family: "Segoe UI", Heebo, Arial, sans-serif; font-size: 18px; line-height: 1.8;
+}
+.katex { direction: ltr; unicode-bidi: isolate; font-size: 1.08em; }
+.katex-display { direction: ltr; margin: 1em 0; overflow-x: auto; overflow-y: hidden; }
+.wrap { max-width: 860px; margin: 0 auto; padding: 0 16px 80px; }
+header.hero { padding: 48px 16px 28px; border-bottom: 1px solid var(--line); background: linear-gradient(180deg, var(--accent-soft), transparent); }
+header.hero .wrap { padding-bottom: 0; }
+header.hero h1 { margin: 0 0 6px; font-size: 2.1rem; line-height: 1.3; }
+header.hero p { margin: 6px 0; color: var(--muted); }
+.crumb { font-size: .9rem; margin-bottom: 8px; }
+a { color: var(--accent); }
+nav.toc {
+  position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(6px); border-bottom: 1px solid var(--line);
+}
+nav.toc .wrap { display: flex; gap: 6px; overflow-x: auto; padding: 8px 16px; white-space: nowrap; }
+nav.toc a { font-size: .85rem; padding: 3px 10px; border-radius: 99px; background: var(--card); border: 1px solid var(--line); text-decoration: none; color: var(--fg); }
+nav.toc a:hover { border-color: var(--accent); color: var(--accent); }
+h2 { margin: 2.6em 0 .4em; font-size: 1.6rem; line-height: 1.35; padding-top: .4em; border-top: 1px solid var(--line); }
+h2 .num { display: inline-block; min-width: 1.9em; text-align: center; background: var(--accent); color: #fff; border-radius: 8px; font-size: 1.1rem; margin-left: 8px; padding: 0 6px; }
+h3 { margin: 1.8em 0 .3em; font-size: 1.2rem; }
+p, li { margin: .6em 0; }
+ul, ol { padding-inline-start: 1.4em; }
+.box { border-radius: 12px; padding: 12px 18px; margin: 1.2em 0; border-inline-start: 5px solid; }
+.box > .t { font-weight: 700; margin-bottom: 2px; }
+.box p:first-of-type { margin-top: .2em; } .box p:last-child, .box ul:last-child { margin-bottom: .2em; }
+.box.def { background: var(--def-bg); border-color: var(--def); } .box.def > .t { color: var(--def); }
+.box.intuition { background: var(--ok-bg); border-color: var(--ok); } .box.intuition > .t { color: var(--ok); }
+.box.warn { background: var(--warn-bg); border-color: var(--warn); } .box.warn > .t { color: var(--warn); }
+.box.trick { background: var(--trick-bg); border-color: var(--trick); } .box.trick > .t { color: var(--trick); }
+.box.ml { background: var(--ml-bg); border-color: var(--ml); } .box.ml > .t { color: var(--ml); }
+.box.history { background: var(--hist-bg); border-color: var(--hist); } .box.history > .t { color: var(--hist); }
+table.tbl { border-collapse: collapse; width: 100%; margin: 1em 0; font-size: .95rem; background: var(--card); border-radius: 10px; overflow: hidden; }
+table.tbl th, table.tbl td { border: 1px solid var(--line); padding: 6px 10px; text-align: center; }
+table.tbl th { background: var(--accent-soft); }
+.widget { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px 16px; margin: 1.4em 0; box-shadow: 0 1px 3px rgba(0,0,0,.05); }
+.widget > .wt { font-weight: 700; margin-bottom: 8px; }
+.widget .controls { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; margin: 8px 0; font-size: .95rem; }
+.widget .out { font-size: .95rem; color: var(--muted); margin-top: 6px; line-height: 1.7; }
+.widget .out b { color: var(--fg); }
+.widget canvas { width: 100%; height: auto; display: block; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 640px) { .grid2 { grid-template-columns: 1fr; } body { font-size: 17px; } }
+select, input[type=number] { font: inherit; font-size: .95rem; padding: 3px 6px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); }
+input[type=range] { vertical-align: middle; }
+.btn { font: inherit; font-size: .92rem; padding: 4px 12px; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent-soft); color: var(--fg); cursor: pointer; }
+.btn:hover { background: var(--accent); color: #fff; }
+.same { font-weight: 700; padding: 2px 10px; border-radius: 99px; }
+.same.yes { background: var(--ok-bg); color: var(--ok); } .same.no { background: var(--bad-bg); color: var(--bad); }
+table.dice { direction: ltr; border-collapse: separate; border-spacing: 3px; margin: 8px auto; }
+table.dice th { font-weight: 600; color: var(--muted); font-size: .85rem; width: 44px; }
+table.dice td { width: 44px; height: 44px; text-align: center; border-radius: 8px; background: var(--bg); border: 1px solid var(--line); font-size: .78rem; position: relative; line-height: 1.1; }
+table.dice td.res { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 700; }
+table.dice td .m { position: absolute; top: 1px; left: 3px; font-size: .62rem; opacity: .85; }
+table.dice td .m2 { position: absolute; top: 1px; right: 3px; font-size: .62rem; opacity: .85; }
+pre, code { direction: ltr; text-align: left; font-family: Consolas, "Cascadia Mono", monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--line); padding: 12px 14px; border-radius: 10px; overflow-x: auto; font-size: .9rem; line-height: 1.55; }
+code { background: var(--code-bg); padding: 1px 5px; border-radius: 5px; font-size: .88em; }
+pre code { background: none; padding: 0; }
+details { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 8px 14px; margin: .8em 0; }
+details summary { cursor: pointer; font-weight: 600; }
+details[open] summary { margin-bottom: 6px; }
+.ex { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 4px 16px 10px; margin: 1em 0; }
+.ex .q { font-weight: 600; }
+.quiz { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 8px 16px 14px; margin: 1em 0; }
+.quiz .opts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.quiz .opt { font: inherit; font-size: .95rem; padding: 6px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); cursor: pointer; }
+.quiz .opt:hover:not(:disabled) { border-color: var(--accent); }
+.quiz .opt.good { background: var(--ok-bg); border-color: var(--ok); color: var(--ok); font-weight: 700; }
+.quiz .opt.bad { background: var(--bad-bg); border-color: var(--bad); color: var(--bad); }
+.quiz .explain { margin-top: 8px; font-size: .95rem; color: var(--muted); }
+.cards { display: grid; gap: 12px; margin: 1em 0; }
+.card { display: block; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 16px; text-decoration: none; color: var(--fg); }
+a.card:hover { border-color: var(--accent); transform: translateY(-1px); }
+.card .n { color: var(--accent); font-weight: 700; font-size: .85rem; }
+.card h3 { margin: 0 0 2px; font-size: 1.1rem; }
+.card p { margin: 2px 0; color: var(--muted); font-size: .92rem; line-height: 1.6; }
+.card .mlhook { color: var(--ml); font-size: .9rem; }
+.card.soon { opacity: .6; }
+.tag { display: inline-block; font-size: .72rem; padding: 0 8px; border-radius: 99px; background: var(--ok-bg); color: var(--ok); margin-inline-start: 6px; }
+.tag.soon { background: var(--line); color: var(--muted); }
+.pager { display: flex; justify-content: space-between; margin-top: 3em; gap: 10px; }
+.muted { color: var(--muted); }
+.big { font-size: 1.6rem; font-weight: 700; color: var(--accent); }
+
+.ex .tg { font-size: .78rem; padding: 0 9px; border-radius: 99px; background: var(--accent-soft); color: var(--accent); margin-inline-start: 6px; font-weight: 600; white-space: nowrap; }
+.box.bridge { background: var(--card); border-color: var(--accent); border-inline-start-width: 5px; }
+.box.bridge > .t { color: var(--accent); }
+ol.story { counter-reset: s; list-style: none; padding: 0; }
+ol.story li { counter-increment: s; position: relative; padding: 6px 44px 6px 10px; margin: 6px 0; background: var(--card); border: 1px solid var(--line); border-radius: 10px; }
+ol.story li::before { content: counter(s); position: absolute; right: 10px; top: 6px; width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: #fff; font-size: .85rem; text-align: center; line-height: 24px; font-weight: 700; }
+.q-lead { font-size: 1.25rem; font-weight: 700; color: var(--accent); margin: .2em 0 .4em; }
+
+
+</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script>
+// Shared helpers for the probability course.
+(function () {
+  function renderMath() {
+    if (!window.renderMathInElement) return;
+    window.renderMathInElement(document.body, {
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '$', right: '$', display: false }
+      ],
+      throwOnError: false
+    });
+  }
+  window.addEventListener('load', renderMath);
+
+  // Simple multiple-choice quizzes: <div class="quiz"> ... <button class="opt" data-ok="1"> ... <div class="explain" hidden>
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var opts = q.querySelectorAll('.opt');
+      opts.forEach(function (b) {
+        b.addEventListener('click', function () {
+          opts.forEach(function (x) { x.disabled = true; });
+          if (b.dataset.ok) b.classList.add('good'); else b.classList.add('bad');
+          var right = q.querySelector('.opt[data-ok]');
+          if (right) right.classList.add('good');
+          var ex = q.querySelector('.explain');
+          if (ex) ex.hidden = false;
+        });
+      });
+    });
+  });
+
+  window.gcd = function gcd(a, b) { return b ? gcd(b, a % b) : a; };
+  window.frac = function (c, n) {
+    if (c === 0) return '0';
+    var g = window.gcd(c, n);
+    return (c / g) + '/' + (n / g);
+  };
+  window.cssVar = function (name) {
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  };
+})();
+
+</script>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <div class="crumb"><a href="index.html">← חזרה למפת הדרכים</a> &nbsp;·&nbsp; <a href="https://eladozcohen.com/">eladozcohen.com</a></div>
+    <h1>שיעור 1 — איך מדברים במדויק על "סיכוי"?</h1>
+    <p>זמן משוער: כ-90 דקות כולל התרגול. דרישות קדם: אין. כל סימון מוסבר ברגע שהוא מופיע.</p>
+  </div>
+</header>
+<nav class="toc"><div class="wrap">
+  <a href="#story">הסיפור</a><a href="#s1">1 משמעות</a><a href="#s2">2 תוצאות</a><a href="#s3">3 קבוצות</a>
+  <a href="#s4">4 חוקים</a><a href="#s5">5 ספירה</a><a href="#s6">6 יום הולדת</a>
+  <a href="#s7">7 ML</a><a href="#mixed">תרגול משולב</a><a href="#sum">סיכום</a>
+</div></nav>
+
+<div class="wrap">
+
+<!-- ======================= STORY ======================= -->
+<h2 id="story"><span class="num">★</span>הסיפור של השיעור</h2>
+<p>בשיעור הזה אין "רשימת נושאים". יש <b>שרשרת של שאלות</b>, וכל נושא הוא התשובה לשאלה שהנושא הקודם השאיר פתוחה. אם בנקודה כלשהי תרגיש "למה אני לומד את זה עכשיו", תחפש את השאלה שהובילה לשם.</p>
+
+<ol class="story">
+  <li><b>מה זה בכלל אומר</b> ש"הסיכוי לעץ הוא חצי"? <span class="muted">← חלק יחסי מתוך הרבה ניסיונות</span></li>
+  <li>"חלק יחסי <b>של מה</b>?" <span class="muted">← תוצאות, מרחב מדגם ומאורעות</span></li>
+  <li>איך מדברים על "זוגי <b>או</b> גדול מ-4", "<b>לא</b> 6"? <span class="muted">← קבוצות ופעולות עליהן</span></li>
+  <li>אילו <b>חוקים</b> חייבים להתקיים לכל "חלק יחסי"? <span class="muted">← אקסיומות, וכל שאר החוקים נגזרים מהן</span></li>
+  <li>איך <b>מחשבים</b> בפועל? <span class="muted">← ספירה</span></li>
+  <li>האם החישוב מתיישב עם האינטואיציה? <span class="muted">← פרדוקס יום ההולדת</span></li>
+  <li>ומה כל זה קשור ל-<b>ML</b>? <span class="muted">← מה המשמעות של "המודל בטוח ב-90%"</span></li>
+</ol>
+
+<div class="box trick"><div class="t">🎯 איך לעבוד עם השיעור</div>
+<p>אחרי כל סעיף יש תרגילים קצרים. הם ממוינים לפי <b>טכניקה</b> (כתוב ליד כל תרגיל), כדי שתראה בכל פעם כלי אחר. נסה לפתור על דף לפני שאתה פותח רמז או פתרון.</p></div>
+
+<!-- ======================= S1 ======================= -->
+<h2 id="s1"><span class="num">1</span>מה זה אומר ש"הסיכוי הוא חצי"?</h2>
+<p class="q-lead">❓ אם אני מטיל מטבע פעמיים, לא בהכרח יצא עץ פעם אחת. אז מה בדיוק טענתי כשאמרתי "הסיכוי הוא 1/2"?</p>
+
+<p>הסעיף בנוי בשלבים: (0) על מה מדברים, (1) מה "חצי" לא יכול להיות, (2) מה הוא כן, (3) ניסוי חי, (4) מה נקבל מזה, (5) מלכודת נפוצה.</p>
+
+<h3>שלב 0: על מה בכלל מדברים?</h3>
+<p>הסתברות עוסקת ב<b>ניסוי מקרי</b>: משהו שאפשר <b>לחזור עליו</b>, ושאת התוצאה שלו <b>אי אפשר לנבא מראש</b>. דוגמאות: הטלת מטבע, הטלת קובייה, בחירת תמונה אקראית מתוך דאטהסט.</p>
+
+<h3>שלב 1: מה "הסיכוי הוא חצי" לא יכול להיות</h3>
+<p>נטיל מטבע הוגן פעם אחת. תהיה תוצאה אחת: עץ <i>או</i> פלי. אין דבר כזה "חצי עץ". לכן "1/2" לא מתאר את ההטלה הבודדת.</p>
+<p>אולי הכוונה "בכל שתי הטלות יצא עץ בדיוק פעם אחת"? גם לא: אפשר לקבל עץ-עץ, ואף אחד לא יגיד שהמטבע "לא הוגן". לכן הטענה חייבת להיות על משהו אחר: <b>מה שקורה כשחוזרים על הניסוי הרבה פעמים</b>.</p>
+
+<h3>שלב 2: תדירות יחסית</h3>
+<p>נניח שחזרנו על ניסוי $n$ פעמים, והמאורע שמעניין אותנו (למשל "יצא עץ") קרה $k$ מהפעמים. אז:</p>
+<div class="box def"><div class="t">📐 תדירות יחסית</div>
+$$\text{תדירות יחסית}=\frac{k}{n}=\frac{\text{כמה פעמים זה קרה}}{\text{כמה פעמים ניסינו}}.$$
+<p>דוגמה: 10 הטלות, 7 מהן עץ: התדירות היחסית היא $7/10=0.7$.</p></div>
+
+<p>עכשיו הנה ריצה <b>אופיינית</b> (המספרים ישתנו מריצה לריצה, אבל התבנית קבועה):</p>
+<table class="tbl">
+  <tr><th>מספר ההטלות $n$</th><th>10</th><th>100</th><th>1,000</th><th>100,000</th></tr>
+  <tr><th>כמה פעמים עץ, $k$</th><td>7</td><td>54</td><td>508</td><td>49,930</td></tr>
+  <tr><th>תדירות יחסית $k/n$</th><td>0.700</td><td>0.540</td><td>0.508</td><td>0.4993</td></tr>
+</table>
+<p>שים לב: בהתחלה המספר "קופץ" (0.7), ואחר כך הוא מתקרב ל-0.5. זה הפירוש של "הסיכוי הוא חצי":</p>
+
+<div class="box def"><div class="t">📐 הפרשנות התדירותית של הסתברות</div>
+<p>"ההסתברות למאורע $A$ היא $p$" פירושו: כשחוזרים על הניסוי <b>הרבה</b> פעמים, <b>התדירות היחסית</b> של $A$ מתקרבת ל-$p$.</p>
+<p class="muted">(הפרשנות הזו נקראת <i>תדירותית</i>, ב-frequentist. התכונה "התדירות מתקרבת ל-p" נקראת <b>חוק המספרים הגדולים</b>. נוכיח אותה בשיעור 7. כרגע אנחנו פשוט רואים אותה.)</p></div>
+
+<h3>שלב 3: ראה את זה קורה</h3>
+<div class="widget" id="llnW">
+  <div class="wt">🪙 הטל מטבע שוב ושוב, ועקוב אחרי התדירות היחסית של עץ</div>
+  <div class="controls">
+    <label>הסיכוי האמיתי לעץ, p: <input type="range" id="lP" min="0.05" max="0.95" step="0.05" value="0.5"> <b id="lPv">0.5</b></label>
+  </div>
+  <div class="controls">
+    <button class="btn" data-n="10">+10</button>
+    <button class="btn" data-n="100">+100</button>
+    <button class="btn" data-n="1000">+1,000</button>
+    <button class="btn" data-n="10000">+10,000</button>
+    <button class="btn" id="lReset">איפוס</button>
+  </div>
+  <canvas id="lC" width="1280" height="520"></canvas>
+  <div class="out" id="lOut"></div>
+  <div class="out"><b>איך קוראים את הגרף:</b> הקו הכחול הוא התדירות היחסית של עץ עד כה. הקו הכתום המקווקו הוא ה-p האמיתי. הציר האופקי הוא מספר ההטלות, בסקאלה לוגריתמית (כל שנתה = פי 10 יותר הטלות), כדי שנראה גם את ההתחלה הרועשת וגם את ההמשך.<br>
+  <b>נסה בסדר הזה:</b> (1) לחץ +10 כמה פעמים: הקו רועש מאוד. (2) לחץ +10,000: הקו כמעט ישר, ליד הכתום. (3) שנה את p ל-0.8 והתחל מחדש: הקו מתיישב על 0.8.</div>
+</div>
+
+<h3>שלב 4: מה אנחנו לוקחים מזה?</h3>
+<p>מכיוון שהסתברות היא מה שהתדירות $\frac kn$ מתקרבת אליו, היא "יורשת" ממנה כמה תכונות מיידיות. (זה ישמש אותנו בסעיף 4, כשננסח את החוקים.)</p>
+<ul>
+  <li>$k$ הוא בין 0 ל-$n$, ולכן $\frac kn$ הוא בין <b>0 ל-1</b>. הסתברות 0 = "אף פעם", הסתברות 1 = "תמיד".</li>
+  <li>אם המאורע "קורה בכל ניסוי", $k=n$ והתדירות היא 1.</li>
+  <li>אם שני מאורעות לא יכולים לקרות יחד, תדירות "אחד מהם" היא סכום התדירויות.</li>
+</ul>
+
+<h3>שלב 5: המלכודת הנפוצה, "כשל המהמר"</h3>
+<p>נניח שיצאו 10 עצים ברצף. מישהו אומר: "עכשיו פלי חייב לצאת, כדי שזה יתאזן". <b>זה לא נכון.</b> למטבע אין זיכרון, וההטלה הבאה היא עדיין חצי-חצי.</p>
+<p>אבל אז איך התדירות בכל זאת מתכנסת ל-1/2? לא על ידי "תיקון". ננסה לראות עם מספרים:</p>
+<ul>
+  <li>בהתחלה: 10 הטלות, כולן עץ. זה <b>עודף של 5 עצים</b> לעומת הצפוי (הצפוי: 5 עצים; קיבלנו 10). התדירות: $10/10=1$.</li>
+  <li>עכשיו ממשיכים עוד 990 הטלות. בממוצע נצפה ב-495 עצים (חצי).</li>
+  <li>סך הכל: $10+495=505$ עצים מתוך 1,000. התדירות: $0.505$, כמעט חצי.</li>
+</ul>
+<p>שים לב: העודף של 5 עצים <b>לא נעלם</b>: עדיין יש 505 עצים במקום 500. פשוט 5 מתוך 1,000 הוא כמעט כלום. העודף "נמס" בתוך המספרים הגדולים, ולא תוקן. השורה "הפרש מוחלט" בסימולציה למעלה מראה את זה: ההפרש <i>לא</i> הולך ל-0, רק ה<b>יחס</b> שלו למספר ההטלות.</p>
+
+<details>
+<summary>📜 עוד כמה פרשנויות לדרך שבה מבינים הסתברות (לא חובה)</summary>
+<p>יש מצבים שאי אפשר "לחזור על הניסוי": "מה הסיכוי שמחר ירד גשם?" מחר קורה פעם אחת. בגישה <b>הבייסיאנית</b> הסתברות היא <i>דרגת אמונה</i>. בגישה <b>הקלאסית</b> היא נספרת מסימטריה ("6 פאות שוות, לכן 1/6"). שלושת הגישות מסכימות על אותם חוקי חישוב, ובשיעור 9 נראה למה ההבדל בכל זאת חשוב ל-ML. בינתיים תחזיק בתדירותית, שהיא הכי קלה לדמיין.</p>
+</details>
+
+<h3>תרגול לסעיף 1</h3>
+<div class="quiz">
+  <div class="q"><b>תרגיל 1.1</b> <span class="tg">הבנה מושגית</span> מטבע הוגן הוטל 10 פעמים ויצא עץ בכולן. מה ההסתברות לעץ בהטלה ה-11?</div>
+  <div class="opts">
+    <button class="opt">פחות מ-1/2 (הגיע תורו של פלי)</button>
+    <button class="opt" data-ok="1">בדיוק 1/2</button>
+    <button class="opt">יותר מ-1/2</button>
+  </div>
+  <div class="explain" hidden>בדיוק 1/2: ההטלות לא משפיעות זו על זו. (אם היית חושד שהמטבע <i>מזויף</i> אחרי 10 עצים, זו כבר שאלה על המטבע עצמו, בייסיאנית, ונגיע אליה בשיעור 9.)</div>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל 1.2 <span class="tg">סימולציה (Monte Carlo)</span> ⭐⭐<br>בלי לחשב כלום, כתוב ב-numpy קוד שמעריך את ההסתברות שבהטלת שתי קוביות הסכום הוא 7, על ידי חזרה על הניסוי 100,000 פעמים. מה אתה מצפה לקבל?</p>
+  <details><summary>רמז</summary><p>צור שני מערכים של מספרים אקראיים 1–6 (<code>rng.integers(1, 7, size=N)</code>), חבר אותם, וחשב את הממוצע של הביטוי הבוליאני <code>(a+b) == 7</code>. ממוצע של True/False הוא בדיוק "החלק היחסי".</p></details>
+  <details><summary>פתרון</summary>
+<pre><code>import numpy as np
+rng = np.random.default_rng(0)
+N = 100_000
+a = rng.integers(1, 7, size=N)
+b = rng.integers(1, 7, size=N)
+print(np.mean(a + b == 7))     # ~0.166  (בקרוב נחשב: 1/6)</code></pre>
+  <p>הטריק שחשוב לזכור: <b>הסתברות = ממוצע של אינדיקטור</b>. (<code>True</code> נספר כ-1.) זה יחזור שוב ושוב ב-ML, למשל accuracy הוא ממוצע של "האם ניחשתי נכון".</p></details>
+</div>
+
+<div class="box bridge"><div class="t">🔗 איפה אנחנו בסיפור</div>
+<p>הבנו שהסתברות היא "חלק יחסי של פעמים". עכשיו צריך להיות מדויקים: <b>חלק של מה?</b> של הפעמים שבהן קרה "משהו". צריך לתת שם לאותו "משהו".</p></div>
+
+<!-- ======================= S2 ======================= -->
+<h2 id="s2"><span class="num">2</span>תוצאות, מרחב מדגם ומאורעות</h2>
+<p class="q-lead">❓ "התדירות היחסית של הפעמים שבהן קרה <i>משהו</i>". איך מגדירים "משהו" בצורה שאפשר לעבוד איתה?</p>
+
+<p>נלך בשלבים: (1) תוצאה, (2) מרחב מדגם, (3) מאורע, (4) שתי קוביות, (5) מלכודות.</p>
+
+<h3>שלב 1: תוצאה</h3>
+<p><b>תוצאה</b> (outcome) היא התשובה המלאה והבודדת של ריצה אחת של הניסוי. הטלת מטבע: התוצאה היא "עץ" או "פלי". הטלת קובייה: התוצאה היא המספר שהקובייה הראתה, 1 או 2 או ... או 6. בכל ריצה מתממשת <b>בדיוק תוצאה אחת</b>.</p>
+
+<h3>שלב 2: מרחב מדגם</h3>
+<p>נאסוף את <i>כל</i> התוצאות האפשריות לקבוצה אחת. <b>קבוצה</b> היא אוסף של דברים, ואותה כותבים בסוגריים מסולסלים $\{\ \}$ (הסדר לא משנה, וכל איבר מופיע פעם אחת). את הקבוצה הזו מסמנים ב-$\Omega$ (האות היוונית "אומגה"), ונקראת <b>מרחב מדגם</b> (sample space):</p>
+<ul>
+  <li>מטבע: $\Omega=\{\text{עץ},\text{פלי}\}$. שתי תוצאות.</li>
+  <li>קובייה: $\Omega=\{1,2,3,4,5,6\}$. שש תוצאות.</li>
+</ul>
+
+<h3>שלב 3: מאורע</h3>
+<p>לפעמים השאלה שלנו לא על תוצאה בודדת. "האם יצא מספר זוגי?" נכון לשלוש תוצאות שונות: 2, 4 ו-6. אז נגדיר:</p>
+<div class="box def"><div class="t">📐 מאורע</div>
+<p><b>מאורע</b> (event) הוא <b>קבוצה של תוצאות</b>, כלומר חלק מתוך $\Omega$. את זה כותבים $A\subseteq\Omega$ ("$A$ מוכלת ב-$\Omega$", כלומר $A$ היא חלק מ-$\Omega$). אומרים ש"$A$ קרה" אם התוצאה שיצאה נמצאת ב-$A$.</p></div>
+<p>דוגמאות בקובייה:</p>
+<table class="tbl">
+  <tr><th>במילים</th><th>כקבוצה</th><th>כמה תוצאות</th></tr>
+  <tr><td>"יצא זוגי"</td><td>$A=\{2,4,6\}$</td><td>3</td></tr>
+  <tr><td>"יצא מספר גדול מ-4"</td><td>$B=\{5,6\}$</td><td>2</td></tr>
+  <tr><td>"יצא 3"</td><td>$\{3\}$</td><td>1 (גם תוצאה בודדת היא מאורע)</td></tr>
+  <tr><td>"יצא משהו" (כל תוצאה)</td><td>$\Omega$</td><td>6</td></tr>
+  <tr><td>"יצא 7" (בלתי אפשרי)</td><td>$\emptyset$ (הקבוצה הריקה)</td><td>0</td></tr>
+</table>
+
+<div class="quiz">
+  <div class="q"><b>בדיקה מהירה:</b> הקובייה הראתה 5. אילו מהמאורעות הבאים קרו? $A=\{2,4,6\}$ (זוגי), $B=\{5,6\}$ (גדול מ-4).</div>
+  <div class="opts">
+    <button class="opt">רק A</button>
+    <button class="opt" data-ok="1">רק B</button>
+    <button class="opt">שניהם</button>
+    <button class="opt">אף אחד</button>
+  </div>
+  <div class="explain" hidden>רק $B$: התוצאה 5 נמצאת ב-$B=\{5,6\}$ אבל לא ב-$A=\{2,4,6\}$. מאורע "קורה" כשהתוצאה שיצאה שייכת לקבוצה שלו.</div>
+</div>
+
+<div class="box intuition"><div class="t">💡 למה לתאר מאורע כקבוצה?</div>
+<p>"יצא זוגי" נשמע כמו משפט. אבל כשהופכים אותו לקבוצה של תוצאות, אפשר <b>לספור</b>. עכשיו "תדירות יחסית" הופכת ל"כמה תוצאות בקבוצה, מתוך כמה בסך הכל": בקובייה, "זוגי" תופס 3 מתוך 6, ולכן נצפה שבערך $3/6$ מההטלות יהיו זוגיות. זו הסיבה שהקבוצות כל כך שימושיות.</p></div>
+
+<h3>שלב 4: שתי קוביות, ולמה צריך טבלה</h3>
+<p>כשמטילים <b>שתי</b> קוביות, תוצאה היא <b>זוג מספרים</b> $(i,j)$: "הראשונה יצאה $i$, השנייה יצאה $j$". יש $6\cdot6=36$ תוצאות, ונוח לשרטט אותן בטבלה. כל תא הוא תוצאה אחת (שים לב: $(2,5)$ ו-$(5,2)$ הן שתי תוצאות שונות):</p>
+
+<div class="widget" id="buildW">
+  <div class="wt">🧱 בנה מאורע בעצמך: לחץ על תאים כדי לסמן אותם</div>
+  <table class="dice" id="bldT"></table>
+  <div class="controls">
+    <button class="btn" data-pre="clear">נקה</button>
+    <button class="btn" data-pre="sum7">סכום 7</button>
+    <button class="btn" data-pre="dbl">שתי הקוביות שוות</button>
+    <button class="btn" data-pre="ge10">סכום ≥ 10</button>
+    <button class="btn" data-pre="all">הכל</button>
+  </div>
+  <div class="out" id="bldOut"></div>
+</div>
+
+<p><b>מה ראית:</b> מאורע הוא קבוצה של תאים, וההסתברות שלו היא <b>החלק היחסי של התאים המסומנים</b>. למשל "הסכום הוא 7" תופס 6 תאים מתוך 36, ולכן ההסתברות שלו היא $6/36=1/6$. חישבת הסתברות בלי שום נוסחה, רק מספירת תאים. זה הרעיון המרכזי.</p>
+
+<h3>שלב 5: מלכודות</h3>
+
+<div class="box warn"><div class="t">⚠️ אי-הבנה נפוצה (שאפילו לייבניץ נפל בה)</div>
+<p>"בשתי קוביות יש 21 תוצאות: $\{1,1\},\{1,2\},\dots,\{6,6\}$ (בלי חשיבות לסדר), ולכן הסיכוי לסכום 3 הוא 1/21." <b>לא נכון.</b> שים לב מה קורה בטבלה: "אחת 1 ואחת 2" יכול לקרות בשתי דרכים, $(1,2)$ או $(2,1)$ (שני תאים), ואילו "שתיהן 1" בדרך אחת בלבד: $(1,1)$ (תא אחד). ל-21 האפשרויות אין אותה הסתברות, ולכן לא נכון לספור אותן כאילו הן שוות.</p></div>
+
+<div class="box trick"><div class="t">🎯 טריק: "תצבע את הקוביות"</div>
+<p>דמיין קובייה אדומה וקובייה כחולה. עכשיו ברור ש-$(1,2)$ ו-$(2,1)$ הן תוצאות שונות. <b>כלל אצבע:</b> בחר מרחב מדגם שבו התוצאות סימטריות זו לזו (כל התאים באותו "משקל"), כי אז הסתברות היא פשוט ספירה.</p></div>
+
+<div class="box warn"><div class="t">⚠️ אין "מרחב מדגם אמיתי"</div>
+<p>$\Omega$ הוא בחירה שלך כמודל, והוא צריך להיות עשיר מספיק כדי לענות על השאלות שלך. הטלת קובייה אפשר לתאר כ-$\{1..6\}$, או רק כ-$\{\text{זוגי},\text{אי-זוגי}\}$ אם זה כל מה שמעניין אותך. ב-ML זו בדיוק ההחלטה "מה ה-features והתוויות".</p></div>
+
+<p>עוד כמה דוגמאות למרחבי מדגם (המקרים האינסופיים והרציפים מחכים לשיעור 3):</p>
+<table class="tbl">
+  <tr><th>ניסוי</th><th>מרחב מדגם $\Omega$</th><th>גודל</th></tr>
+  <tr><td>מטבע</td><td>$\{H,T\}$</td><td>2</td></tr>
+  <tr><td>שתי קוביות</td><td>זוגות $(i,j)$</td><td>36</td></tr>
+  <tr><td>הטלות עד העץ הראשון</td><td>$\{1,2,3,\dots\}$</td><td>אינסוף, אפשר למנות</td></tr>
+  <tr><td>זמן המתנה לאוטובוס</td><td>$[0,\infty)$</td><td>אינסוף, רציף</td></tr>
+  <tr><td>בחירת תמונה מדאטהסט של $N$ תמונות</td><td>$\{1,\dots,N\}$</td><td>$N$</td></tr>
+</table>
+
+<h3>תרגול לסעיף 2</h3>
+<div class="ex">
+  <p class="q">תרגיל 2.1 <span class="tg">כתיבת מאורע כקבוצה</span> ⭐<br>בהטלת שתי קוביות, רשום במפורש את המאורעות הבאים כקבוצות של זוגות, וקבע כמה תוצאות בכל אחד: (א) הסכום הוא 5. (ב) הראשונה גדולה מהשנייה. (ג) הסכום קטן מ-2.</p>
+  <details><summary>פתרון</summary>
+    <p>(א) $\{(1,4),(2,3),(3,2),(4,1)\}$: 4 תוצאות, סיכוי $4/36=1/9$.<br>
+    (ב) כל זוג עם $i>j$: יש $\binom62=15$ כאלה (אפשר גם: מתוך 36, 6 שוות, ומחצית מ-30 הנותרות): $15/36=5/12$.<br>
+    (ג) הסכום המינימלי הוא 2, לכן המאורע ריק: $\emptyset$, 0 תוצאות, סיכוי 0.</p></details>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל 2.2 <span class="tg">מציאת הטעות</span> ⭐⭐<br>דני טוען: "מטילים שני מטבעות. יש 3 תוצאות אפשריות: שני עצים, שני פלי, או אחד מכל סוג. לכן הסיכוי ל'אחד מכל סוג' הוא 1/3." איפה הטעות, ומה התשובה הנכונה?</p>
+  <details><summary>פתרון</summary>
+    <p>אותה טעות של לייבניץ: שלוש התוצאות שלו לא שוות-סיכוי. "אחד מכל סוג" מכסה שתי תוצאות סימטריות מתוך ארבע: $\{HH, HT, TH, TT\}$. הסיכוי הנכון: $2/4=1/2$. (תצבע את המטבעות!)</p></details>
+</div>
+
+<div class="box bridge"><div class="t">🔗 איפה אנחנו בסיפור</div>
+<p>יש לנו שפה: תוצאות, מרחב מדגם, מאורע = קבוצה. אבל מאורעות אמיתיים הם מורכבים: "זוגי <b>או</b> גדול מ-4", "סכום 7 <b>וגם</b> הראשונה 6", "<b>לא</b> 6". איך כותבים כאלה? בעזרת פעולות על קבוצות.</p></div>
+
+<!-- ======================= S3 ======================= -->
+<h2 id="s3"><span class="num">3</span>איך משלבים מאורעות? פעולות על קבוצות</h2>
+<p class="q-lead">❓ אם $A$ ו-$B$ מאורעות, מהם "$A$ או $B$", "$A$ וגם $B$", "לא $A$"?</p>
+
+<p>נלך בשלבים: (1) ארבע פעולות על דוגמה קטנה, (2) מושג ה"זרים", (3) הפעולות על הטבלה של שתי קוביות, (4) הפעולות בציור כללי, (5) דה-מורגן.</p>
+
+<h3>שלב 1: ארבע פעולות, על קובייה אחת</h3>
+<p>מאחר שמאורע הוא קבוצה, כל שילוב הגיוני של מאורעות הוא פעולה על קבוצות. ניקח קובייה אחת: $\Omega=\{1,2,3,4,5,6\}$, ושני מאורעות:</p>
+<ul>
+  <li>$A=\{2,4,6\}$ ("זוגי")</li>
+  <li>$B=\{5,6\}$ ("גדול מ-4")</li>
+</ul>
+
+<div class="box def"><div class="t">① איחוד: "$A$ או $B$", סימון $A\cup B$</div>
+<p>כל התוצאות שנמצאות <b>לפחות באחת</b> מהקבוצות. ($\cup$ נראה כמו כוס שאוספת הכל.)<br>
+$A\cup B=\{2,4,5,6\}$. שים לב: "או" במתמטיקה הוא <b>"או" מכליל</b>: גם 6 נכלל, כי הוא ב-$A$ <i>וגם</i> ב-$B$. והוא נכתב פעם אחת בלבד (בקבוצה אין כפילויות).</p></div>
+
+<div class="box def"><div class="t">② חיתוך: "$A$ וגם $B$", סימון $A\cap B$</div>
+<p>התוצאות שנמצאות <b>בשתי</b> הקבוצות יחד. $A\cap B=\{6\}$ (רק 6 גם זוגי וגם גדול מ-4).</p></div>
+
+<div class="box def"><div class="t">③ משלים: "לא $A$", סימון $A^c$</div>
+<p>כל מה שב-$\Omega$ ו<b>לא</b> ב-$A$. $A^c=\{1,3,5\}$ (אי-זוגי).</p></div>
+
+<div class="box def"><div class="t">④ הפרש: "$A$ אבל לא $B$", סימון $A\setminus B$</div>
+<p>מה שב-$A$ ולא ב-$B$. $A\setminus B=\{2,4\}$ (זוגי, אבל לא גדול מ-4).</p></div>
+
+<p>למתכנת זה מוכר: אותו דבר כמו <code>or</code>, <code>and</code>, <code>not</code>:</p>
+<table class="tbl">
+  <tr><th>סימון</th><th>שם</th><th>במילים</th><th>בקוד</th><th>בדוגמה</th></tr>
+  <tr><td>$A\cup B$</td><td>איחוד</td><td>$A$ <b>או</b> $B$</td><td><code>a or b</code></td><td>$\{2,4,5,6\}$</td></tr>
+  <tr><td>$A\cap B$</td><td>חיתוך</td><td><b>גם</b> $A$ <b>וגם</b> $B$</td><td><code>a and b</code></td><td>$\{6\}$</td></tr>
+  <tr><td>$A^c$</td><td>משלים</td><td><b>לא</b> $A$</td><td><code>not a</code></td><td>$\{1,3,5\}$</td></tr>
+  <tr><td>$A\setminus B$</td><td>הפרש</td><td>$A$ <b>אבל לא</b> $B$</td><td><code>a and not b</code></td><td>$\{2,4\}$</td></tr>
+</table>
+
+<div class="quiz">
+  <div class="q"><b>בדיקה מהירה:</b> באותה קובייה, $A=\{2,4,6\}$ ו-$B=\{5,6\}$. מהו $B\setminus A$ ("$B$ אבל לא $A$")?</div>
+  <div class="opts">
+    <button class="opt">$\{6\}$</button>
+    <button class="opt" data-ok="1">$\{5\}$</button>
+    <button class="opt">$\{2,4\}$</button>
+  </div>
+  <div class="explain" hidden>$\{5\}$: מתוך $B=\{5,6\}$ מוציאים את מה שגם ב-$A$ (השש). נשאר רק 5. שים לב ש-$B\setminus A$ שונה מ-$A\setminus B$: ההפרש לא סימטרי.</div>
+</div>
+
+<h3>שלב 2: מאורעות זרים</h3>
+<p>שני מאורעות הם <b>זרים</b> (disjoint) אם <b>אין להם אף תוצאה משותפת</b>: $A\cap B=\emptyset$. כלומר אי אפשר ששניהם יקרו באותה הטלה. למשל "יצא זוגי" $\{2,4,6\}$ ו"יצא אי-זוגי" $\{1,3,5\}$ הם זרים. ("זוגי" ו"גדול מ-4" אינם זרים, כי 6 משותף.)</p>
+<p>המושג הזה חשוב: בסעיף הבא נראה שרק מאורעות זרים אפשר פשוט "לחבר".</p>
+
+<h3>שלב 3: אותן פעולות, על שתי קוביות</h3>
+<p>עכשיו נפעיל אותן על הטבלה של שתי קוביות (36 תאים). בחר שני מאורעות $A$ ו-$B$ ופעולה, וראה אילו תאים נדלקים:</p>
+<div class="widget" id="diceW">
+  <div class="wt">🎲 מעבדת הקוביות</div>
+  <div class="controls">
+    <label>A: <select id="dA"></select></label>
+    <label>B: <select id="dB"></select></label>
+    <label>הצג: <select id="dOp">
+      <option value="A">A</option>
+      <option value="B">B</option>
+      <option value="AuB" selected>A ∪ B (או)</option>
+      <option value="AnB">A ∩ B (וגם)</option>
+      <option value="Ac">Aᶜ (לא A)</option>
+      <option value="AmB">A ∖ B (A אבל לא B)</option>
+    </select></label>
+  </div>
+  <table class="dice" id="diceT"></table>
+  <div class="out" id="dOut"></div>
+</div>
+<p><b>ניסוי מודרך (שלוש דקות):</b></p>
+<ol>
+  <li>בחר $A$ = "הסכום הוא 7", $B$ = "הראשונה = 6", והצג $A\cap B$. ראה שדלוק תא אחד בלבד: $(6,1)$.</li>
+  <li>עכשיו הצג $A\cup B$: 11 תאים. שים לב בשורת ההסבר שכתוב $\frac6{36}+\frac6{36}-\frac1{36}=\frac{11}{36}$ (האתר מציג את השברים מצומצמים: $\frac16+\frac16-\frac1{36}$). התא המשותף נספר פעמיים אם סוכמים סתם, ולכן מחסרים אותו פעם אחת. (זה יהיה חוק בסעיף 4.)</li>
+  <li>החלף ל-$B$ = "הסכום ≥ 10". עכשיו $A\cap B=\emptyset$ והשורה אומרת "A ו-B זרים".</li>
+</ol>
+
+<h3>שלב 4: אותן פעולות בציור כללי</h3>
+<p>לא תמיד יש טבלה. לכן מציירים כך: <b>המלבן</b> הוא $\Omega$, <b>העיגולים</b> הם המאורעות $A$ ו-$B$, והאזור הכחול הוא התוצאה של הפעולה שבחרת:</p>
+
+<div class="widget" id="vennW">
+  <div class="wt">🎨 מעבדת Venn: בחר פעולה בכל צד, והאתר יגיד אם זה אותו מאורע</div>
+  <div class="grid2">
+    <div><div class="controls"><select id="vOpL"></select></div><canvas id="vL" width="880" height="560"></canvas></div>
+    <div><div class="controls"><select id="vOpR"></select></div><canvas id="vR" width="880" height="560"></canvas></div>
+  </div>
+  <div class="out" id="vOut"></div>
+  <div class="out"><b>נסה:</b> (1) בחר בצד שמאל $A\cup B$ ובצד ימין $A\cap B$ וראה את ההבדל. (2) שמאל $(A\cup B)^c$ וימין $A^c\cap B^c$: האתר אומר "אותו מאורע". זה חוק דה-מורגן, והוא מוסבר מיד.</div>
+</div>
+
+<h3>שלב 5: חוקי דה-מורגן</h3>
+<p>נחזור לקובייה. $A=\{2,4,6\}$, $B=\{5,6\}$. נחשב "לא (זוגי או גדול מ-4)" בשתי דרכים:</p>
+<ul>
+  <li><b>דרך 1:</b> קודם איחוד, אחר כך משלים. $A\cup B=\{2,4,5,6\}$, ולכן $(A\cup B)^c=\{1,3\}$.</li>
+  <li><b>דרך 2:</b> קודם משלימים, אחר כך חיתוך. $A^c=\{1,3,5\}$ ו-$B^c=\{1,2,3,4\}$, וחיתוכם: $A^c\cap B^c=\{1,3\}$.</li>
+</ul>
+<p>אותה תשובה. זה לא מקרי:</p>
+
+<div class="box def"><div class="t">📐 חוקי דה-מורגן</div>
+$$(A\cup B)^c = A^c\cap B^c \qquad\qquad (A\cap B)^c = A^c\cup B^c$$
+<p>במילים: "<b>לא</b> (גשם <b>או</b> שלג)" שווה ל"<b>לא</b> גשם <b>וגם לא</b> שלג". ו-"<b>לא</b> (גשם <b>וגם</b> שלג)" שווה ל"<b>לא</b> גשם <b>או לא</b> שלג". בקוד: <code>not (a or b) == (not a) and (not b)</code>. הכלל לזכירה: הכנסת ה"לא" לתוך הסוגריים מחליפה "או" ב"וגם" ולהפך.</p></div>
+
+<h3>תרגול לסעיף 3</h3>
+<div class="ex">
+  <p class="q">תרגיל 3.1 <span class="tg">תרגום מילים לקבוצות</span> ⭐<br>בקבוצת סטודנטים, $A$ = "עבר את מבחן המתמטיקה", $B$ = "עבר את מבחן הפיזיקה". רשום בעזרת $A,B$ ופעולות: (א) עבר לפחות אחד. (ב) עבר את שניהם. (ג) לא עבר אף אחד. (ד) עבר <i>בדיוק</i> אחד. (ה) נכשל בלפחות אחד.</p>
+  <details><summary>פתרון</summary>
+    <p>(א) $A\cup B$. (ב) $A\cap B$. (ג) $(A\cup B)^c=A^c\cap B^c$. (ד) $(A\setminus B)\cup(B\setminus A)$ (שים לב שהשניים זרים). (ה) $(A\cap B)^c=A^c\cup B^c$.</p>
+    <p class="muted">שים לב איך (ג) ו-(ה) מקבלים שתי צורות שקולות בזכות דה-מורגן. תבחר את מה שנוח יותר לחישוב.</p></details>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל 3.2 <span class="tg">עובדה על גדלים של קבוצות</span> ⭐<br>בטבלת הקוביות נתון: $|A|=18$ (הראשונה זוגית), $|B|=6$ (סכום ≥10), $|A\cap B|=4$. כמה תאים יש ב-$A\cup B$? ואיך זה מתקשר ל"ספירה כפולה"?</p>
+  <details><summary>פתרון</summary>
+    <p>$|A\cup B|=18+6-4=20$. אם פשוט מחברים $18+6=24$, ארבעת התאים המשותפים נספרים פעמיים, אז מחסירים אותם פעם אחת. (נראה את זה בסעיף 4 כחוק הסתברות.)</p></details>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל 3.3 <span class="tg">הוכחה / אימות שקילות</span> ⭐⭐<br>הוכח שהמאורעות $A\cup B$ ו-$A\cup(B\setminus A)$ הם אותו מאורע, ושהחלק השני הוא איחוד של שני מאורעות <b>זרים</b>. (הרעיון הזה ישמש אותנו בסעיף הבא.)</p>
+  <details><summary>רמז</summary><p>קח תוצאה כלשהי $\omega\in A\cup B$ ושאל: האם היא ב-$A$? אם לא, איפה היא?</p></details>
+  <details><summary>פתרון</summary>
+    <p>אם $\omega\in A$ אז היא באיחוד הימני. אם $\omega\notin A$, אבל היא ב-$A\cup B$, אז היא חייבת להיות ב-$B$, כלומר ב-$B\setminus A$. בכיוון ההפוך כל אחד מ-$A$ ו-$B\setminus A$ מוכל ב-$A\cup B$. הזרות: $B\setminus A$ מכיל רק דברים שאינם ב-$A$, לכן $A\cap(B\setminus A)=\emptyset$.</p>
+    <p>הרעיון: <b>אפשר לפרק איחוד לא-זר לחלקים זרים</b>.</p></details>
+</div>
+
+<div class="box bridge"><div class="t">🔗 איפה אנחנו בסיפור</div>
+<p>עכשיו יש לנו מאורעות מכל סוג. נחזור לשאלה מהסעיף הראשון: הסתברות היא "חלק יחסי". <b>אילו חוקים חייב לקיים כל חלק יחסי</b>, בלי קשר למה שאנחנו מודדים?</p></div>
+
+<!-- ======================= S4 ======================= -->
+<h2 id="s4"><span class="num">4</span>החוקים: אקסיומות הסתברות</h2>
+<p class="q-lead">❓ ברור ש"חלק יחסי" מתנהג יפה. מה בדיוק ה"יפה" הזה, כך שאפשר יהיה לגזור ממנו הכל?</p>
+
+<p>הסעיף הזה הולך בשלבים: (0) מה מחפשים, (1) שלוש תצפיות על הטבלה, (2) ניסוח רשמי, (3) איך מוכיחים דברים מהחוקים, (4) הטריק הכי שימושי.</p>
+
+<h3>שלב 0: מה בעצם מחפשים?</h3>
+<p>עד עכשיו חישבנו הסתברות בספירת תאים בטבלת הקוביות. עכשיו נרצה כללים שנכונים לא רק לקוביות אלא <b>לכל</b> מצב. נסמן ב-$P$ "מכונת הסתברות": היא מקבלת <b>מאורע</b> (קבוצה) ומחזירה <b>מספר</b>. למשל:</p>
+$$P(\text{הסכום הוא }7)=\frac{6}{36}.$$
+<p>נכתוב $P(A)$ ונקרא "ההסתברות של $A$". השאלה: <b>אילו כללים חייבת לקיים כל מכונה כזו</b> כדי שנוכל לקרוא לה "חלק יחסי"? נחפש אותם בטבלה.</p>
+
+<h3>שלב 1: שלוש תצפיות על טבלת הקוביות</h3>
+<ol>
+  <li><b>אי אפשר "חלק שלילי".</b> מאורע תופס 0 תאים או יותר, ולכן החלק שלו הוא 0 או יותר. אין מאורע שתופס "מינוס 3 תאים".</li>
+  <li><b>"קורה משהו" הוא 1.</b> המאורע $\Omega$ ("יצאה איזושהי תוצאה") תופס את כל 36 התאים מתוך 36, כלומר 36/36 = 1.</li>
+  <li><b>חיבור כשאין חפיפה.</b> נניח $A$ = "הסכום הוא 7" (6 תאים) ו-$B$ = "הסכום ≥ 10" (6 תאים). אין אף תא משותף. "$A$ או $B$" תופס $6+6=12$ תאים, כלומר $\frac{12}{36}=\frac{6}{36}+\frac{6}{36}$. <b>החיבור עובד.</b><br>
+  <b>אבל כשיש חפיפה זה נכשל:</b> נקח $C$ = "הקובייה הראשונה יצאה 6" (גם 6 תאים). ב-$A$ וב-$C$ יש תא משותף אחד: $(6,1)$. "$A$ או $C$" תופס 11 תאים ולא 12. התא המשותף נספר פעמיים אם סוכמים בלי לחשוב.</li>
+</ol>
+<p><b>תבדוק בעצמך:</b> גלול למעבדת הקוביות בסעיף 3, בחר $A$ = "הסכום הוא 7", $B$ = "הסכום ≥ 10", ואז $A\cup B$. אחר כך החלף ל-$B$ = "הראשונה = 6", וראה את ההבדל.</p>
+
+<h3>שלב 2: הניסוח הרשמי</h3>
+<p>קולמוגורוב (1933) הבין שהשלוש האלה הן <b>כל מה שצריך</b>. כל פונקציה $P$ שמקיימת אותן נקראת "הסתברות", בין אם היא נולדה מספירת תאים, מתדירויות או מאמונה:</p>
+
+<div class="box def"><div class="t">📐 אקסיומות קולמוגורוב</div>
+<ol>
+<li><b>אי-שליליות:</b> $P(A)\ge 0$ לכל מאורע $A$.</li>
+<li><b>נרמול:</b> $P(\Omega)=1$.</li>
+<li><b>אדיטיביות</b> ("חיבור"): אם $A$ ו-$B$ <b>זרים</b> ($A\cap B=\emptyset$), אז $P(A\cup B)=P(A)+P(B)$.</li>
+</ol></div>
+
+<p>הערות על הניסוח:</p>
+<ul>
+  <li>"אדיטיבות" פירושה "אפשר לחבר". זו התצפית 3, רק עם התנאי "זרים", כי בלעדיו (כשיש חפיפה) זה נכשל.</li>
+  <li><b>הגרסה לכמה מאורעות.</b> אם יש הרבה מאורעות $A_1,A_2,\dots$ שכל <i>שניים</i> מהם זרים ("זרים בזוגות"), אז $P(A_1\cup A_2\cup\cdots)=P(A_1)+P(A_2)+\cdots$. בקיצור: $P\big(\bigcup_i A_i\big)=\sum_i P(A_i)$, כש-$\bigcup_i$ פירושו "איחוד של כולם" ו-$\sum_i$ פירושו "סכום של כולם".</li>
+  <li>במרחב סופי הגרסה לשניים מספיקה: אפשר להפעיל אותה שוב ושוב, ולקבל את הגרסה לכמה.</li>
+</ul>
+
+<div class="quiz">
+  <div class="q"><b>תרגיל 4.0</b> <span class="tg">בדיקת הבנה</span> נתון $P(A)=0.3$ ו-$P(B)=0.5$, והמאורעות <b>זרים</b>. מה $P(A\cup B)$?</div>
+  <div class="opts">
+    <button class="opt" data-ok="1">0.8</button>
+    <button class="opt">0.15</button>
+    <button class="opt">0.2</button>
+  </div>
+  <div class="explain" hidden>0.8, ישירות מאקסיומה 3 ($0.3+0.5$). (0.15 הוא המכפלה, ושייך לשיעור 2. 0.2 הוא ההפרש.) ואם המאורעות <i>לא</i> זרים, אי אפשר פשוט לחבר, ועוד מעט נראה מה כן עושים.</div>
+</div>
+
+<h3>שלב 3: איך מוכיחים דברים מהאקסיומות</h3>
+<p>יש לנו רק שלושה כללים, והשלישי הוא היחיד שיודע לחבר. לכן יש טכניקה אחת שחוזרת בכל ההוכחות:</p>
+<div class="box trick"><div class="t">🎯 המפתח: "לפרק לחלקים זרים, ואז לחבר"</div>
+<p>כשרוצים לחשב הסתברות של מאורע מסובך, מפרקים אותו לחלקים שלא חופפים, ומחברים את ההסתברויות שלהם באקסיומה 3. תראה: בכל אחד משלושת החוקים הבאים נעשה בדיוק את זה.</p></div>
+
+<div class="box intuition"><div class="t">חוק ①: המשלים</div>
+<p><b>מה רוצים:</b> לדעת את $P(\text{לא }A)$ כשידוע $P(A)$.</p>
+<ol>
+  <li>$A$ ו-$A^c$ ("לא $A$") ביחד ממלאים את כל $\Omega$: $A\cup A^c=\Omega$.</li>
+  <li>הם <b>זרים</b>: אין תוצאה שנמצאת גם ב-$A$ וגם "לא ב-$A$".</li>
+  <li>אקסיומה 3 ואחר כך 2: $P(A)+P(A^c)=P(\Omega)=1$.</li>
+  <li>לכן $\displaystyle P(A^c)=1-P(A).$</li>
+</ol>
+<p><b>בדיקה בטבלה:</b> $P(\text{סכום }7)=\frac6{36}$, ו"לא 7" תופס $30$ תאים: $\frac{30}{36}=1-\frac6{36}$ ✔.<br>
+<span class="muted">(תוצאה נלווית: $P(\emptyset)=0$, כי $\emptyset=\Omega^c$ ולכן $P(\emptyset)=1-P(\Omega)=0$.)</span></p></div>
+
+<div class="box intuition"><div class="t">חוק ②: מונוטוניות ("קטן בתוך גדול")</div>
+<p><b>מה רוצים:</b> אם $A\subseteq B$ (כל תוצאה של $A$ היא גם תוצאה של $B$), אז $P(A)\le P(B)$. דוגמה: $A$ = "הסכום 12" (רק $(6,6)$), $B$ = "דאבל" (שתי הקוביות שוות). ברור ש-$A$ בתוך $B$.</p>
+<ol>
+  <li>מפרקים: $B=A\cup(B\setminus A)$, כלומר "החלק של $A$" ועוד "השאר של $B$".</li>
+  <li>שני החלקים זרים (השאר הוא מה שלא ב-$A$).</li>
+  <li>לכן $P(B)=P(A)+P(B\setminus A)$.</li>
+  <li>$P(B\setminus A)\ge 0$ (אקסיומה 1), ולכן $P(B)\ge P(A)$.</li>
+</ol>
+<p><b>בדיקה בטבלה:</b> $P(A)=\frac1{36}\le P(B)=\frac6{36}$ ✔. <span class="muted">(מכאן גם $P(A)\le1$ תמיד, כי כל מאורע מוכל ב-$\Omega$.)</span></p></div>
+
+<div class="box intuition"><div class="t">חוק ③: הכלה והפרדה (כשיש חפיפה)</div>
+<p><b>מה רוצים:</b> לחשב $P(A\cup B)$ גם כשהמאורעות <i>חופפים</i>. זה התיקון לבעיה שראינו בתצפית 3.</p>
+<p><b>הרעיון:</b> שני שטיחים שחופפים חלקית. שטח הרצפה שהם מכסים הוא $\text{שטח}_1+\text{שטח}_2$ פחות שטח החפיפה, כי החפיפה נספרה פעמיים. הנוסחה:</p>
+$$P(A\cup B)=P(A)+P(B)-P(A\cap B).$$
+<p><b>הוכחה בשני שלבים:</b></p>
+<ol>
+  <li>$A\cup B=A\cup(B\setminus A)$ בפירוק זר (כמו בחוק ②), לכן $P(A\cup B)=P(A)+P(B\setminus A)$.</li>
+  <li>גם $B$ מתפרק לשני חלקים זרים: $B=(B\setminus A)\cup(A\cap B)$, כלומר "חלק שמחוץ ל-$A$" ו"חלק שבתוך $A$". לכן $P(B)=P(B\setminus A)+P(A\cap B)$, ומכאן $P(B\setminus A)=P(B)-P(A\cap B)$.</li>
+  <li>מציבים את 2 ב-1, ומקבלים את הנוסחה. ∎</li>
+</ol>
+<p><b>בדיקה בטבלה:</b> $A$ = "הראשונה זוגית" (18 תאים), $B$ = "הסכום ≥ 10" (6 תאים), החיתוך 4 תאים. $\frac{18}{36}+\frac{6}{36}-\frac{4}{36}=\frac{20}{36}$, וזה בדיוק מספר התאים באיחוד ✔.</p></div>
+
+<div class="box bridge"><div class="t">📋 סיכום ביניים: מה יש לנו</div>
+<table class="tbl">
+  <tr><th>החוק</th><th>במילים</th><th>מקור</th></tr>
+  <tr><td>$P(A)\ge0$</td><td>אין הסתברות שלילית</td><td>אקסיומה 1</td></tr>
+  <tr><td>$P(\Omega)=1$</td><td>משהו קורה בוודאות</td><td>אקסיומה 2</td></tr>
+  <tr><td>$P(A\cup B)=P(A)+P(B)$ כש-$A,B$ זרים</td><td>זרים: מחברים</td><td>אקסיומה 3</td></tr>
+  <tr><td>$P(A^c)=1-P(A)$</td><td>"לא" = 1 פחות</td><td>חוק ①</td></tr>
+  <tr><td>$A\subseteq B\Rightarrow P(A)\le P(B)$</td><td>קטן בתוך גדול</td><td>חוק ②</td></tr>
+  <tr><td>$P(A\cup B)=P(A)+P(B)-P(A\cap B)$</td><td>חפיפה נספרת פעמיים</td><td>חוק ③</td></tr>
+</table></div>
+
+<h3>שלב 4: טריק המשלים, הכלי הכי שימושי בהסתברות</h3>
+<p>נניח שהשאלה היא "מה הסיכוי שיקרה <b>לפחות</b> אחד מ..." ("לפחות אחד" פירושו אחד, או שניים, או שלושה, או יותר). ספירה ישירה של כל המקרים עמוסה. אבל "לפחות אחד" ו"אף אחד" הם <b>זה ההפך של זה</b>, ולכן לפי חוק ①:</p>
+$$P(\text{לפחות אחד})=1-P(\text{אף אחד}).$$
+<p>ו"אף אחד" הוא בדרך כלל מקרה אחד פשוט. המתכון:</p>
+<ol>
+  <li>נסח את <b>ההפך</b> של מה שנשאלת.</li>
+  <li>חשב את ההסתברות שלו (בדרך כלל קל).</li>
+  <li>החסר מ-1.</li>
+</ol>
+
+<div class="box trick"><div class="t">דוגמה מלאה, צעד אחר צעד</div>
+<p><b>שאלה:</b> מטילים קובייה 4 פעמים. מה הסיכוי ל"לפחות פעם אחת 6"?</p>
+<p><b>(1) ההפך:</b> "אף פעם לא יצא 6" (בכל 4 ההטלות יצא משהו מ-1 עד 5).</p>
+<p><b>(2) חישוב "אף פעם לא 6" בספירה.</b> נתחיל מקטן: שתי הטלות. יש $6\cdot6=36$ תוצאות (הטבלה שלנו), ובלי 6 בכלל יש $5\cdot5=25$ מהן (הטבלה ללא השורה והעמודה של 6). לכן הסיכוי הוא $\frac{25}{36}=\left(\frac56\right)^2$. <b>אותו דבר עבור 4 הטלות:</b> $6^4=1296$ תוצאות בסך הכל, ובלי 6 יש $5^4=625$. לכן $P(\text{אף פעם לא 6})=\frac{625}{1296}=\left(\frac56\right)^4\approx0.482$.</p>
+<p><b>(3) החסרה:</b> $P(\text{לפחות פעם 6})=1-\frac{625}{1296}=\frac{671}{1296}\approx0.518$.</p></div>
+
+<details>
+<summary>🤖 הצצה ל-ML: חסם האיחוד (אפשר לדלג)</summary>
+<p>מחוק ③ נובע $P(A\cup B)\le P(A)+P(B)$, כי מה שמחסירים ($P(A\cap B)$) אינו שלילי. אז "סכום ההסתברויות" הוא תמיד <b>חסם עליון</b> להסתברות של "לפחות אחד". זה שימושי כשאי אפשר לחשב את החפיפה. למשל: 100 מודלים, ולכל אחד סיכוי של 0.1% להיכשל בצורה חמורה. הסיכוי ש<i>לפחות אחד</i> נכשל הוא <b>לכל היותר</b> $100\cdot0.1\%=10\%$, בלי לדעת איך הכישלונות קשורים זה לזה. זו "חסם האיחוד" (union bound), ותראה אותו בהוכחות בתורת הלמידה.</p>
+</details>
+
+<details>
+<summary>🔬 לא חובה: למה לפעמים "לא כל קבוצה היא מאורע"? (σ-אלגברה)</summary>
+<p>במרחבים רציפים כמו $[0,1]$ קיימות קבוצות "פתולוגיות" שאי אפשר להקצות להן אורך בצורה עקבית. לכן ההגדרה הפורמלית דורשת שהמאורעות יגיעו ממשפחה $\mathcal F$ סגורה למשלים ולאיחודים בני-מניה (σ-אלגברה), והשלשה $(\Omega,\mathcal F,P)$ נקראת <b>מרחב הסתברות</b>. בקורס ML אפשר לשכוח מזה, אבל עכשיו אתה יודע מה הסימון בספר.</p>
+</details>
+
+<h3>תרגול לסעיף 4</h3>
+<div class="ex">
+  <p class="q">תרגיל 4.1 <span class="tg">הכלה והפרדה במספרים</span> ⭐<br>נתון $P(A)=0.5$, $P(B)=0.4$, $P(A\cap B)=0.2$. חשב: $P(A\cup B)$, $P(\text{אף אחד})$, $P(A\setminus B)$.</p>
+  <details><summary>פתרון</summary>
+    <p>$P(A\cup B)=0.5+0.4-0.2=0.7$. אף אחד: $1-0.7=0.3$. $P(A\setminus B)=P(A)-P(A\cap B)=0.3$ (מפרקים $A=(A\setminus B)\cup(A\cap B)$, זרים).</p></details>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל 4.2 <span class="tg">בדיקת שפיות (האם זה אפשרי?)</span> ⭐<br>האם יתכן $P(A)=0.3$, $P(B)=0.5$ ו-$P(A\cap B)=0.4$?</p>
+  <details><summary>פתרון</summary>
+    <p>לא. $A\cap B\subseteq A$, ולכן (מונוטוניות) $P(A\cap B)\le P(A)=0.3<0.4$. כללי אצבע לבדיקה: חיתוך לא עולה על אף אחד מהמאורעות, ואיחוד לא קטן מאף אחד מהם.</p></details>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל 4.3 <span class="tg">מציאת הטעות + חסם תחתון</span> ⭐⭐<br>סיכוי הגשם בשבת הוא 0.6 ובראשון 0.7. תלמידה טוענת: "אז סיכוי הגשם <i>לפחות</i> באחד מהימים הוא $0.6+0.7=1.3$." (א) למה זה לא יכול להיות? (ב) מה אפשר לומר על ההסתברות שירד גשם בשני הימים?</p>
+  <details><summary>רמז</summary><p>הכלה והפרדה, ושים לב שהאיחוד חייב להיות ≤ 1.</p></details>
+  <details><summary>פתרון</summary>
+    <p>(א) היא סכמה כאילו המאורעות זרים, אבל ייתכן שגשם בשבת <i>וגם</i> בראשון, ואז הסיכוי נספר פעמיים. הסכום יצא יותר מ-1, וזו סתירה לאקסיומות.<br>
+    (ב) $1\ge P(A\cup B)=1.3-P(A\cap B)$, לכן $P(A\cap B)\ge 0.3$. כלומר, בלי לדעת שום דבר נוסף, בהכרח ירד גשם בשני הימים בסיכוי של לפחות 30%. (והחסם החד: $P(A\cap B)\le\min(0.6,0.7)=0.6$.)</p></details>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל 4.4 <span class="tg">הוכחה: פירוק לזרים</span> ⭐⭐<br>הוכח, רק מהאקסיומות, ש-$P(A\cup B)\le P(A)+P(B)$ לכל שני מאורעות (לאו דווקא זרים).</p>
+  <details><summary>פתרון</summary>
+    <p>$A\cup B=A\cup(B\setminus A)$, איחוד זר (תרגיל 3.3). לכן $P(A\cup B)=P(A)+P(B\setminus A)$. ומכיוון ש-$B\setminus A\subseteq B$, מונוטוניות נותנת $P(B\setminus A)\le P(B)$. סיימנו.</p></details>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל 4.5 <span class="tg">טריק המשלים (בעיית שבלייה דה-מרה, 1654)</span> ⭐⭐<br>(א) מטילים קובייה 4 פעמים. סיכוי ל"לפחות פעם אחת 6"? (ב) מטילים <i>זוג</i> קוביות 24 פעמים. סיכוי ל"לפחות פעם אחת (6,6)"? איזה הימור משתלם?</p>
+  <details><summary>פתרון</summary>
+    <p>(א) $1-(5/6)^4\approx 0.518$. (ב) בהטלה אחת של זוג, סיכוי ל-(6,6) הוא $1/36$, ולכן ל"לא": $35/36$. התשובה: $1-(35/36)^{24}\approx 0.491$.</p>
+    <p>הראשון מעל חצי (משתלם), והשני מתחת (מפסיד). דה-מרה ציפה לאותה תוצאה כי "4 מתוך 6 דומה ל-24 מתוך 36", אבל הסתברות לא גדלה לינארית. (מזה נולדה ההסתברות כתחום: הוא כתב לפסקל, ופסקל לפרמה.)</p></details>
+</div>
+
+<div class="box bridge"><div class="t">🔗 איפה אנחנו בסיפור</div>
+<p>יש לנו חוקים. אבל כדי להפעיל אותם צריך לדעת <i>ערכים</i>: כמה זה $P(A)$? במקרה הכי נפוץ (כל התוצאות שוות-סיכוי) התשובה היא "ספור".</p></div>
+
+<!-- ======================= S5 ======================= -->
+<h2 id="s5"><span class="num">5</span>איך מחשבים בפועל? ספירה</h2>
+<p class="q-lead">❓ אם כל התוצאות שוות-סיכוי, איך מחשבים את $P(A)$? ואיך סופרים כשיש מיליוני תוצאות ואי אפשר לצייר טבלה?</p>
+
+<p>נלך בשלבים: (0) מה הבעיה, (1) עיקרון הכפל, (2) כשהסדר חשוב, (3) כשהסדר לא חשוב, (4) הסתברות באמצעות ספירה, (5) טעויות נפוצות.</p>
+
+<h3>שלב 0: המקרה האחיד, וממה נובעת הבעיה</h3>
+<p>נניח שיש $N$ תוצאות <b>שוות-סיכוי</b>. מהאקסיומות: כל אחת מהן מקבלת אותה הסתברות $p$, והסכום של כולן הוא 1 (אקסיומה 2, ואקסיומה 3 לחיבור). לכן $N\cdot p=1$, כלומר $p=1/N$. בקובייה: $N=6$ וכל תוצאה מקבלת $1/6$. מאורע שיש בו $k$ תוצאות מקבל $k\cdot\frac1N$:</p>
+$$P(A)=\frac{|A|}{|\Omega|}=\frac kN.$$
+<p>($|A|$ פירושו "מספר האיברים ב-$A$".) למשל "זוגי" בקובייה: $|A|=3$, $|\Omega|=6$, ולכן $3/6$. <b>זו בדיוק הספירה של התאים בטבלה.</b></p>
+<p>הבעיה: מה אם $\Omega$ ענק? ב-"5 קלפים מחפיסה של 52" יש 2,598,960 תוצאות. אי אפשר לרשום אותן. צריך <b>לספור בלי לרשום</b>, וזה מה שהשלבים הבאים מלמדים.</p>
+
+<h3>שלב 1: עיקרון הכפל</h3>
+<p>יש לי 3 חולצות ו-2 מכנסיים. כמה תלבושות אפשריות? כל חולצה אפשר לשלב עם כל מכנס, ולכן $3\cdot2=6$. בטבלה:</p>
+<table class="tbl">
+  <tr><th></th><th>מכנס א</th><th>מכנס ב</th></tr>
+  <tr><th>חולצה 1</th><td>1א</td><td>1ב</td></tr>
+  <tr><th>חולצה 2</th><td>2א</td><td>2ב</td></tr>
+  <tr><th>חולצה 3</th><td>3א</td><td>3ב</td></tr>
+</table>
+<div class="box def"><div class="t">📐 עיקרון הכפל</div>
+<p>אם תהליך מורכב משני שלבים, ובשלב הראשון יש $a$ אפשרויות ובשני $b$ אפשרויות (<i>לכל</i> בחירה בשלב הראשון), אז בסך הכל $a\cdot b$. (יש $a$ שורות, ובכל שורה $b$ תאים.) זה נכון גם לכמה שלבים: מכפילים את כולם.</p>
+<p>דוגמאות: שתי קוביות $6\cdot6=36$ (זה ה-$|\Omega|$ שלנו!). סיסמה של 4 ספרות: $10\cdot10\cdot10\cdot10=10^4$.</p></div>
+
+<h3>שלב 2: כשהסדר חשוב</h3>
+<p>בתחרות ריצה של 5 רצים מחלקים מדליית זהב, כסף וארד. כמה דרכים? קודם בוחרים מי הזהב: <b>5</b> אפשרויות. אחר כך הכסף: נשארו <b>4</b> (אותו רץ לא יכול לקבל שתי מדליות). אחר כך הארד: <b>3</b>. לפי עיקרון הכפל: $5\cdot4\cdot3=60$.</p>
+<p>כדי לכתוב זאת בקיצור משתמשים ב<b>עצרת</b> (factorial): $n!=n\cdot(n-1)\cdot(n-2)\cdots2\cdot1$. למשל $5!=120$, ובהגדרה $0!=1$. אז:</p>
+$$5\cdot4\cdot3=\frac{5\cdot4\cdot3\cdot2\cdot1}{2\cdot1}=\frac{5!}{2!}=\frac{5!}{(5-3)!}.$$
+<p>והכלל הכללי: בוחרים $k$ פריטים מתוך $n$, <b>בסדר חשוב וללא החזרה</b>:</p>
+$$n\cdot(n-1)\cdots(n-k+1)=\frac{n!}{(n-k)!}.$$
+
+<h3>שלב 3: כשהסדר לא חשוב</h3>
+<p>עכשיו אותה בחירה, אבל לא לפי תפקיד: בוחרים <b>ועדה</b> של 3 אנשים מתוך 5, וכל השלושה שווים. הסדר לא משנה. קודם נתחיל בדוגמה קטנה כדי להבין את הרעיון: בחירת 2 מתוך $\{A,B,C\}$.</p>
+<ul>
+  <li>עם סדר: $AB,\ BA,\ AC,\ CA,\ BC,\ CB$. <b>6 אפשרויות</b> ($=3\cdot2$).</li>
+  <li>בלי סדר: $\{A,B\},\{A,C\},\{B,C\}$. <b>3 אפשרויות.</b></li>
+</ul>
+<p>כל קבוצה של 2 נספרה <b>פעמיים</b> בספירה עם סדר ($AB$ ו-$BA$ הן אותה קבוצה). לכן $6\div2=3$.</p>
+<p>באותו אופן, בחירת 3 מתוך 5: עם סדר יש 60. כל ועדה של 3 אנשים נספרה $3!=6$ פעמים (כל הסדרים האפשריים של שלושה אנשים). לכן $60\div6=10$.</p>
+
+<div class="box def"><div class="t">📐 "$n$ בוחר $k$"</div>
+$$\binom{n}{k}=\frac{n!}{k!\,(n-k)!}$$
+<p>זה מספר הדרכים לבחור קבוצה של $k$ איברים מתוך $n$, <b>בלי חשיבות לסדר</b>. הסבר הנוסחה: $\frac{n!}{(n-k)!}$ הוא הספירה עם סדר, ומחלקים ב-$k!$ כי כל קבוצה נספרה $k!$ פעמים.</p>
+<p>למשל $\binom53=\frac{5!}{3!\,2!}=\frac{120}{6\cdot2}=10$ ✔.</p></div>
+
+<div class="box trick"><div class="t">🎯 טריק כללי: "ספור עם עודף, ואז חלק"</div>
+<p>כשקשה לספור ישירות, ספור משהו קל שסופר כל פריט <b>אותו מספר פעמים</b>, ואז חלק בגורם הזה. כך קיבלנו את $\binom nk$, וכך נפתור את תרגיל 5.5 (אנגרמות).</p></div>
+
+<div class="box trick"><div class="t">🎯 טריק: סימטריה</div>
+<p>$\binom nk=\binom n{n-k}$. הסיבה: לבחור $k$ שנכנסים לוועדה זה אותו דבר כמו לבחור $n-k$ שנשארים בחוץ. למשל $\binom53=\binom52=10$. אם $k$ גדול, חשב עם $n-k$.</p></div>
+
+<p>ומקרה נוסף שכבר פגשנו: <b>עם החזרה</b> (אפשר לבחור שוב את אותו פריט). בכל בחירה יש $n$ אפשרויות, לכן $n^k$ בסדר חשוב. זה המקרה של הטלות קובייה ($6^k$) וסיסמאות.</p>
+
+<div class="widget" id="cntW">
+  <div class="wt">🔢 מחשבון ספירה</div>
+  <div class="controls">
+    <label>n: <input type="number" id="cN" value="10" min="0" max="100" style="width:5em"></label>
+    <label>k: <input type="number" id="cK" value="3" min="0" max="100" style="width:5em"></label>
+  </div>
+  <table class="tbl" id="cT"></table>
+  <div class="out"><b>איך קוראים:</b> השורה "סדר חשוב, בלי החזרה" היא $n!/(n-k)!$. "סדר לא חשוב, בלי החזרה" היא $\binom nk$. בשורה "סדר חשוב", העמודה "עם החזרה" היא $n^k$. <b>נסה:</b> n=5, k=3 (ראה 60 ו-10 מהדוגמה). אחר כך n=52, k=5 (ידי פוקר). אחר כך k=n.</div>
+</div>
+
+<h3>שלב 4: הסתברות באמצעות ספירה</h3>
+<p><b>דוגמה קטנה (אפשר לרשום הכל):</b> מטילים מטבע 3 פעמים. מה הסיכוי ל<b>בדיוק</b> 2 עצים? יש $2^3=8$ רצפים שוות-סיכוי: HHH, HHT, HTH, THH, HTT, THT, TTH, TTT. אלה עם בדיוק 2 עצים (H): <b>HHT, HTH, THH</b>, כלומר 3 רצפים. לכן $3/8$.</p>
+<p><b>אותה שאלה בלי לרשום:</b> רצף עם בדיוק 2 עצים נקבע על ידי <b>באילו 2 מקומות מתוך 3 יושב העץ</b>. זו בחירה של 2 מקומות מתוך 3, בלי סדר: $\binom32=3$. אותה תשובה.</p>
+<div class="box trick"><div class="t">🎯 טריק: "בחר מקומות"</div>
+<p>כמה מחרוזות בינאריות באורך $n$ יש עם בדיוק $k$ אחדות? מספיק לדעת <b>באילו מקומות</b> האחדות יושבות: $\binom nk$. את זה נראה שוב בהתפלגות הבינומית.</p></div>
+
+<p><b>דוגמה בגודל אמיתי:</b> מקבלים 5 קלפים מחפיסה של 52. מה הסיכוי שכולם <b>לב</b>? כל הידיים: $\binom{52}{5}=2{,}598{,}960$ (בוחרים 5 קלפים בלי סדר). ידיים שכולן לב: $\binom{13}{5}=1287$ (בוחרים 5 מתוך 13 הלבבות). לכן $\frac{1287}{2598960}\approx0.0005$, כלומר בערך 1 ל-2,000.</p>
+
+<h3>שלב 5: טעויות נפוצות</h3>
+<div class="box warn"><div class="t">⚠️ שלוש מלכודות בספירה</div>
+<ul>
+<li><b>ספירה כפולה.</b> "בוחרים 2 אנשים לוועדה, ואז עוד אחד": $\binom{10}{2}\cdot 8=360$. אבל כל שלישייה נספרה 3 פעמים (איזה שניים היו 'הראשונים'?). הנכון: $\binom{10}{3}=120$.</li>
+<li><b>בלבול "עם/בלי החזרה".</b> קוביות: אפשר לקבל 6 פעמיים (עם החזרה, $6^k$). חבילת קלפים: אי אפשר לקבל אותו קלף פעמיים.</li>
+<li><b>שימוש בשני $\Omega$ שונים.</b> אם במכנה ספרת עם סדר, גם במונה צריך עם סדר, אחרת היחס חסר משמעות.</li>
+</ul></div>
+
+<details>
+<summary>➕ הרחבה: מקרה רביעי, "בלי סדר, עם החזרה"</summary>
+<p>בחירת $k$ פריטים מתוך $n$ סוגים כשאפשר לחזור על סוג, והסדר לא חשוב (למשל 5 כדורי גלידה מ-3 טעמים): $\binom{n+k-1}{k}$ (שיטת "כוכבים וקווים"). נפגוש את זה רק מעט, אז אפשר לדלג.</p>
+</details>
+
+<div class="box ml"><div class="t">🤖 קשר ל-ML</div>
+<p>ספירה מסבירה למה בעיות ML קשות: יש $2^d$ קבוצות חלקיות של $d$ פיצ'רים, ולכן בחירת פיצ'רים בכוח גס בלתי-אפשרית כבר ב-$d=50$ ($2^{50}\approx10^{15}$). מספר הפונקציות הבוליאניות על $d$ ביטים הוא $2^{2^d}$. מכאן החשיבות של הנחות על המבנה (inductive bias).</p></div>
+
+<h3>תרגול לסעיף 5</h3>
+<div class="ex">
+  <p class="q">תרגיל 5.1 <span class="tg">עיקרון הכפל + משלים</span> ⭐<br>מטילים מטבע 5 פעמים. (א) כמה תוצאות יש? (ב) מה הסיכוי ל"לפחות עץ אחד"?</p>
+  <details><summary>פתרון</summary>
+    <p>(א) $2^5=32$. (ב) משלים: "אף עץ" = תוצאה אחת (TTTTT), לכן $1-1/32=31/32$.</p></details>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל 5.2 <span class="tg">בחר מקומות</span> ⭐<br>מטילים מטבע הוגן 5 פעמים. מה הסיכוי ל<b>בדיוק</b> 2 עצים?</p>
+  <details><summary>רמז</summary><p>כל רצף הוא תוצאה שוות-סיכוי. כמה רצפים באורך 5 יש עם בדיוק שני עצים?</p></details>
+  <details><summary>פתרון</summary>
+    <p>מספר הרצפים עם בדיוק 2 עצים: בוחרים באילו 2 מקומות מתוך 5 מופיע עץ: $\binom52=10$. לכן $10/32=5/16\approx0.31$.</p></details>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל 5.3 <span class="tg">סדר חשוב, עם / בלי החזרה</span> ⭐⭐<br>סיסמה אקראית של 8 אותיות קטנות (26 אותיות, חזרות מותרות). מה הסיכוי שכל האותיות <b>שונות</b>?</p>
+  <details><summary>פתרון</summary>
+    <p>כל הסיסמאות: $26^8\approx 2.09\cdot10^{11}$. סיסמאות עם אותיות שונות (סדר חשוב, בלי החזרה): $26\cdot25\cdots19=\frac{26!}{18!}\approx6.30\cdot10^{10}$. היחס: $\approx 0.30$. (בלי לדמות את זה בראש: שימו לב שזה כבר מזכיר את יום ההולדת בסעיף 6.)</p></details>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל 5.4 <span class="tg">מציאת הטעות (ספירה כפולה)</span> ⭐⭐<br>מחפיסה של 52 קלפים בוחרים 5 קלפים. סטודנט מחשב את מספר הידיים שיש בהן "לפחות אס" כך: "בוחרים אס ($4$ דרכים), ואז עוד 4 קלפים מ-51: $\binom{51}{4}$, סה"כ $4\binom{51}{4}$." למה זה שגוי? ואיך מחשבים נכון?</p>
+  <details><summary>רמז</summary><p>יד עם שני אסים: כמה פעמים היא נספרת בחישוב שלו? ומה כוח המשלים?</p></details>
+  <details><summary>פתרון</summary>
+    <p>יד עם 2 אסים נספרת פעמיים (כל אחד מהם יכול להיות "האס שבחרתי"), יד עם 3 אסים שלוש פעמים וכו'. נכון: משלים. ידיים בלי אף אס: $\binom{48}{5}=1{,}712{,}304$ מתוך $\binom{52}{5}=2{,}598{,}960$. לכן $P(\text{לפחות אס})=1-\frac{1712304}{2598960}\approx 0.341$.</p></details>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל 5.5 <span class="tg">ספור עם עודף, ואז חלק (אתגר)</span> ⭐⭐⭐<br>כמה מילים שונות אפשר ליצור מסידור כל האותיות של MISSISSIPPI? (יש שם: M פעם אחת, I ארבע פעמים, S ארבע פעמים, P פעמיים.)</p>
+  <details><summary>רמז</summary><p>דמיין שכל האותיות שונות (I₁,I₂,...). כמה סידורים יש אז? כמה מהם מייצרים את אותה מילה בפועל?</p></details>
+  <details><summary>פתרון</summary>
+    <p>כשהאותיות "צבועות", יש $11!$ סידורים. כל מילה אמיתית נספרה $4!\cdot4!\cdot2!$ פעמים (הסדרים הפנימיים של האותיות החוזרות). לכן: $\dfrac{11!}{4!\,4!\,2!}=34{,}650$.</p></details>
+</div>
+
+<div class="box bridge"><div class="t">🔗 איפה אנחנו בסיפור</div>
+<p>יש לנו חוקים וכלי חישוב. לפני שנשתמש בהם ב-ML, נבדוק שהם עומדים במבחן המציאות: האם התשובות מתיישבות עם האינטואיציה? לפעמים לא, וזה כשהכי מרוויחים.</p></div>
+
+<!-- ======================= S6 ======================= -->
+<h2 id="s6"><span class="num">6</span>פרדוקס יום ההולדת: כל הכלים ביחד</h2>
+<p class="q-lead">❓ בכיתה של 23 אנשים, מה הסיכוי שלשניים יש יום הולדת באותו יום?</p>
+
+<p>נלך בשלבים: (0) הגדרת הבעיה, (1) ניחוש, (2) חישוב בשלוש דוגמאות קטנות, (3) הנוסחה, (4) ניסוי חי, (5) למה זה מפתיע.</p>
+
+<h3>שלב 0: הגדרת הבעיה</h3>
+<p>כדי שהשאלה תהיה מדויקת, נניח: יש 365 ימים בשנה (בלי 29 בפברואר), וכל אדם נולד בכל יום בסיכוי שווה, ללא קשר לאחרים. "יש התאמה" פירושו שלפחות שני אנשים נולדו באותו יום.</p>
+
+<h3>שלב 1: ניחוש</h3>
+<p>לפני שמחשבים: כמה היית מנחש? רוב האנשים אומרים 5%–10%. נבדוק.</p>
+
+<h3>שלב 2: איך מחשבים? מדגם קטן, שלושה אנשים</h3>
+<p>נשתמש בכלים שיש לנו:</p>
+<ol>
+  <li><b>טריק המשלים.</b> "לפחות שני אנשים חולקים יום" הוא ההפך של "כל הימים שונים". נחשב את ה"הפך" ונחסר מ-1.</li>
+  <li><b>ספירה של תוצאות.</b> בשלושה אנשים, כל תוצאה היא שלישייה (יום של אדם 1, יום של אדם 2, יום של אדם 3). לפי עיקרון הכפל יש $365\cdot365\cdot365=365^3$ שלישיות, והן <b>שוות-סיכוי</b> (בדיוק כמו 36 תוצאות הקוביות).</li>
+  <li><b>כמה שלישיות עם ימים שונים?</b> לאדם 1: 365 ימים. לאדם 2: נשארו 364 (לא יום של אדם 1). לאדם 3: נשארו 363. סה"כ $365\cdot364\cdot363$ (סדר חשוב, בלי החזרה, שלב 2 בסעיף הקודם).</li>
+</ol>
+<p>לכן: $$P(\text{כל הימים שונים})=\frac{365\cdot364\cdot363}{365\cdot365\cdot365}=\frac{365}{365}\cdot\frac{364}{365}\cdot\frac{363}{365}\approx0.992.$$ ולכן הסיכוי להתאמה בשלושה אנשים הוא $1-0.992=0.008$, פחות מאחוז.</p>
+
+<h3>שלב 3: הנוסחה ל-$n$ אנשים</h3>
+<p>אותו חישוב עם $n$ אנשים: במונה $365\cdot364\cdots(365-n+1)$, ובמכנה $365^n$. אפשר לכתוב כמכפלה של שברים (כל שבר הוא "בחירה של אדם חדש"):</p>
+$$P(\text{אין התאמה})=\prod_{i=0}^{n-1}\Big(1-\frac{i}{365}\Big)\ ,\qquad P(\text{יש התאמה})=1-\prod_{i=0}^{n-1}\Big(1-\frac{i}{365}\Big).$$
+<p class="muted">($\prod$ הוא סימון למכפלה, כמו ש-$\sum$ הוא לסכום: $\prod_{i=0}^{n-1}$ פירושו "הכפל את הביטוי עבור $i=0,1,\dots,n-1$". עבור $i=0$ השבר הוא $\frac{365}{365}$, עבור $i=1$ הוא $\frac{364}{365}$, וכן הלאה.)</p>
+
+<h3>שלב 4: ניסוי חי</h3>
+<div class="widget" id="bdW">
+  <div class="wt">🎂 כמה אנשים צריך?</div>
+  <div class="controls">
+    <label>n = <input type="range" id="bN" min="2" max="80" value="23"> <b id="bNv">23</b> אנשים</label>
+    <button class="btn" id="bSim">סימולציה: 2,000 כיתות</button>
+  </div>
+  <canvas id="bC" width="1280" height="440"></canvas>
+  <div class="out" id="bOut"></div>
+  <div class="out"><b>נסה:</b> (1) הזז את ה-n ל-3: ראה ~0.8%, כמו שחישבנו. (2) הגדל עד שהעקומה חוצה את 50%: זה ב-n=23. (3) לחץ "סימולציה" ובדוק שהאחוז מתקרב לנוסחה (כמו חוק המספרים הגדולים). (4) הגדל ל-60 ומעלה.</div>
+</div>
+
+<h3>שלב 5: למה זה מפתיע?</h3>
+<div class="box intuition"><div class="t">💡 אנחנו סופרים אנשים, אבל השאלה היא על זוגות</div>
+<p>האינטואיציה שואלת "האם מישהו חולק איתי יום הולדת?", וזה רק 22 השוואות. אבל השאלה האמיתית היא על <b>כל זוג</b> בכיתה: יש $\binom{23}{2}=253$ זוגות (בחירת 2 מתוך 23, בלי סדר: ספירה מהסעיף הקודם). מספר הזוגות גדל <i>ריבועית</i> עם $n$, ולכן ההסתברות מזנקת מהר.</p></div>
+
+<div class="box ml"><div class="t">🤖 קשר ל-ML</div>
+<p>אותה תופעה גורמת להתנגשויות hash (feature hashing) ולדליפת נתונים בין train ל-test: בדאטהסט גדול מספר הזוגות עצום, ושכפולים כמעט-זהים כמעט מובטחים.</p></div>
+
+<h3>תרגול לסעיף 6</h3>
+<div class="quiz">
+  <div class="q"><b>תרגיל 6.1</b> <span class="tg">בדיקת הבנה</span> בכיתה של 366 אנשים, מה הסיכוי שיש התאמה (תתעלם משנה מעוברת)?</div>
+  <div class="opts">
+    <button class="opt">בערך 99.9%</button>
+    <button class="opt" data-ok="1">בדיוק 100%</button>
+    <button class="opt">תלוי בכיתה</button>
+  </div>
+  <div class="explain" hidden>עקרון שובך היונים: 366 אנשים ב-365 "תאים" חייבים לחלוק. בנוסחה, אחד הגורמים במכפלה ($1-365/365$) הוא 0, ולכן המכפלה 0 ו-$1-0=1$.</div>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל 6.2 <span class="tg">סימולציה והרחבה</span> ⭐⭐<br>כתוב סימולציה שמאמתת שב-23 אנשים הסיכוי להתאמה הוא כ-0.507. אחר כך שנה אותה כדי להעריך את הסיכוי ל<b>שלושה</b> אנשים עם אותו יום הולדת. האם הוא קרוב ל-0.507?</p>
+  <details><summary>פתרון</summary>
+<pre><code>import numpy as np
+rng = np.random.default_rng(0)
+
+def has_match(n):
+    b = rng.integers(0, 365, size=n)
+    return len(set(b)) &lt; n
+
+def has_triple(n):
+    b = rng.integers(0, 365, size=n)
+    return np.bincount(b).max() &gt;= 3
+
+print(np.mean([has_match(23) for _ in range(100_000)]))    # ~0.507
+print(np.mean([has_triple(23) for _ in range(100_000)]))   # ~0.013</code></pre>
+    <p>שלישייה נדירה הרבה יותר (כ-1.3%). צריך 88 אנשים כדי לעבור 50%. לא מנחשים ב"אינטואיציה"; מחשבים או מדמים.</p></details>
+</div>
+
+<div class="box bridge"><div class="t">🔗 איפה אנחנו בסיפור</div>
+<p>סגרנו את המעגל עם חשבון שמתיישב עם המציאות. נשאר לחבר את זה למה שבאת ללמוד: <b>איפה כל זה חי ב-ML?</b></p></div>
+
+<!-- ======================= S7 ======================= -->
+<h2 id="s7"><span class="num">7</span>גשר ל-ML: מה זה אומר ש"המודל בטוח ב-90%"?</h2>
+<p class="q-lead">❓ מסווג מחזיר "חתול: 90%". מאיפה המספר הזה בא, והאם הוא באמת "הסתברות"?</p>
+
+<p>הסעיף הזה הולך לאט, בשלבים. אם שלב לא ברור, עצור שם לפני שאתה ממשיך.</p>
+
+<h3>שלב 0: מה זה "מסווג" ו"מחלקה"?</h3>
+<p><b>סיווג</b> (classification) היא אחת המשימות הכי נפוצות ב-ML. נותנים למחשב <i>קלט</i>, למשל תמונה, והוא צריך לשייך אותו לאחת מכמה <i>קטגוריות</i> שהוגדרו מראש. למשל: האם בתמונה יש <b>חתול</b>, <b>כלב</b> או <b>ארנב</b>?</p>
+<ul>
+  <li>כל קטגוריה כזו נקראת <b>מחלקה</b> (class), ולפעמים <b>תווית</b> (label). בדוגמה שלנו יש שלוש מחלקות: חתול, כלב, ארנב.</li>
+  <li>מספר המחלקות מסומן באות $K$. אין בזה שום קסם: $K$ הוא פשוט "כמה קטגוריות יש". כאן $K=3$. (בסיווג ספרות בכתב יד: $K=10$, כי יש ספרות 0 עד 9.)</li>
+  <li><b>מסווג</b> (classifier) הוא המודל שמקבל תמונה ומחזיר החלטה על המחלקה.</li>
+</ul>
+
+<div class="box intuition"><div class="t">💡 איך זה קשור למה שלמדנו?</div>
+<p>מנקודת המבט של המודל, המחלקה האמיתית של התמונה היא <b>לא ידועה</b>. יש שלוש אפשרויות, בדיוק כמו שלוש תוצאות של ניסוי מקרי. כלומר: $\Omega=\{\text{חתול},\text{כלב},\text{ארנב}\}$.</p>
+<p>המודל רוצה לדווח "כמה הוא מאמין בכל אפשרות". כלומר לתת לכל תוצאה ב-$\Omega$ מספר: $p_{\text{חתול}},\,p_{\text{כלב}},\,p_{\text{ארנב}}$. כדי שהמספרים האלה יהיו "הסתברויות" במובן של סעיף 4 (כשיש מספר סופי של תוצאות), מספיקות שתי דרישות:</p>
+<ol>
+  <li>כל מספר $\ge 0$.</li>
+  <li>הסכום של כולם $=1$.</li>
+</ol>
+<p>(ואז ההסתברות של מאורע כמו "חתול או כלב" היא פשוט סכום ההסתברויות של תוצאותיו, כי תוצאות שונות הן מאורעות זרים, והאקסיומה השלישית.)</p></div>
+
+<h3>שלב 1: מה המודל באמת מוציא? "ציונים"</h3>
+<p>בפנים, המודל (למשל רשת נוירונים) מבצע המון חישובים על התמונה, ובסוף מוציא <b>רשימה של $K$ מספרים, אחד לכל מחלקה</b>. נקרא להם <b>ציונים</b> (בז'רגון: logits) ונסמן $z_1,z_2,\dots,z_K$. הסימון $z_i$ פירושו "הציון של מחלקה מספר $i$".</p>
+<p>למשל, על תמונה מסוימת המודל מחזיר:</p>
+<table class="tbl">
+  <tr><th>מחלקה</th><th>חתול</th><th>כלב</th><th>ארנב</th></tr>
+  <tr><th>ציון $z$</th><td>2.0</td><td>1.0</td><td>0.1</td></tr>
+</table>
+<p>המשמעות: ציון גבוה יותר = "התמונה דומה יותר למחלקה הזו". כאן "חתול" מוביל.</p>
+
+<div class="box warn"><div class="t">⚠️ למה אי אפשר פשוט להשתמש בציונים כהסתברויות?</div>
+<p>הציונים יכולים להיות <b>שליליים</b> (למשל $-3$), יכולים להיות גדולים (כמו 17), והסכום שלהם הוא סתם מספר. הסתברות לא יכולה להיות שלילית, ולא יכולה להיות 17. בטבלה למעלה הסכום הוא $3.1$ ולא $1$. אז צריך <b>ממיר</b> שהופך כל רשימת ציונים לרשימה של הסתברויות, ושומר על הסדר (ציון גבוה ⟹ הסתברות גבוהה).</p></div>
+
+<h3>שלב 2: הממיר (softmax) בשני צעדים</h3>
+<p>נבנה אותו עם הציונים $(2.0,\;1.0,\;0.1)$:</p>
+
+<div class="box def"><div class="t">צעד א: להפוך הכל לחיובי, בלי לקלקל את הסדר</div>
+<p>מחשבים $e^{z}$ לכל ציון. ($e\approx2.718$ הוא קבוע מתמטי; חשוב רק שהפונקציה $e^x$ <b>תמיד חיובית</b>, גם עבור $x$ שלילי, וש<b>היא עולה</b>: ציון גבוה יותר נותן תוצאה גבוהה יותר.)</p>
+<table class="tbl">
+  <tr><th></th><th>חתול</th><th>כלב</th><th>ארנב</th></tr>
+  <tr><th>$z$</th><td>2.0</td><td>1.0</td><td>0.1</td></tr>
+  <tr><th>$e^{z}$</th><td>7.39</td><td>2.72</td><td>1.11</td></tr>
+</table>
+<p>עכשיו כל המספרים חיוביים (דרישה 1 ✔), אבל הסכום הוא בערך $11.2$, עדיין לא 1.</p></div>
+
+<div class="box def"><div class="t">צעד ב: לנרמל, כלומר לתת לכל אחד את "החלק שלו" מהסך הכל</div>
+<p>מחלקים כל מספר בסכום של כולם: $7.39+2.72+1.11\approx11.2$.</p>
+<table class="tbl">
+  <tr><th></th><th>חתול</th><th>כלב</th><th>ארנב</th><th>סכום</th></tr>
+  <tr><th>$e^{z}$</th><td>7.39</td><td>2.72</td><td>1.11</td><td>≈11.2</td></tr>
+  <tr><th>חלקי הסכום</th><td>0.659</td><td>0.242</td><td>0.099</td><td><b>1.000</b></td></tr>
+</table>
+<p>הסכום הוא בדיוק 1 (דרישה 2 ✔), כי חילקנו כל חלק בסכום החלקים. <b>זה כל ה-softmax.</b></p></div>
+
+<div class="box intuition"><div class="t">💡 האינטואיציה: עוגה וחלקים</div>
+<p>צעד א נותן לכל מחלקה "גודל נתח". צעד ב לוקח את העוגה כולה (הסכום) ושואל: איזה <b>חלק יחסי</b> מהעוגה כל מחלקה קיבלה? זה בדיוק "חלק יחסי" מסעיף 1, והסיבה שהתוצאה מתנהגת כמו הסתברות. "חתול" קיבל 65.9% מהעוגה.</p></div>
+
+<p>עכשיו נכתוב את זה בנוסחה. כל מה שעשינו הוא:</p>
+$$p_i=\frac{e^{z_i}}{e^{z_1}+e^{z_2}+\cdots+e^{z_K}}=\frac{e^{z_i}}{\sum_{j=1}^K e^{z_j}}.$$
+<p>המונה: הנתח של מחלקה $i$ (צעד א). המכנה: סכום כל הנתחים (הסימון $\sum_{j=1}^K$ פירושו "תחבר את הביטוי עבור $j=1$, $j=2$, ... עד $j=K$"). החלוקה: צעד ב.</p>
+
+<h3>שחק עם זה</h3>
+<div class="widget" id="smW">
+  <div class="wt">🎛️ softmax חי: הזז את הציונים וראה איך ההסתברויות מגיבות</div>
+  <div class="controls"><label>ציון חתול: <input type="range" id="smZ1" min="-4" max="8" step="0.1" value="2"></label></div>
+  <div class="controls"><label>ציון כלב: <input type="range" id="smZ2" min="-4" max="8" step="0.1" value="1"></label></div>
+  <div class="controls"><label>ציון ארנב: <input type="range" id="smZ3" min="-4" max="8" step="0.1" value="0.1"></label></div>
+  <div class="controls">
+    <button class="btn" id="smPlus">הוסף 1 לכל הציונים</button>
+    <button class="btn" id="smMinus">הורד 1 מכל הציונים</button>
+    <button class="btn" id="smReset">איפוס (2, 1, 0.1)</button>
+  </div>
+  <table class="tbl" id="smT"></table>
+  <div class="out" id="smOut"></div>
+  <div class="out"><b>מה לנסות:</b> (1) הגדל את ציון החתול ותראה שהאחרים מתכווצים: העוגה קבועה, והחלק של אחד גדל על חשבון האחרים. (2) הורד ציון ל-4− : ההסתברות כמעט 0 אבל <i>לא שלילית לעולם</i>. (3) הצג את שלושת הציונים שווים: מתקבל 1/3 לכל אחד. (4) לחץ על "הוסף 1 לכל הציונים" והסתכל: <b>ההסתברויות לא משתנות כלל!</b> רק <i>ההפרשים</i> בין הציונים קובעים.</div>
+</div>
+
+<h3>שלב 3: למה זו "הסתברות חוקית"?</h3>
+<p>בדוק את שתי הדרישות מהתיבה למעלה, עבור כל ציונים אפשריים:</p>
+<ol>
+<li><b>אי-שליליות:</b> $e^{z_i}>0$ ולכן $p_i>0$ ✔</li>
+<li><b>נרמול:</b> $\sum_i p_i=\frac{\sum_i e^{z_i}}{\sum_j e^{z_j}}=1$ ✔ (המונה והמכנה זהים)</li>
+</ol>
+<p>לכן הפלט של softmax מקיים את אקסיומות קולמוגורוב (למרחב סופי), וכל מה שלמדנו בשיעור חל עליו: למשל, ההסתברות ש"זה חתול <i>או</i> כלב" היא $p_{\text{חתול}}+p_{\text{כלב}}=0.659+0.242=0.901$, ובטריק המשלים: $1-p_{\text{ארנב}}=1-0.099$.</p>
+
+<div class="box warn"><div class="t">⚠️ "למה דווקא $e^x$? אפשר להשתמש בפונקציה אחרת?"</div>
+<p>שאלה מצוינת, והתשובה הכנה: <b>אפשר</b>. כל פונקציה חיובית ועולה הייתה מקיימת את שתי הדרישות. מה שלא עובד: הרמה בריבוע (ציון $-3$ יקבל יותר מציון $+1$, והסדר מתקלקל) או סתם חילוק בסכום הציונים (ציונים שליליים נותנים הסתברות שלילית). $e^x$ נבחרה כי יש לה תכונה נוספת נוחה (ההפרשים בלבד קובעים, כפי שראית עם הכפתור), וכי היא מתחברת בטבעיות ל-log-likelihood ולנגזרות פשוטות. את זה נבין לעומק בשיעורים 8 ו-10, ובינתיים מספיק לדעת שזו הבחירה הסטנדרטית.</p></div>
+
+<h3>שלב 4: אז מה זה אומר "90%"?</h3>
+<p>כאן חוזרת השאלה מתחילת השיעור: מהי הסתברות? לפי הפרשנות התדירותית (סעיף 1), "90%" אמור להיות <b>חלק יחסי בטווח הארוך</b>.</p>
+<p>דמיין שנתת למודל 1,000 תמונות, ובכל אחת מהן הוא דיווח "חתול: 90%". אם הוא "אומר אמת", בערך 900 מהן צריכות להיות באמת חתולים. אם רק 700 הן חתולים, המודל <b>בטוח בעצמו יותר מדי</b>, והסתברויות הפלט שלו חוקיות (האקסיומות מתקיימות) אבל <b>לא נכונות</b>. מודל שבו המספרים אכן תואמים לחלקים היחסיים האמיתיים נקרא <b>מכויל</b> (calibrated).</p>
+<div class="box intuition"><div class="t">💡 הלקח</div>
+<p>האקסיומות אומרות רק שהמספרים <b>חוקיים</b> (לא שליליים וסכומם 1). האם הם <b>נכונים</b> זו שאלה אחרת, אמפירית, וניתנת לבדיקה: בודקים אם החלק היחסי שמתקבל בפועל תואם למה שהמודל טען.</p></div>
+
+<h3>הקוד, שורה אחרי שורה</h3>
+<pre><code>import numpy as np
+
+z = np.array([2.0, 1.0, 0.1])    # הציונים של 3 המחלקות (חתול, כלב, ארנב)
+e = np.exp(z)                    # צעד א: e^z לכל ציון -> [7.39, 2.72, 1.11]
+p = e / e.sum()                  # צעד ב: חלוקה בסכום -> [0.659, 0.242, 0.099]
+
+print(p)                         # ההסתברויות
+print(p.sum())                   # 1.0 : מקיים את נרמול
+print(p[0] + p[1])               # P(חתול או כלב) = 0.901 : אדיטיביות
+print(1 - p[2])                  # אותו דבר, בטריק המשלים</code></pre>
+
+<h3>איפה כל זה יופיע בהמשך</h3>
+<table class="tbl">
+  <tr><th>מה שלמדנו עכשיו</th><th>מופיע ב-ML כ...</th></tr>
+  <tr><td>הסתברות = חלק יחסי</td><td>calibration, ו-accuracy כממוצע של אינדיקטור</td></tr>
+  <tr><td>מרחב מדגם, מאורע = קבוצה</td><td>מרחב הדוגמאות/התוויות, "המודל טעה"</td></tr>
+  <tr><td>אקסיומות</td><td>למה softmax ו-sigmoid הם התפלגויות תקפות</td></tr>
+  <tr><td>טריק המשלים</td><td>$1-\text{accuracy}=\text{error}$; "סיכוי לטעות לפחות פעם אחת"</td></tr>
+  <tr><td>חסם האיחוד</td><td>הוכחות בתורת הלמידה</td></tr>
+  <tr><td>ספירה</td><td>גודל מרחב ההשערות, מספר הדגימות האפשריות</td></tr>
+</table>
+
+<h3>תרגול לסעיף 7</h3>
+<div class="ex">
+  <p class="q">תרגיל 7.1 <span class="tg">חישוב softmax</span> ⭐<br>מסווג נתן logits $z=(1,\,1,\,1)$. מה ה-softmax? ומה אם $z=(10,\,0,\,0)$? מה רואים על יחס בין ה-logits לבין ההסתברויות?</p>
+  <details><summary>פתרון</summary>
+    <p>$(1,1,1)$: שלושה ערכים שווים, ולכן $p=(1/3,1/3,1/3)$. $(10,0,0)$: $e^{10}\approx22026$, והאחרים 1: $p\approx(0.9999,\,0.00005,\,0.00005)$. שים לב: רק ה<b>הפרשים</b> בין ה-logits חשובים (הוספת אותו קבוע לכולם לא משנה את התוצאה), וגדל ההפרש ⟹ ההתפלגות חדה יותר.</p></details>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל 7.2 <span class="tg">פרשנות (calibration)</span> ⭐⭐<br>מודל נתן הסתברות 0.8 ל"חתול" ב-500 תמונות, ו-350 מהן באמת חתולים. (א) מה היית מצפה אם המודל מכויל? (ב) מה המשמעות של התוצאה?</p>
+  <details><summary>פתרון</summary>
+    <p>(א) כ-$0.8\cdot500=400$ חתולים. (ב) התקבלו 350 (70%), פחות מהצפוי: המודל <b>בטוח בעצמו יתר על המידה</b> (overconfident), תופעה שכיחה ברשתות עמוקות. החלק היחסי שבפועל הוא ההסתברות ה"אמיתית" לפי הפרשנות התדירותית.</p></details>
+</div>
+
+<!-- ======================= MIXED ======================= -->
+<h2 id="mixed"><span class="num">★</span>תרגול משולב</h2>
+<p>עכשיו בלי כותרת של טכניקה: תחליט בעצמך איזה כלי מתאים. (הטכניקה כתובה בתוך הפתרון.)</p>
+
+<div class="ex">
+  <p class="q">תרגיל מ.1 ⭐⭐<br>מטילים מטבע הוגן 10 פעמים. מה הסיכוי שמספר העצים <b>זוגי</b>?</p>
+  <details><summary>רמז</summary><p>אל תחשב את $\binom{10}{0}+\binom{10}{2}+\cdots$ בכוח. חשוב על סימטריה: מה קורה אם הופכים את תוצאת ההטלה הראשונה?</p></details>
+  <details><summary>פתרון</summary>
+    <p><b>טכניקה: סימטריה / התאמה חח"ע.</b> הפיכת ההטלה הראשונה (H↔T) מחליפה זוגיות של מספר העצים, וממפה תוצאות ל<i>תוצאות שונות</i> באופן הפיך. לכן מספר הרצפים עם מספר זוגי של עצים שווה למספר הרצפים עם מספר אי-זוגי: $512$ מתוך $1024$. התשובה: $1/2$. (ובכוח: $\sum_{k\text{ זוגי}}\binom{10}{k}=2^9=512$.)</p></details>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל מ.2 ⭐⭐<br>סטודנט עונה על 4 שאלות אמריקאיות (4 תשובות בכל שאלה) בניחוש. מה הסיכוי שיצליח בלפחות שאלה אחת?</p>
+  <details><summary>פתרון</summary>
+    <p><b>טכניקה: משלים.</b> סיכוי לטעות בשאלה: $3/4$. לטעות בכולן: $(3/4)^4=81/256$. לפחות הצלחה אחת: $1-81/256=175/256\approx0.68$.</p></details>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל מ.3 (אתגר) ⭐⭐⭐<br>ארבעה אנשים מניחים את הכובעים בערימה, וכל אחד מקבל כובע אקראי בחזרה (תמורה אקראית). מה הסיכוי ש<b>אף אחד</b> לא קיבל את הכובע שלו?</p>
+  <details><summary>רמז</summary><p>הגדר $A_i$ = "אדם $i$ קיבל את הכובע שלו". אתה רוצה $1-P(A_1\cup A_2\cup A_3\cup A_4)$. הכללה של הכלה והפרדה לארבעה מאורעות היא: סכום היחידים, פחות סכום הזוגות, ועוד סכום השלשות, פחות הרביעיה.</p></details>
+  <details><summary>פתרון</summary>
+    <p><b>טכניקה: הכלה והפרדה בהכללה + ספירה.</b> $P(A_i)=3!/4!=1/4$ (4 מקרים); $P(A_i\cap A_j)=2!/4!=1/12$ (6 זוגות); $P(A_i\cap A_j\cap A_k)=1/24$ (4 שלשות); הרביעיה $1/24$. לכן
+    $$P(\cup)=4\cdot\tfrac14-6\cdot\tfrac1{12}+4\cdot\tfrac1{24}-\tfrac1{24}=\tfrac{15}{24},\qquad P(\text{אף אחד})=\tfrac{9}{24}=\tfrac38.$$
+    כשמגדילים את מספר האנשים, התוצאה מתקרבת ל-$e^{-1}\approx0.368$. תוצאה מפתיעה: כמעט לא תלוי ב-$n$!</p></details>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל מ.4 (קוד) ⭐⭐<br>אמת את תרגיל מ.3 בעזרת סימולציה: ערבב את הרשימה <code>[0,1,2,3]</code> אקראית פעמים רבות, וחשב באיזה חלק מהמקרים אין "נקודת קבע" ($\pi(i)=i$).</p>
+  <details><summary>פתרון</summary>
+<pre><code>import numpy as np
+rng = np.random.default_rng(0)
+def derangement():
+    p = rng.permutation(4)
+    return not np.any(p == np.arange(4))
+print(np.mean([derangement() for _ in range(200_000)]))   # ~0.375 = 3/8</code></pre></details>
+</div>
+
+<!-- ======================= SUMMARY ======================= -->
+<h2 id="sum"><span class="num">8</span>סיכום: הסיפור בקצרה</h2>
+<ol class="story">
+  <li><b>הסתברות = חלק יחסי</b> מתוך הרבה חזרות (חוק המספרים הגדולים; בלי "כשל המהמר").</li>
+  <li>החלק הוא "של מאורעות": <b>מאורע = קבוצת תוצאות</b> מתוך $\Omega$. בחר $\Omega$ סימטרי ("תצבע את הקוביות").</li>
+  <li>"או/וגם/לא" = <b>איחוד/חיתוך/משלים</b>, ודה-מורגן הופך ביניהם.</li>
+  <li>שלוש אקסיומות: <b>לא שלילי, נרמול, אדיטיבי לזרים.</b> מהן נגזרים משלים, מונוטוניות והכלה והפרדה.</li>
+  <li>במקרה האחיד: $P(A)=|A|/|\Omega|$ ו<b>סופרים</b> (כפל, סדר/בלי סדר, "ספור עם עודף וחלק").</li>
+  <li><b>טריק המשלים</b>: "לפחות אחד" = 1 פחות "אפס".</li>
+  <li>ב-ML: softmax <b>חוקי</b> כהסתברות בזכות האקסיומות; ו"נכון" רק אם <b>מכויל</b>.</li>
+</ol>
+
+<div class="box intuition"><div class="t">🔭 בשיעור הבא</div>
+<p>כל מה שעשינו הניח שאין לנו שום מידע. מה קורה כשמקבלים מידע חדש ("ידוע שהסכום זוגי, מה הסיכוי שיצא 6?")? זו <b>הסתברות מותנית</b>, וממנה נגיע גם לאי-תלות (הסיבה הכללית לכך ש-(5/6)⁴ הוא מכפלה, שראינו בסעיף 4 דרך ספירה) ולמשפט בייס, הלב של סיווג ב-ML.</p></div>
+
+<div class="pager">
+  <a href="index.html">← מפת הדרכים</a>
+  <span class="muted">שיעור 2 — בקרוב</span>
+</div>
+
+</div>
+
+<script>
+/* ============================ Venn lab ============================ */
+(function () {
+  var OPS = {
+    A:    ['A',            function (a, b) { return a; }],
+    B:    ['B',            function (a, b) { return b; }],
+    AuB:  ['A ∪ B',        function (a, b) { return a || b; }],
+    AnB:  ['A ∩ B',        function (a, b) { return a && b; }],
+    Ac:   ['Aᶜ',           function (a, b) { return !a; }],
+    AmB:  ['A ∖ B',        function (a, b) { return a && !b; }],
+    nAuB: ['(A ∪ B)ᶜ',     function (a, b) { return !(a || b); }],
+    AcnBc:['Aᶜ ∩ Bᶜ',      function (a, b) { return !a && !b; }],
+    nAnB: ['(A ∩ B)ᶜ',     function (a, b) { return !(a && b); }],
+    AcuBc:['Aᶜ ∪ Bᶜ',      function (a, b) { return !a || !b; }],
+    Bc:   ['Bᶜ',           function (a, b) { return !b; }]
+  };
+  var selL = document.getElementById('vOpL'), selR = document.getElementById('vOpR');
+  Object.keys(OPS).forEach(function (k) {
+    [selL, selR].forEach(function (s) {
+      var o = document.createElement('option'); o.value = k; o.textContent = OPS[k][0]; s.appendChild(o);
+    });
+  });
+  selL.value = 'nAuB'; selR.value = 'AcnBc';
+  var W = 880, H = 560, S = 2;
+  function draw(canvas, key) {
+    var ctx = canvas.getContext('2d'), fn = OPS[key][1];
+    var img = ctx.createImageData(W, H), d = img.data;
+    for (var y = 0; y < H; y++) for (var x = 0; x < W; x++) {
+      var px = x / S, py = y / S;
+      var inside = px >= 10 && px <= 430 && py >= 10 && py <= 270;
+      if (!inside) continue;
+      var a = (px - 170) * (px - 170) + (py - 140) * (py - 140) <= 8100;
+      var b = (px - 270) * (px - 270) + (py - 140) * (py - 140) <= 8100;
+      if (fn(a, b)) { var i = (y * W + x) * 4; d[i] = 37; d[i + 1] = 99; d[i + 2] = 235; d[i + 3] = 170; }
+    }
+    ctx.clearRect(0, 0, W, H);
+    ctx.putImageData(img, 0, 0);
+    var fg = getComputedStyle(document.body).color;
+    ctx.strokeStyle = fg; ctx.fillStyle = fg; ctx.lineWidth = 3;
+    ctx.strokeRect(10 * S, 10 * S, 420 * S, 260 * S);
+    [[170, 'A'], [270, 'B']].forEach(function (c) {
+      ctx.beginPath(); ctx.arc(c[0] * S, 140 * S, 90 * S, 0, 2 * Math.PI); ctx.stroke();
+    });
+    ctx.font = 'bold 38px sans-serif';
+    ctx.fillText('A', 120 * S, 60 * S); ctx.fillText('B', 300 * S, 60 * S); ctx.fillText('Ω', 24 * S, 46 * S);
+  }
+  function same() {
+    var f = OPS[selL.value][1], g = OPS[selR.value][1], eq = true;
+    [[0, 0], [0, 1], [1, 0], [1, 1]].forEach(function (p) { if (!!f(!!p[0], !!p[1]) !== !!g(!!p[0], !!p[1])) eq = false; });
+    return eq;
+  }
+  function update() {
+    draw(document.getElementById('vL'), selL.value);
+    draw(document.getElementById('vR'), selR.value);
+    var e = same();
+    document.getElementById('vOut').innerHTML = e
+      ? '<span class="same yes">אותו מאורע ✔</span> שתי הצורות מדליקות בדיוק אותם אזורים.'
+      : '<span class="same no">שונים ✘</span> יש לפחות אזור אחד שבו הם נבדלים.';
+  }
+  selL.addEventListener('change', update); selR.addEventListener('change', update);
+  window.addEventListener('load', update);
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', update);
+})();
+
+/* ============================ Dice lab ============================ */
+(function () {
+  var EV = {
+    sum7:   ['הסכום הוא 7',             function (i, j) { return i + j === 7; }],
+    sum10:  ['הסכום ≥ 10',               function (i, j) { return i + j >= 10; }],
+    sum4:   ['הסכום ≤ 4',                function (i, j) { return i + j <= 4; }],
+    even:   ['הסכום זוגי',               function (i, j) { return (i + j) % 2 === 0; }],
+    dbl:    ['דאבל (שתי הקוביות שוות)',  function (i, j) { return i === j; }],
+    f6:     ['הראשונה = 6',              function (i, j) { return i === 6; }],
+    any6:   ['לפחות קובייה אחת = 6',     function (i, j) { return i === 6 || j === 6; }],
+    fEven:  ['הראשונה זוגית',            function (i, j) { return i % 2 === 0; }],
+    sum3:   ['הסכום הוא 3',              function (i, j) { return i + j === 3; }]
+  };
+  var sA = document.getElementById('dA'), sB = document.getElementById('dB'), sO = document.getElementById('dOp');
+  Object.keys(EV).forEach(function (k) {
+    [sA, sB].forEach(function (s) { var o = document.createElement('option'); o.value = k; o.textContent = EV[k][0]; s.appendChild(o); });
+  });
+  sA.value = 'sum7'; sB.value = 'f6';
+  var T = document.getElementById('diceT'), cells = {};
+  var hdr = '<tr><th></th>';
+  for (var j = 1; j <= 6; j++) hdr += '<th>' + j + '</th>';
+  var html = hdr + '</tr>';
+  for (var i = 1; i <= 6; i++) {
+    html += '<tr><th>' + i + '</th>';
+    for (var jj = 1; jj <= 6; jj++) html += '<td data-i="' + i + '" data-j="' + jj + '"></td>';
+    html += '</tr>';
+  }
+  T.innerHTML = html;
+  T.querySelectorAll('td').forEach(function (td) { cells[td.dataset.i + ',' + td.dataset.j] = td; });
+  function update() {
+    var fa = EV[sA.value][1], fb = EV[sB.value][1], op = sO.value;
+    var cA = 0, cB = 0, cAB = 0, cU = 0, cR = 0;
+    for (var i = 1; i <= 6; i++) for (var j = 1; j <= 6; j++) {
+      var a = fa(i, j), b = fb(i, j), r;
+      if (a) cA++; if (b) cB++; if (a && b) cAB++; if (a || b) cU++;
+      switch (op) { case 'A': r = a; break; case 'B': r = b; break; case 'AuB': r = a || b; break; case 'AnB': r = a && b; break; case 'Ac': r = !a; break; default: r = a && !b; }
+      if (r) cR++;
+      var td = cells[i + ',' + j];
+      td.className = r ? 'res' : '';
+      td.innerHTML = (a ? '<span class="m">A</span>' : '') + (b ? '<span class="m2">B</span>' : '') + (i + j);
+    }
+    var gcd = function g(a, b) { return b ? g(b, a % b) : a; };
+    var F = function (c, n) { if (c === 0) return '0'; var q = gcd(c, n); return (c / q) + '/' + (n / q); };
+    var rhs = F(cA + cB - cAB, 36);
+    document.getElementById('dOut').innerHTML =
+      'במסומן: <b>' + cR + '</b> מתוך 36 תוצאות → ההסתברות היא <b>' + F(cR, 36) + '</b> (≈ ' + (cR / 36).toFixed(3) + ').<br>' +
+      '|A| = ' + cA + ', |B| = ' + cB + ', |A∩B| = ' + cAB + ' → ' +
+      'P(A∪B) = ' + F(cU, 36) + ' ו-P(A)+P(B)−P(A∩B) = ' + F(cA, 36) + ' + ' + F(cB, 36) + ' − ' + F(cAB, 36) + ' = ' + rhs + ' ✔' +
+      (cAB === 0 ? '<br><b>A ו-B זרים</b> — החיתוך ריק.' : '') +
+      '<br><small>הפינה השמאלית-עליונה בכל תא = שייך ל-A, הימנית-עליונה = שייך ל-B, המספר = סכום הקוביות.</small>';
+  }
+  [sA, sB, sO].forEach(function (s) { s.addEventListener('change', update); });
+  update();
+})();
+
+/* ============================ LLN simulator ============================ */
+(function () {
+  var cv = document.getElementById('lC'), ctx = cv.getContext('2d');
+  var pIn = document.getElementById('lP'), heads = 0, series = [], MAX = 300000;
+  function getP() { return parseFloat(pIn.value); }
+  function add(n) {
+    var p = getP();
+    for (var t = 0; t < n && series.length < MAX; t++) {
+      if (Math.random() < p) heads++;
+      series.push(heads);
+    }
+    draw();
+  }
+  function reset() { heads = 0; series = []; draw(); }
+  function draw() {
+    var p = getP(), n = series.length, W = cv.width, H = cv.height;
+    document.getElementById('lPv').textContent = p.toFixed(2);
+    var fg = getComputedStyle(document.body).color, muted = getComputedStyle(document.documentElement).getPropertyValue('--muted').trim();
+    ctx.clearRect(0, 0, W, H);
+    var L = 70, R = 20, Tp = 20, B = 50, pw = W - L - R, ph = H - Tp - B;
+    var Nmax = Math.max(100, Math.pow(10, Math.ceil(Math.log10(Math.max(n, 10)))));
+    var lx = function (k) { return L + pw * Math.log10(k) / Math.log10(Nmax); };
+    var ly = function (v) { return Tp + ph * (1 - v); };
+    ctx.font = '22px sans-serif'; ctx.fillStyle = muted; ctx.strokeStyle = muted; ctx.lineWidth = 1;
+    [0, 0.25, 0.5, 0.75, 1].forEach(function (v) {
+      ctx.globalAlpha = .25; ctx.beginPath(); ctx.moveTo(L, ly(v)); ctx.lineTo(W - R, ly(v)); ctx.stroke(); ctx.globalAlpha = 1;
+      ctx.fillText(v.toFixed(2), 10, ly(v) + 7);
+    });
+    for (var e = 0; Math.pow(10, e) <= Nmax; e++) {
+      var k = Math.pow(10, e); ctx.fillText('10' + (e === 0 ? '⁰' : e === 1 ? '¹' : e === 2 ? '²' : e === 3 ? '³' : e === 4 ? '⁴' : e === 5 ? '⁵' : '⁶'), lx(k) - 14, H - 14);
+    }
+    // true p line
+    ctx.strokeStyle = '#ea580c'; ctx.lineWidth = 3; ctx.setLineDash([10, 8]); ctx.beginPath(); ctx.moveTo(L, ly(p)); ctx.lineTo(W - R, ly(p)); ctx.stroke(); ctx.setLineDash([]);
+    // running proportion
+    if (n > 0) {
+      ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 3; ctx.beginPath();
+      var step = Math.max(1, Math.floor(n / 1500));
+      for (var i = 1; i <= n; i += (i < 200 ? 1 : step)) {
+        var x = lx(i), y = ly(series[i - 1] / i);
+        if (i === 1) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      ctx.lineTo(lx(n), ly(series[n - 1] / n)); ctx.stroke();
+    }
+    var out = document.getElementById('lOut');
+    if (n === 0) out.innerHTML = 'לחץ על אחד הכפתורים כדי להתחיל. הקו הכתום המקווקו הוא ה-p האמיתי.';
+    else out.innerHTML = 'n = <b>' + n.toLocaleString() + '</b> הטלות, H = <b>' + heads.toLocaleString() + '</b><br>' +
+      'תדירות יחסית: <b>' + (heads / n).toFixed(4) + '</b> (p האמיתי = ' + p.toFixed(2) + ')<br>' +
+      'הפרש מוחלט |H − n·p| = <b>' + Math.abs(heads - n * p).toFixed(1) + '</b> (סדר גודל טיפוסי: √n ≈ ' + Math.sqrt(n).toFixed(0) + ') ' +
+      '<br><small>שים לב: ההפרש המוחלט לא הולך ל-0 — רק היחס.</small>';
+  }
+  document.querySelectorAll('#llnW .btn[data-n]').forEach(function (b) { b.addEventListener('click', function () { add(parseInt(b.dataset.n, 10)); }); });
+  document.getElementById('lReset').addEventListener('click', reset);
+  pIn.addEventListener('input', reset);
+  window.addEventListener('load', draw);
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+})();
+
+/* ============================ Counting calculator ============================ */
+(function () {
+  var nI = document.getElementById('cN'), kI = document.getElementById('cK'), T = document.getElementById('cT');
+  function fact(n) { var r = 1n; for (var i = 2n; i <= n; i++) r *= i; return r; }
+  function comma(b) { return b.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+  function update() {
+    var n = Math.max(0, Math.min(100, parseInt(nI.value, 10) || 0)), k = Math.max(0, Math.min(100, parseInt(kI.value, 10) || 0));
+    var N = BigInt(n), K = BigInt(k), na = '<span class="muted">לא מוגדר (k &gt; n)</span>';
+    var perm = k <= n ? fact(N) / fact(N - K) : null;
+    var comb = k <= n ? fact(N) / (fact(K) * fact(N - K)) : null;
+    var pow = N ** K;
+    var multi = (n + k - 1 >= 0 && n >= 1) ? fact(N + K - 1n) / (fact(K) * fact(N - 1n)) : (k === 0 ? 1n : 0n);
+    T.innerHTML = '<tr><th></th><th>בלי החזרה</th><th>עם החזרה</th></tr>' +
+      '<tr><th>סדר חשוב</th><td>' + (perm === null ? na : comma(perm)) + '</td><td>' + comma(pow) + '</td></tr>' +
+      '<tr><th>סדר לא חשוב</th><td>' + (comb === null ? na : comma(comb)) + '</td><td>' + comma(multi) + '</td></tr>';
+  }
+  nI.addEventListener('input', update); kI.addEventListener('input', update); update();
+})();
+
+/* ============================ Birthday paradox ============================ */
+(function () {
+  var cv = document.getElementById('bC'), ctx = cv.getContext('2d'), sl = document.getElementById('bN'), simTxt = '';
+  function pmatch(n) { var q = 1; for (var i = 0; i < n; i++) q *= (1 - i / 365); return 1 - q; }
+  function draw() {
+    var n = parseInt(sl.value, 10), W = cv.width, H = cv.height, L = 70, R = 20, Tp = 20, B = 50, pw = W - L - R, ph = H - Tp - B;
+    document.getElementById('bNv').textContent = n;
+    var fg = getComputedStyle(document.body).color, muted = getComputedStyle(document.documentElement).getPropertyValue('--muted').trim();
+    ctx.clearRect(0, 0, W, H); ctx.font = '22px sans-serif'; ctx.fillStyle = muted; ctx.strokeStyle = muted; ctx.lineWidth = 1;
+    var X = function (k) { return L + pw * (k - 1) / 79; }, Y = function (v) { return Tp + ph * (1 - v); };
+    [0, 0.25, 0.5, 0.75, 1].forEach(function (v) { ctx.globalAlpha = .25; ctx.beginPath(); ctx.moveTo(L, Y(v)); ctx.lineTo(W - R, Y(v)); ctx.stroke(); ctx.globalAlpha = 1; ctx.fillText(v.toFixed(2), 10, Y(v) + 7); });
+    [1, 10, 20, 30, 40, 50, 60, 70, 80].forEach(function (k) { ctx.fillText(k, X(k) - 10, H - 14); });
+    ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 4; ctx.beginPath();
+    for (var k = 1; k <= 80; k++) { var x = X(k), y = Y(pmatch(k)); if (k === 1) ctx.moveTo(x, y); else ctx.lineTo(x, y); }
+    ctx.stroke();
+    ctx.strokeStyle = '#ea580c'; ctx.lineWidth = 2; ctx.setLineDash([8, 6]);
+    ctx.beginPath(); ctx.moveTo(X(n), Y(0)); ctx.lineTo(X(n), Y(pmatch(n))); ctx.lineTo(L, Y(pmatch(n))); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = '#ea580c'; ctx.beginPath(); ctx.arc(X(n), Y(pmatch(n)), 9, 0, 2 * Math.PI); ctx.fill();
+    var pairs = n * (n - 1) / 2;
+    document.getElementById('bOut').innerHTML = 'ב-<b>' + n + '</b> אנשים: P(יש התאמה) = <span class="big">' + (100 * pmatch(n)).toFixed(1) + '%</span> &nbsp; (מספר זוגות: ' + pairs + ')' + simTxt;
+  }
+  document.getElementById('bSim').addEventListener('click', function () {
+    var n = parseInt(sl.value, 10), hits = 0, T = 2000;
+    for (var t = 0; t < T; t++) { var seen = {}, hit = false; for (var i = 0; i < n; i++) { var d = Math.floor(Math.random() * 365); if (seen[d]) { hit = true; break; } seen[d] = 1; } if (hit) hits++; }
+    simTxt = '<br>סימולציה (' + T.toLocaleString() + ' כיתות של ' + n + '): <b>' + (100 * hits / T).toFixed(1) + '%</b> עם התאמה.';
+    draw();
+  });
+  sl.addEventListener('input', function () { simTxt = ''; draw(); });
+  window.addEventListener('load', draw);
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+})();
+
+</script>
+<script>
+/* ============ "Build your own event" grid (section 2) ============ */
+(function () {
+  var T = document.getElementById('bldT'), out = document.getElementById('bldOut'), cells = [];
+  var html = '<tr><th></th>';
+  for (var j = 1; j <= 6; j++) html += '<th>' + j + '</th>';
+  html += '</tr>';
+  for (var i = 1; i <= 6; i++) {
+    html += '<tr><th>' + i + '</th>';
+    for (var jj = 1; jj <= 6; jj++) html += '<td data-i="' + i + '" data-j="' + jj + '" style="cursor:pointer">' + (i + '·' + jj).replace('·', ',') + '</td>';
+    html += '</tr>';
+  }
+  T.innerHTML = html;
+  T.querySelectorAll('td').forEach(function (td) { cells.push(td); td.addEventListener('click', function () { td.classList.toggle('res'); update(); }); });
+  function gcd(a, b) { return b ? gcd(b, a % b) : a; }
+  function update() {
+    var k = cells.filter(function (c) { return c.classList.contains('res'); }).length;
+    var g = k ? gcd(k, 36) : 1;
+    out.innerHTML = k === 0
+      ? 'לחץ על תאים כדי לבנות מאורע. כל תא הוא תוצאה: (קובייה ראשונה, קובייה שנייה).'
+      : 'בחרת <b>' + k + '</b> תוצאות מתוך 36 → <b>P = ' + k + '/36 = ' + (k / g) + '/' + (36 / g) + ' ≈ ' + (k / 36).toFixed(3) + '</b>. זה בדיוק "החלק היחסי של התאים".';
+  }
+  var PRE = { sum7: function (i, j) { return i + j === 7; }, dbl: function (i, j) { return i === j; }, ge10: function (i, j) { return i + j >= 10; }, all: function () { return true; }, clear: function () { return false; } };
+  document.querySelectorAll('#buildW .btn[data-pre]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var f = PRE[b.dataset.pre];
+      cells.forEach(function (c) { c.classList.toggle('res', f(+c.dataset.i, +c.dataset.j)); });
+      update();
+    });
+  });
+  update();
+})();
+
+/* ============ Live softmax (section 7) ============ */
+(function () {
+  var names = ['חתול', 'כלב', 'ארנב'];
+  var sl = [1, 2, 3].map(function (i) { return document.getElementById('smZ' + i); });
+  var T = document.getElementById('smT'), out = document.getElementById('smOut');
+  function update() {
+    var z = sl.map(function (s) { return parseFloat(s.value); });
+    var e = z.map(Math.exp);
+    var S = e.reduce(function (a, b) { return a + b; }, 0);
+    var p = e.map(function (x) { return x / S; });
+    var rows = '<tr><th>מחלקה</th><th>ציון z</th><th>e<sup>z</sup></th><th>הסתברות</th><th style="width:38%"></th></tr>';
+    for (var i = 0; i < 3; i++) {
+      rows += '<tr><td><b>' + names[i] + '</b></td><td>' + z[i].toFixed(1) + '</td><td>' + e[i].toFixed(2) + '</td><td><b>' + p[i].toFixed(3) + '</b></td>' +
+        '<td style="text-align:right"><div style="background:var(--accent);height:14px;border-radius:4px;width:' + (p[i] * 100).toFixed(1) + '%"></div></td></tr>';
+    }
+    rows += '<tr><th>סכום</th><th></th><th>' + S.toFixed(2) + '</th><th>' + p.reduce(function (a, b) { return a + b; }, 0).toFixed(3) + '</th><th></th></tr>';
+    T.innerHTML = rows;
+    out.innerHTML = 'P(חתול או כלב) = ' + p[0].toFixed(3) + ' + ' + p[1].toFixed(3) + ' = <b>' + (p[0] + p[1]).toFixed(3) + '</b> &nbsp;|&nbsp; בטריק המשלים: 1 − ' + p[2].toFixed(3) + ' = <b>' + (1 - p[2]).toFixed(3) + '</b>';
+  }
+  function shift(d) { sl.forEach(function (s) { s.value = Math.max(-4, Math.min(8, parseFloat(s.value) + d)); }); update(); }
+  sl.forEach(function (s) { s.addEventListener('input', update); });
+  document.getElementById('smPlus').addEventListener('click', function () { shift(1); });
+  document.getElementById('smMinus').addEventListener('click', function () { shift(-1); });
+  document.getElementById('smReset').addEventListener('click', function () { [2, 1, 0.1].forEach(function (v, i) { sl[i].value = v; }); update(); });
+  update();
+})();
+</script>
+</body>
+</html>

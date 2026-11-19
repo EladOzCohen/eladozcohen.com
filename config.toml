@@ -157,6 +157,11 @@ enableEmoji = true
     title = "Eureka - videos that actually teach"
     url = "/eureka/"
     weight = 5
+  [[menu.header]] #Probability: an interactive Hebrew course on probability for ML (static pages in static/probability/)
+    name = "Probability"
+    title = "Probability for Machine Learning (course, in Hebrew)"
+    url = "/probability/"
+    weight = 6
 #  [[menu.header]]
 #    name = "A collection"
 #    title = "A collection"
