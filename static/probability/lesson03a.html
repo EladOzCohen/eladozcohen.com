@@ -1,0 +1,930 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>שיעור 3א — משתנים מקריים בדידים</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<style>
+:root {
+  --bg: #fbfaf7; --fg: #1c1d21; --muted: #62666f; --card: #ffffff; --line: #e4e2db;
+  --accent: #2563eb; --accent-soft: #dbe7fe; --accent2: #ea580c;
+  --warn: #b45309; --warn-bg: #fef3dc;
+  --ok: #15803d; --ok-bg: #e2f5e8;
+  --bad: #b91c1c; --bad-bg: #fde4e4;
+  --ml: #6d28d9; --ml-bg: #efe8fd;
+  --trick: #0e7490; --trick-bg: #dff3f8;
+  --hist: #6b5a43; --hist-bg: #f1ebe0;
+  --def: #1d4ed8; --def-bg: #e6eefe;
+  --code-bg: #f3f1ec;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #14151a; --fg: #e8e8ea; --muted: #9a9ea8; --card: #1d1f26; --line: #2f323c;
+    --accent: #6ea0ff; --accent-soft: #1f2d4d; --accent2: #fb923c;
+    --warn: #fbbf4a; --warn-bg: #3a2c10;
+    --ok: #4ade80; --ok-bg: #12301d;
+    --bad: #f87171; --bad-bg: #3b1717;
+    --ml: #b69cff; --ml-bg: #281f45;
+    --trick: #5fd0e8; --trick-bg: #10303a;
+    --hist: #d9c4a3; --hist-bg: #2c261c;
+    --def: #8fb4ff; --def-bg: #1a2644;
+    --code-bg: #101116;
+  }
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font-family: "Segoe UI", Heebo, Arial, sans-serif; font-size: 18px; line-height: 1.8;
+}
+/* Math is always laid out left-to-right, even inside RTL (Hebrew) paragraphs. Without this the tokens of a
+   formula come out reversed ("120 = !5"). !important + descendants, so no other stylesheet can undo it;
+   common.js additionally sets the same thing inline on every rendered formula. */
+.katex, .katex * { direction: ltr !important; }
+.katex { unicode-bidi: isolate !important; font-size: 1.08em; }
+.katex-display { direction: ltr !important; unicode-bidi: isolate !important; margin: 1em 0; overflow-x: auto; overflow-y: hidden; }
+.wrap { max-width: 860px; margin: 0 auto; padding: 0 16px 80px; }
+header.hero { padding: 48px 16px 28px; border-bottom: 1px solid var(--line); background: linear-gradient(180deg, var(--accent-soft), transparent); }
+header.hero .wrap { padding-bottom: 0; }
+header.hero h1 { margin: 0 0 6px; font-size: 2.1rem; line-height: 1.3; }
+header.hero p { margin: 6px 0; color: var(--muted); }
+.crumb { font-size: .9rem; margin-bottom: 8px; }
+a { color: var(--accent); }
+nav.toc {
+  position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(6px); border-bottom: 1px solid var(--line);
+}
+nav.toc .wrap { display: flex; gap: 6px; overflow-x: auto; padding: 8px 16px; white-space: nowrap; }
+nav.toc a { font-size: .85rem; padding: 3px 10px; border-radius: 99px; background: var(--card); border: 1px solid var(--line); text-decoration: none; color: var(--fg); }
+nav.toc a:hover { border-color: var(--accent); color: var(--accent); }
+h2 { margin: 2.6em 0 .4em; font-size: 1.6rem; line-height: 1.35; padding-top: .4em; border-top: 1px solid var(--line); }
+h2 .num { display: inline-block; min-width: 1.9em; text-align: center; background: var(--accent); color: #fff; border-radius: 8px; font-size: 1.1rem; margin-left: 8px; padding: 0 6px; }
+h3 { margin: 1.8em 0 .3em; font-size: 1.2rem; }
+p, li { margin: .6em 0; }
+ul, ol { padding-inline-start: 1.4em; }
+.box { border-radius: 12px; padding: 12px 18px; margin: 1.2em 0; border-inline-start: 5px solid; }
+.box > .t { font-weight: 700; margin-bottom: 2px; }
+.box p:first-of-type { margin-top: .2em; } .box p:last-child, .box ul:last-child { margin-bottom: .2em; }
+.box.def { background: var(--def-bg); border-color: var(--def); } .box.def > .t { color: var(--def); }
+.box.intuition { background: var(--ok-bg); border-color: var(--ok); } .box.intuition > .t { color: var(--ok); }
+.box.warn { background: var(--warn-bg); border-color: var(--warn); } .box.warn > .t { color: var(--warn); }
+.box.trick { background: var(--trick-bg); border-color: var(--trick); } .box.trick > .t { color: var(--trick); }
+.box.ml { background: var(--ml-bg); border-color: var(--ml); } .box.ml > .t { color: var(--ml); }
+.box.history { background: var(--hist-bg); border-color: var(--hist); } .box.history > .t { color: var(--hist); }
+table.tbl { border-collapse: collapse; width: 100%; margin: 1em 0; font-size: .95rem; background: var(--card); border-radius: 10px; overflow: hidden; }
+table.tbl th, table.tbl td { border: 1px solid var(--line); padding: 6px 10px; text-align: center; }
+table.tbl th { background: var(--accent-soft); }
+.widget { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px 16px; margin: 1.4em 0; box-shadow: 0 1px 3px rgba(0,0,0,.05); }
+.widget > .wt { font-weight: 700; margin-bottom: 8px; }
+.widget .controls { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; margin: 8px 0; font-size: .95rem; }
+.widget .out { font-size: .95rem; color: var(--muted); margin-top: 6px; line-height: 1.7; }
+.widget .out b { color: var(--fg); }
+.widget canvas { width: 100%; height: auto; display: block; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 640px) { .grid2 { grid-template-columns: 1fr; } body { font-size: 17px; } }
+select, input[type=number] { font: inherit; font-size: .95rem; padding: 3px 6px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); }
+input[type=range] { vertical-align: middle; }
+.btn { font: inherit; font-size: .92rem; padding: 4px 12px; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent-soft); color: var(--fg); cursor: pointer; }
+.btn:hover { background: var(--accent); color: #fff; }
+.same { font-weight: 700; padding: 2px 10px; border-radius: 99px; }
+.same.yes { background: var(--ok-bg); color: var(--ok); } .same.no { background: var(--bad-bg); color: var(--bad); }
+table.dice { direction: ltr; border-collapse: separate; border-spacing: 3px; margin: 8px auto; }
+table.dice th { font-weight: 600; color: var(--muted); font-size: .85rem; width: 44px; }
+table.dice td { width: 44px; height: 44px; text-align: center; border-radius: 8px; background: var(--bg); border: 1px solid var(--line); font-size: .78rem; position: relative; line-height: 1.1; }
+table.dice td.res { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 700; }
+table.dice td .m { position: absolute; top: 1px; left: 3px; font-size: .62rem; opacity: .85; }
+table.dice td .m2 { position: absolute; top: 1px; right: 3px; font-size: .62rem; opacity: .85; }
+pre, code { direction: ltr; text-align: left; font-family: Consolas, "Cascadia Mono", monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--line); padding: 12px 14px; border-radius: 10px; overflow-x: auto; font-size: .9rem; line-height: 1.55; }
+code { background: var(--code-bg); padding: 1px 5px; border-radius: 5px; font-size: .88em; }
+pre code { background: none; padding: 0; }
+details { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 8px 14px; margin: .8em 0; }
+details summary { cursor: pointer; font-weight: 600; }
+details[open] summary { margin-bottom: 6px; }
+.ex { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 4px 16px 10px; margin: 1em 0; }
+.ex .q { font-weight: 600; }
+.quiz { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 8px 16px 14px; margin: 1em 0; }
+.quiz .opts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.quiz .opt { font: inherit; font-size: .95rem; padding: 6px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); cursor: pointer; }
+.quiz .opt:hover:not(:disabled) { border-color: var(--accent); }
+.quiz .opt.good { background: var(--ok-bg); border-color: var(--ok); color: var(--ok); font-weight: 700; }
+.quiz .opt.bad { background: var(--bad-bg); border-color: var(--bad); color: var(--bad); }
+.quiz .explain { margin-top: 8px; font-size: .95rem; color: var(--muted); }
+.cards { display: grid; gap: 12px; margin: 1em 0; }
+.card { display: block; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 16px; text-decoration: none; color: var(--fg); }
+a.card:hover { border-color: var(--accent); transform: translateY(-1px); }
+.card .n { color: var(--accent); font-weight: 700; font-size: .85rem; }
+.card h3 { margin: 0 0 2px; font-size: 1.1rem; }
+.card p { margin: 2px 0; color: var(--muted); font-size: .92rem; line-height: 1.6; }
+.card .mlhook { color: var(--ml); font-size: .9rem; }
+.card.soon { opacity: .6; }
+.tag { display: inline-block; font-size: .72rem; padding: 0 8px; border-radius: 99px; background: var(--ok-bg); color: var(--ok); margin-inline-start: 6px; }
+.tag.soon { background: var(--line); color: var(--muted); }
+.pager { display: flex; justify-content: space-between; margin-top: 3em; gap: 10px; }
+.muted { color: var(--muted); }
+.big { font-size: 1.6rem; font-weight: 700; color: var(--accent); }
+
+.ex .tg { font-size: .78rem; padding: 0 9px; border-radius: 99px; background: var(--accent-soft); color: var(--accent); margin-inline-start: 6px; font-weight: 600; white-space: nowrap; }
+.box.bridge { background: var(--card); border-color: var(--accent); border-inline-start-width: 5px; }
+.box.bridge > .t { color: var(--accent); }
+ol.story { counter-reset: s; list-style: none; padding: 0; }
+ol.story li { counter-increment: s; position: relative; padding: 6px 44px 6px 10px; margin: 6px 0; background: var(--card); border: 1px solid var(--line); border-radius: 10px; }
+ol.story li::before { content: counter(s); position: absolute; right: 10px; top: 6px; width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: #fff; font-size: .85rem; text-align: center; line-height: 24px; font-weight: 700; }
+.q-lead { font-size: 1.25rem; font-weight: 700; color: var(--accent); margin: .2em 0 .4em; }
+
+table.dice td.dim { opacity: .25; }
+table.dice td.inb { background: var(--accent-soft); border-color: var(--accent); }
+table.dice td.ca { background: rgba(37,99,235,.35); }
+table.dice td.cb { background: rgba(234,88,12,.35); }
+table.dice td.cab { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 700; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: .88rem; margin: 6px 0; }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-inline-end: 5px; vertical-align: -1px; }
+.treeSvg { width: 100%; max-width: 660px; height: auto; display: block; margin: 10px auto; direction: ltr; }
+.treeSvg text { fill: var(--fg); font-family: "Segoe UI", Heebo, Arial, sans-serif; }
+.treeSvg line { stroke: var(--muted); stroke-width: 1.6; }
+.treeSvg .hl { fill: var(--accent); font-weight: 700; }
+
+</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script>
+// Shared helpers for the probability course.
+
+// The pages are RTL, and canvas text inherits that direction: with the default textAlign the text
+// would be drawn to the left of its x coordinate and get clipped at the canvas edge.
+// Force LTR drawing for every 2D context; labels in our canvases are numbers and Latin text.
+(function () {
+  var orig = HTMLCanvasElement.prototype.getContext;
+  HTMLCanvasElement.prototype.getContext = function (type, opts) {
+    var c = orig.call(this, type, opts);
+    if (c && type === '2d' && !c.__ltrSet) { c.direction = 'ltr'; c.textAlign = 'left'; c.__ltrSet = true; }
+    return c;
+  };
+})();
+
+(function () {
+  function renderMath() {
+    if (!window.renderMathInElement) return;
+    window.renderMathInElement(document.body, {
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '$', right: '$', display: false }
+      ],
+      throwOnError: false
+    });
+    hardenMathDirection();
+  }
+
+  // Belt and braces for RTL pages: force left-to-right on every rendered formula, inline and !important,
+  // so a missing or overridden stylesheet (or an RTL-forcing extension/viewer) cannot reverse the tokens.
+  function hardenMathDirection() {
+    document.querySelectorAll('.katex-display, .katex').forEach(function (el) {
+      el.setAttribute('dir', 'ltr');
+      el.style.setProperty('direction', 'ltr', 'important');
+      el.style.setProperty('unicode-bidi', 'isolate', 'important');
+    });
+    document.querySelectorAll('.katex *').forEach(function (el) {
+      el.style.setProperty('direction', 'ltr', 'important');
+    });
+    // Keep short inline formulas on one line: KaTeX may otherwise wrap "10! = 3,628,800" after the "=",
+    // which reads very oddly inside a right-to-left paragraph. Long formulas are left free to wrap.
+    document.querySelectorAll('.katex').forEach(function (el) {
+      if (el.closest('.katex-display')) return;
+      var h = el.querySelector('.katex-html'), p = el.closest('p, li, td, th, div, h3, summary');
+      if (!h || !p) return;
+      h.style.whiteSpace = 'nowrap';
+      if (el.getBoundingClientRect().width > p.clientWidth - 4) h.style.whiteSpace = '';
+    });
+  }
+  window.addEventListener('load', renderMath);
+
+  // Simple multiple-choice quizzes: <div class="quiz"> ... <button class="opt" data-ok="1"> ... <div class="explain" hidden>
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var opts = q.querySelectorAll('.opt');
+      opts.forEach(function (b) {
+        b.addEventListener('click', function () {
+          opts.forEach(function (x) { x.disabled = true; });
+          if (b.dataset.ok) b.classList.add('good'); else b.classList.add('bad');
+          var right = q.querySelector('.opt[data-ok]');
+          if (right) right.classList.add('good');
+          var ex = q.querySelector('.explain');
+          if (ex) ex.hidden = false;
+        });
+      });
+    });
+  });
+
+  window.gcd = function gcd(a, b) { return b ? gcd(b, a % b) : a; };
+  window.frac = function (c, n) {
+    if (c === 0) return '0';
+    var g = window.gcd(c, n);
+    return (c / g) + '/' + (n / g);
+  };
+  window.cssVar = function (name) {
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  };
+})();
+
+</script>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <div class="crumb"><a href="index.html">← מפת הדרכים</a> &nbsp;·&nbsp; <a href="https://eladozcohen.com/">eladozcohen.com</a></div>
+    <h1>שיעור 3א — משתנים מקריים בדידים</h1>
+    <p>ממאורעות למספרים: משתנה מקרי, פונקציית הסתברות (PMF), טור הנדסי, התפלגות גיאומטרית, פונקציית התפלגות מצטברת (CDF), דגימה, ו-softmax עם טמפרטורה. זמן משוער: כ-2.5 שעות כולל התרגול.</p>
+  </div>
+</header>
+<nav class="toc"><div class="wrap">
+  <a href="#story">הסיפור</a><a href="#s1">1 משתנה מקרי</a><a href="#s2">2 PMF</a><a href="#s3">3 אינסוף וטור הנדסי</a>
+  <a href="#s4">4 CDF</a><a href="#s5">5 פונקציות וסכומים</a><a href="#s6">6 ML</a><a href="#mixed">תרגול משולב</a><a href="#sum">סיכום</a>
+</div></nav>
+
+<div class="wrap">
+
+<!-- ======================= STORY ======================= -->
+<h2 id="story"><span class="num">★</span>הסיפור של השיעור</h2>
+<p>בשיעורים 1–2 דיברנו על <b>מאורעות</b>: "יצא זוגי", "הבדיקה חיובית". אבל בפועל מה שמעניין אותנו הוא לא רק "האם קרה משהו", אלא <b>מספרים</b>: הסכום של שתי קוביות, מספר העצים ב-10 הטלות, כמה צעדים עד שהמודל מסיים משפט. בשיעור הזה נלמד לדבר על מספרים כאלה בצורה מדויקת.</p>
+
+<div class="box intuition"><div class="t">📋 תזכורת קצרה (למקרה שעבר זמן)</div>
+<ul>
+<li>מרחב המדגם $\Omega$ הוא קבוצת כל התוצאות האפשריות; מאורע הוא תת-קבוצה שלו. $P(A)$ הוא ה"חלק היחסי" של $A$.</li>
+<li>אקסיומות: $P(A)\ge0$, $P(\Omega)=1$, ולמאורעות <b>זרים</b> (בלי תוצאה משותפת) $P(A\cup B)=P(A)+P(B)$.</li>
+<li>שני מאורעות הם <b>בלתי-תלויים</b> אם $P(A\cap B)=P(A)\cdot P(B)$ (ידיעה על אחד לא משנה את השני).</li>
+<li>$P(A\mid B)$ הוא הסיכוי של $A$ בהינתן ש-$B$ קרה; $P(A^c)=1-P(A)$.</li>
+</ul></div>
+
+<ol class="story">
+  <li>איך הופכים "מה שיצא בניסוי" ל<b>מספר</b>? <span class="muted">← משתנה מקרי</span></li>
+  <li>איך מתארים את "ההתנהגות" של מספר כזה? <span class="muted">← פונקציית ההסתברות (PMF) וההתפלגות</span></li>
+  <li>מה כשיש <b>אינסוף</b> ערכים אפשריים ("הטלות עד העץ הראשון")? <span class="muted">← סכום אינסופי, טור הנדסי, התפלגות גיאומטרית</span></li>
+  <li>איך עונים על "מה הסיכוי שהמספר <b>קטן או שווה</b> ל-$x$"? <span class="muted">← פונקציית ההתפלגות המצטברת (CDF)</span></li>
+  <li>מה קורה כשמפעילים <b>פונקציה</b> על משתנה, או <b>מחברים</b> שני משתנים? <span class="muted">← התפלגות של $g(X)$, וסכום של בלתי-תלויים</span></li>
+  <li>ומה זה קשור ל-<b>ML</b>? <span class="muted">← דגימה מהתפלגות, softmax עם טמפרטורה, ומה זה בעצם "אקראי" במודל שפה</span></li>
+</ol>
+
+<div class="box trick"><div class="t">🧰 כלי מתמטי חדש בשיעור הזה: סכום אינסופי וטור הנדסי</div>
+<p>בסעיף 3 נלמד, מאפס ובקצב איטי, מה זה סכום של אינסוף מספרים, ואיך מחשבים אחד שחוזר בכל הסתברות: $1+r+r^2+\cdots$. לא צריך שום ידע קודם בסדרות, רק מושג הגבול מחדוא 1.</p></div>
+
+<!-- ======================= S1 ======================= -->
+<h2 id="s1"><span class="num">1</span>משתנה מקרי: ממאורעות למספרים</h2>
+<p class="q-lead">❓ בהטלת שתי קוביות לא מעניין אותי איזו תוצאה בדיוק יצאה, אלא מה הסכום שלהן. איך מדברים על "הסכום" כעל אובייקט בפני עצמו?</p>
+<p>נלך בשלבים: (1) ההגדרה, (2) מאורעות שנגזרים ממשתנה, (3) מעבדה על הקוביות, (4) מלכודות נפוצות.</p>
+
+<h3>שלב 1: ההגדרה</h3>
+<p>ניקח את טבלת 36 התאים של שתי קוביות. כל תא הוא תוצאה $(i,j)$. הסכום $i+j$ הוא <b>מספר שנקבע על ידי התוצאה</b>: אם התוצאה היא $(3,5)$ הסכום הוא 8. כלומר הסכום הוא <i>פונקציה</i> שמקבלת תוצאה ומחזירה מספר. את זה מכלילים:</p>
+<div class="box def"><div class="t">📐 משתנה מקרי (random variable)</div>
+<p><b>משתנה מקרי</b> הוא פונקציה $X$ שמצמידה לכל תוצאה $\omega\in\Omega$ מספר ממשי:</p>
+$$X:\Omega\to\mathbb R,\qquad \omega\mapsto X(\omega).$$
+<p>($\mathbb R$ הוא קבוצת כל המספרים הממשיים.) הכלל לסימון: <b>אות גדולה</b> ($X$, $Y$) למשתנה עצמו, ו<b>אות קטנה</b> ($x$, $y$) לערך מסוים שהוא יכול לקבל.</p></div>
+<p><b>דוגמאות:</b></p>
+<table class="tbl">
+  <tr><th>הניסוי</th><th>המשתנה המקרי</th><th>ערכים אפשריים</th></tr>
+  <tr><td>שתי קוביות</td><td>$X(i,j)=i+j$ (הסכום)</td><td>$2,3,\dots,12$</td></tr>
+  <tr><td>שתי קוביות</td><td>$M(i,j)=\max(i,j)$</td><td>$1,\dots,6$</td></tr>
+  <tr><td>3 הטלות מטבע</td><td>$N$ = מספר העצים</td><td>$0,1,2,3$</td></tr>
+  <tr><td>הטלות עד העץ הראשון</td><td>$T$ = מספר ההטלות</td><td>$1,2,3,\dots$ (אינסוף)</td></tr>
+</table>
+<div class="box intuition"><div class="t">💡 המשתנה האינדיקטורי: הגשר בין מאורעות למספרים</div>
+<p>לכל מאורע $A$ יש משתנה מקרי שמסמן אותו: $I_A(\omega)=1$ אם $\omega\in A$ ו-$I_A(\omega)=0$ אחרת ("אינדיקטור"). למשל $A$ = "הסכום ≥ 10": $I_A=1$ בדיוק בתאים של $A$. אינדיקטור הוא פשוט "האם זה קרה: 1 או 0". זה המשתנה שמסתתר מאחורי המשפט "הסתברות = ממוצע של אינדיקטור" מהשיעור הראשון, והוא יופיע שוב ושוב ב-ML (accuracy הוא ממוצע של אינדיקטורים).</p></div>
+
+<h3>שלב 2: מאורעות שנגזרים ממשתנה</h3>
+<p>עכשיו אפשר לשאול שאלות על המשתנה, והן הופכות בדיוק למאורעות מהשיעורים הקודמים:</p>
+<div class="box def"><div class="t">📐 ההסתברות ש-$X$ שווה ל-$x$</div>
+$$\{X=x\}=\{\omega\in\Omega:\ X(\omega)=x\}\ ,\qquad P(X=x)=P\big(\{X=x\}\big).$$
+<p>המאורע $\{X=x\}$ הוא קבוצת כל התוצאות שהמשתנה שולח ל-$x$. בדומה אפשר לדבר על $\{X\le x\}$, $\{a&lt;X\le b\}$ וכן הלאה.</p></div>
+<p><b>דוגמה:</b> $X$ = סכום שתי קוביות. המאורע $\{X=7\}$ הוא $\{(1,6),(2,5),(3,4),(4,3),(5,2),(6,1)\}$: 6 תאים מתוך 36, ולכן $P(X=7)=\frac6{36}=\frac16$.</p>
+
+<h3>שלב 3: מעבדה</h3>
+<div class="widget" id="rvW">
+  <div class="wt">🎲 משתנה מקרי על שתי קוביות: מהתא אל המספר</div>
+  <div class="controls"><label>המשתנה X: <select id="rvX"></select></label></div>
+  <table class="dice" id="rvGrid"></table>
+  <canvas id="rvC" width="1000" height="320"></canvas>
+  <div class="out" id="rvOut"></div>
+  <div class="out"><b>איך משתמשים:</b> בכל תא כתוב הערך של $X$ בתוצאה הזו. לחץ על עמודה בגרף כדי לבחור ערך $x$: התאים שמקבלים אותו נדלקים בטבלה, והגובה של העמודה הוא (מספר התאים)/36. <b>נסה:</b> בחר "הסכום" ולחץ על העמודות 7 ואז 2. אחר כך "המקסימום" ו"מספר ה-6" וראה איך הצורה משתנה.</div>
+</div>
+
+<h3>שלב 4: מלכודות נפוצות</h3>
+<div class="box warn"><div class="t">⚠️ אי-הבנה 1: $X$ היא פונקציה, לא מספר</div>
+<p>למרות השם "משתנה", $X$ הוא פונקציה על מרחב המדגם. לפני הניסוי אין לה "ערך"; אחרי שיוצאת תוצאה $\omega$, הערך הוא $X(\omega)$. לכן כותבים $P(X=7)$ ולא "$X$ שווה 7" כאילו זה משוואה רגילה: זה סימון מקוצר למאורע $\{X=7\}$.</p></div>
+<div class="box warn"><div class="t">⚠️ אי-הבנה 2: "אותה התפלגות" אינו "אותו משתנה"</div>
+<p>$X$ = הקובייה הראשונה, $Y$ = הקובייה השנייה. לשתיהן אותה התפלגות (כל ערך 1 עד 6 בסיכוי $\frac16$), אבל הן <b>לא</b> אותו משתנה: $X=Y$ רק בדאבלים, כלומר ב-$\frac{6}{36}$ מהתוצאות. נחזור לזה בסעיף 2: זה מה שמאחורי המילים "identically distributed" ב-ML.</p></div>
+
+<h3>תרגול לסעיף 1</h3>
+<div class="ex">
+  <p class="q">תרגיל 1.1 <span class="tg">מאורע שנגזר ממשתנה</span> ⭐<br>שתי קוביות, $M=\max(i,j)$. כמה תאים יש במאורע $\{M=3\}$? מה $P(M=3)$?</p>
+  <details><summary>רמז</summary><p>המקסימום הוא 3 כשלפחות קובייה אחת היא 3 ושתיהן ≤3. ספור בטבלה.</p></details>
+  <details><summary>פתרון</summary><p>התאים: $(3,1),(3,2),(3,3),(1,3),(2,3)$, כלומר 5. $P(M=3)=\frac5{36}$. (הדרך הקצרה: תאים עם $\max\le3$ הם $3^2=9$, עם $\max\le2$ הם $2^2=4$, והפרשם $9-4=5$.)</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 1.2 <span class="tg">אינדיקטור</span> ⭐<br>$A$ = "הסכום ≥ 10". מהם הערכים של $I_A$, ומה $P(I_A=1)$?</p>
+  <details><summary>פתרון</summary><p>$I_A\in\{0,1\}$. $\{I_A=1\}=A$, שבו 6 תאים: $P(I_A=1)=\frac6{36}=\frac16$ ו-$P(I_A=0)=\frac56$.</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 1.3 <span class="tg">מציאת טעות</span> ⭐⭐<br>דנה אומרת: "$X$ היא הקובייה הראשונה ו-$Y$ השנייה. שתיהן קוביות הוגנות, ולכן $X=Y$." מה הטעות? כמה היא $P(X=Y)$?</p>
+  <details><summary>פתרון</summary><p>היא מבלבלת בין "אותה התפלגות" ל"אותו משתנה". $X=Y$ הוא מאורע (קבוצת התוצאות שבהן הקוביות זהות): 6 דאבלים מתוך 36, ולכן $P(X=Y)=\frac16$.</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 1.4 <span class="tg">רשימת המאורעות</span> ⭐⭐<br>מטילים מטבע הוגן 3 פעמים, ו-$N$ הוא מספר העצים. רשום את המאורע $\{N=2\}$ כקבוצה, ואת $P(N=2)$.</p>
+  <details><summary>פתרון</summary><p>$\{N=2\}=\{HHT,HTH,THH\}$ מתוך 8 תוצאות שוות-סיכוי. $P(N=2)=\frac38$. (בדוגמה הזו $\binom32=3$: "בחר מקומות" לעצים.)</p></details>
+</div>
+
+<div class="box bridge"><div class="t">🔗 איפה אנחנו בסיפור</div>
+<p>יש לנו משתנים מקריים. כדי לתאר "איך הם מתנהגים", מספיק לדעת <b>את ההסתברות לכל ערך</b>. זו ההתפלגות.</p></div>
+
+<!-- ======================= S2 ======================= -->
+<h2 id="s2"><span class="num">2</span>פונקציית ההסתברות (PMF) וההתפלגות</h2>
+<p class="q-lead">❓ אם אני רוצה לתאר משתנה מקרי למישהו אחר בלי לתת לו את כל מרחב המדגם, מה המידע המינימלי שאני צריך להעביר?</p>
+
+<h3>שלב 1: ההגדרה</h3>
+<div class="box def"><div class="t">📐 PMF (probability mass function)</div>
+<p>משתנה מקרי $X$ הוא <b>בדיד</b> אם הוא מקבל מספר סופי של ערכים, או אינסוף ערכים שאפשר "למנות" ברשימה ($1,2,3,\dots$). עבורו, <b>פונקציית ההסתברות</b> היא</p>
+$$p_X(x)=P(X=x).$$
+<p>(כשברור על איזה משתנה מדברים כותבים פשוט $p(x)$.) הערכים האפשריים נקראים ה"תומך" (support).</p></div>
+
+<h3>שלב 2: שלוש תכונות</h3>
+<p>כל PMF חייבת לקיים (ומשתנה בדיד שאפשר לבנות ממנה הוא חוקי):</p>
+<ol>
+  <li><b>אי-שליליות:</b> $p(x)\ge0$ לכל $x$.</li>
+  <li><b>נרמול:</b> $\displaystyle\sum_{x}p(x)=1$. (הסימון $\sum_x$ פירושו "סכום על כל הערכים האפשריים". הסיבה: המאורעות $\{X=x\}$ זרים זה לזה, ויחד הם מכסים את כל $\Omega$, ולכן סכום הסתברויותיהם הוא $P(\Omega)=1$.)</li>
+  <li><b>הסתברות של קבוצת ערכים:</b> לכל קבוצה $B$ של מספרים, $\displaystyle P(X\in B)=\sum_{x\in B}p(x)$. (אקסיומת החיבור על המאורעות הזרים.)</li>
+</ol>
+<p><b>דוגמה, הסכום של שתי קוביות.</b> ספרנו (בעזרת המעבדה למעלה): $p(2)=\frac1{36}$, $p(3)=\frac2{36}$, ..., $p(7)=\frac6{36}$, ..., $p(12)=\frac1{36}$. יש נוסחה מסודרת:</p>
+$$p(s)=\frac{6-|s-7|}{36},\qquad s=2,3,\dots,12.$$
+<p>בדיקה: $s=7$ נותן $\frac6{36}$ ✔, $s=2$ נותן $\frac{6-5}{36}=\frac1{36}$ ✔. והסכום $1+2+3+4+5+6+5+4+3+2+1=36$, לכן $\sum_sp(s)=1$ ✔. ו-$P(X\ge10)=p(10)+p(11)+p(12)=\frac{3+2+1}{36}=\frac16$.</p>
+
+<h3>שלב 3: ההתפלגות היא כל הסיפור</h3>
+<p>ה-PMF מכילה <b>כל</b> מה שצריך כדי לחשב הסתברות של כל שאלה על $X$. לכן אומרים ש-$p$ היא <b>ההתפלגות</b> (distribution) של $X$. שני משתנים עם אותה PMF "מתפלגים אותו דבר", גם אם הם פונקציות שונות לגמרי על $\Omega$ (תזכורת: שתי הקוביות שונות אבל מתפלגות זהה).</p>
+
+<h3>שלב 4: כמה התפלגויות בסיסיות</h3>
+<table class="tbl">
+  <tr><th>שם</th><th>הערכים</th><th>ה-PMF</th><th>דוגמה</th></tr>
+  <tr><td><b>ברנולי</b> (Bernoulli) עם פרמטר $p$</td><td>$0,1$</td><td>$p(1)=p$, $p(0)=1-p$</td><td>הצלחה/כישלון; אינדיקטור של מאורע</td></tr>
+  <tr><td><b>אחידה</b> על $\{1,\dots,n\}$</td><td>$1,\dots,n$</td><td>$p(x)=\frac1n$</td><td>קובייה הוגנת ($n=6$)</td></tr>
+  <tr><td><b>בינומית</b> ($n$ ניסיונות)</td><td>$0,\dots,n$</td><td>$\binom nkp^k(1-p)^{n-k}$</td><td>מספר העצים ב-$n$ הטלות (בשיעור 5)</td></tr>
+</table>
+<p>(אינדיקטור של מאורע $A$ הוא ברנולי עם $p=P(A)$.)</p>
+
+<div class="box ml"><div class="t">🤖 קשר ל-ML</div>
+<p>פלט של מסווג עם $K$ מחלקות הוא בעצם <b>PMF</b> על $\{1,\dots,K\}$: מספרים אי-שליליים שסכומם 1 (זה ה-softmax). והתווית האמיתית של דוגמה היא PMF "חדה": כל ההסתברות על המחלקה הנכונה ו-0 על כל האחרות (one-hot). האימון הוא ניסיון להפוך את ה-PMF של המודל לדומה ככל האפשר ל-PMF החדה הזו. ו"i.i.d." ב-ML אומר: משתנים בלתי-תלויים ו<b>בעלי אותה התפלגות</b>, בדיוק המושג משלב 3.</p></div>
+
+<h3>תרגול לסעיף 2</h3>
+<div class="ex">
+  <p class="q">תרגיל 2.1 <span class="tg">בדיקת PMF</span> ⭐<br>נתון $p(1)=0.2$, $p(2)=0.5$, $p(3)=c$ (ואין ערכים אחרים). מצא את $c$ ואת $P(X\ge2)$.</p>
+  <details><summary>פתרון</summary><p>הנרמול: $0.2+0.5+c=1$, לכן $c=0.3$. $P(X\ge2)=p(2)+p(3)=0.8$ (או: $1-p(1)$).</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 2.2 <span class="tg">גזירת PMF</span> ⭐⭐<br>מצא את ה-PMF של $M=\max(i,j)$ בשתי קוביות, ובדוק שהסכום 1.</p>
+  <details><summary>רמז</summary><p>כמה תאים יש ב-$\{M\le m\}$? ($m^2$.) אז $\{M=m\}$ הוא ההפרש בין $\{M\le m\}$ ל-$\{M\le m-1\}$.</p></details>
+  <details><summary>פתרון</summary><p>$|\{M=m\}|=m^2-(m-1)^2=2m-1$, לכן $p(m)=\frac{2m-1}{36}$ ל-$m=1,\dots,6$: $\frac1{36},\frac3{36},\frac5{36},\frac7{36},\frac9{36},\frac{11}{36}$. הסכום $1+3+5+7+9+11=36$ ✔.</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 2.3 <span class="tg">אותה התפלגות, משתנים שונים</span> ⭐⭐<br>$X$ היא קובייה הוגנת, ו-$Y=7-X$. הראה שלשניהם אותה PMF, ושהם אף פעם לא שווים.</p>
+  <details><summary>פתרון</summary><p>$Y$ מקבל את הערכים $6,5,\dots,1$ כשהקובייה היא $1,\dots,6$: כל ערך $y$ מ-1 עד 6 מתקבל בדיוק כש-$X=7-y$, בסיכוי $\frac16$. אותה PMF. אבל $X=Y$ אומר $X=7-X$, כלומר $X=3.5$, בלתי אפשרי. לכן $P(X=Y)=0$.</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 2.4 <span class="tg">PMF מספירה</span> ⭐<br>3 הטלות של מטבע הוגן, $N$ מספר העצים. מהו ה-PMF, ומהי $P(N\ge1)$?</p>
+  <details><summary>פתרון</summary><p>$p(0)=\frac18$, $p(1)=\frac38$, $p(2)=\frac38$, $p(3)=\frac18$ (ספירה: $\binom3k/8$). סכום 1. $P(N\ge1)=1-p(0)=\frac78$ (משלים).</p></details>
+</div>
+
+<div class="box bridge"><div class="t">🔗 איפה אנחנו בסיפור</div>
+<p>הכל נראה בסדר כל עוד יש מספר סופי של ערכים. אבל מה עם "מספר ההטלות עד העץ הראשון"? אין לו מקסימום. כדי לבדוק שהסתברויותיו מסתכמות ל-1, נצטרך לסכום <b>אינסוף</b> מספרים. זה מביא אותנו לכלי המתמטי החדש.</p></div>
+
+<!-- ======================= S3 ======================= -->
+<h2 id="s3"><span class="num">3</span>אינסוף ערכים: סכום אינסופי, טור הנדסי והתפלגות גיאומטרית</h2>
+<p class="q-lead">❓ מטילים מטבע הוגן עד שיוצא עץ. $T$ הוא מספר ההטלות. מה ה-PMF של $T$, והאם היא מסתכמת ל-1?</p>
+<p>נלך בשלבים: (1) ה-PMF, (2) מהו סכום אינסופי, (3) הטור ההנדסי, (4) ההתפלגות הגיאומטרית, (5) "חוסר זיכרון".</p>
+
+<h3>שלב 1: ה-PMF של "מספר ההטלות עד העץ הראשון"</h3>
+<p>כדי ש-$T=k$ צריך ש-$k-1$ ההטלות הראשונות יהיו פלי וההטלה ה-$k$ עץ. ההטלות בלתי-תלויות, לכן מכפילים:</p>
+$$P(T=k)=\underbrace{\tfrac12\cdot\tfrac12\cdots\tfrac12}_{k-1}\cdot\tfrac12=\left(\tfrac12\right)^{k},\qquad k=1,2,3,\dots$$
+<p>כלומר $P(T=1)=\frac12$, $P(T=2)=\frac14$, $P(T=3)=\frac18$, ... האם הסכום הוא 1? כלומר האם $\frac12+\frac14+\frac18+\cdots=1$? זה סכום של אינסוף מספרים.</p>
+
+<h3>שלב 2: מהו סכום אינסופי?</h3>
+<p>אי אפשר "לחבר אינסוף מספרים" בפועל, ולכן מגדירים זאת בעזרת מושג שאתה כבר מכיר, <b>גבול</b>:</p>
+<div class="box def"><div class="t">📐 סכום אינסופי (טור)</div>
+<p>הסכום של $a_1,a_2,a_3,\dots$ מוגדר דרך <b>הסכומים החלקיים</b> $S_n=a_1+a_2+\cdots+a_n$ (סכום $n$ האיברים הראשונים):</p>
+$$\sum_{k=1}^{\infty}a_k\;=\;\lim_{n\to\infty}S_n.$$
+<p>אם הגבול קיים (מספר סופי), אומרים שהטור <b>מתכנס</b> והגבול הוא סכומו. אחרת הוא <b>מתבדר</b>.</p></div>
+<div class="box intuition"><div class="t">💡 אינטואיציה: מקל באורך 1</div>
+<p>קח מקל באורך 1. שבור חצי ותניח אותו (אורך $\frac12$). משארית המקל שבור שוב חצי ($\frac14$), ושוב ($\frac18$)... הסכומים החלקיים הם $\frac12,\ \frac34,\ \frac78,\ \frac{15}{16},\dots$. כל אחד חסר בדיוק "הזנב" שנשאר ביד. ככל שממשיכים הזנב מתכווץ לאפס, והסכומים החלקיים מתקרבים ל-1. לכן $\frac12+\frac14+\frac18+\cdots=1$.</p></div>
+
+<h3>שלב 3: הטור ההנדסי</h3>
+<p>החצאים הם מקרה פרטי של סכום שמופיע בכל מקום בהסתברות: $1+r+r^2+r^3+\cdots$, כשכל איבר הוא פעמים $r$ הקודם. נחשב את הסכום החלקי, בטריק יפה:</p>
+<div class="box def"><div class="t">📐 הסכום החלקי של טור הנדסי</div>
+<p>נסמן $S_n=1+r+r^2+\cdots+r^n$. נכפול ב-$r$: $rS_n=r+r^2+\cdots+r^{n+1}$. נחסיר: כמעט כל האיברים מצטמצמים, ונשארים רק הראשון והאחרון:</p>
+$$S_n-rS_n=1-r^{n+1}\ \Longrightarrow\ S_n=\frac{1-r^{n+1}}{1-r}\qquad(r\ne1).$$</div>
+<p>עכשיו נשאיף $n\to\infty$. אם $|r|&lt;1$ אז $r^{n+1}\to0$ (חזקה של מספר קטן מ-1 בערך מוחלט שואפת לאפס), ונקבל:</p>
+<div class="box def"><div class="t">📐 הטור ההנדסי</div>
+$$\sum_{k=0}^{\infty}r^k=\frac{1}{1-r}\qquad\text{לכל }|r|&lt;1.$$
+<p>ואם $|r|\ge1$ הטור <b>מתבדר</b> (האיברים לא קטנים, והסכומים החלקיים לא מתקרבים לשום מספר).</p></div>
+<p><b>שלוש צורות שימושיות</b> (כולן נובעות מהנוסחה על ידי הוצאת גורם משותף):</p>
+$$\sum_{k=1}^{\infty}r^k=\frac{r}{1-r}\ ,\qquad \sum_{k=m}^{\infty}r^k=\frac{r^m}{1-r}\ \ (\text{"זנב"})\ ,\qquad \sum_{k=0}^{\infty}a\,r^k=\frac{a}{1-r}.$$
+<p><b>בדיקה עם החצאים:</b> $\sum_{k=1}^\infty(\frac12)^k=\frac{1/2}{1-1/2}=1$ ✔. ולכן ה-PMF של "הטלות עד העץ" מסתכמת ל-1, כפי שצריך.</p>
+
+<div class="widget" id="gsW">
+  <div class="wt">📈 סכומים חלקיים של $1+r+r^2+\cdots$</div>
+  <div class="controls"><label>r = <input type="range" id="gsR" min="-1.2" max="1.2" step="0.05" value="0.5"> <b id="gsRv">0.50</b></label></div>
+  <canvas id="gsC" width="1000" height="320"></canvas>
+  <div class="out" id="gsOut"></div>
+  <div class="out"><b>נסה:</b> r=0.5 (מתכנס ל-2). r=0.9 (מתכנס ל-10, אבל לאט). r=−0.5 (מתנדנד ומתכנס ל-2/3). r=1 (גדל בלי גבול). r=−1 (מתנדנד בין 1 ל-0). r=1.1 (מתפוצץ).</div>
+</div>
+<div class="box warn"><div class="t">⚠️ אי-הבנה: "האיברים שואפים לאפס" לא מספיק</div>
+<p>כדי שטור יתכנס צריך שהאיברים ישאפו ל-0, אבל זה <b>לא מספיק</b>. דוגמה: הטור $1+\frac12+\frac13+\frac14+\cdots$ (הטור ההרמוני) <i>מתבדר</i> למרות שהאיברים שואפים לאפס. בקורס הזה נשתמש כמעט רק בטור ההנדסי, שאת התכנסותו בדקנו לעומק.</p></div>
+
+<h3>שלב 4: ההתפלגות הגיאומטרית</h3>
+<div class="box def"><div class="t">📐 התפלגות גיאומטרית</div>
+<p>מבצעים ניסיונות בלתי-תלויים, בכל אחד הצלחה בסיכוי $p$ ($0&lt;p\le1$) וכישלון בסיכוי $q=1-p$. $X$ = מספר הניסיונות עד ההצלחה הראשונה (כולל אותה). אז</p>
+$$P(X=k)=q^{k-1}\,p,\qquad k=1,2,3,\dots$$
+<p>(בעץ הוגן: $p=q=\frac12$, ויוצא $(\frac12)^k$ כמו קודם.)</p></div>
+<p><b>נרמול (בעזרת הטור ההנדסי):</b> $\displaystyle\sum_{k=1}^\infty q^{k-1}p=p\sum_{j=0}^\infty q^j=\frac{p}{1-q}=\frac pp=1$ ✔ (הצבנו $j=k-1$).</p>
+<p><b>הזנב:</b> "ההצלחה הראשונה אחרי יותר מ-$m$ ניסיונות" פירושו $m$ כישלונות רצופים בהתחלה:</p>
+$$P(X>m)=q^m.$$
+<p>(בדיקה בטור: $\sum_{k=m+1}^\infty q^{k-1}p=p\cdot\frac{q^m}{1-q}=q^m$ ✔, זו הצורה של "זנב".)</p>
+<div class="widget" id="gdW">
+  <div class="wt">🪙 התפלגות גיאומטרית</div>
+  <div class="controls">
+    <label>p (סיכוי להצלחה): <input type="range" id="gdP" min="0.05" max="0.95" step="0.05" value="0.3"> <b id="gdPv">0.30</b></label>
+    <label>m (גבול הזנב): <input type="range" id="gdM" min="0" max="12" step="1" value="4"> <b id="gdMv">4</b></label>
+  </div>
+  <canvas id="gdC" width="1000" height="320"></canvas>
+  <div class="out" id="gdOut"></div>
+</div>
+
+<h3>שלב 5: חוסר זיכרון</h3>
+<div class="box intuition"><div class="t">💡 תכונת חוסר הזיכרון (memorylessness)</div>
+<p>נניח ש-$m$ ניסיונות כבר נכשלו. מה הסיכוי שנצטרך עוד לפחות $n$ ניסיונות? לפי ההגדרה של הסתברות מותנית (וכי $\{X>m+n\}\subseteq\{X>m\}$):</p>
+$$P(X>m+n\mid X>m)=\frac{P(X>m+n)}{P(X>m)}=\frac{q^{m+n}}{q^m}=q^n=P(X>n).$$
+<p>כלומר <b>העבר לא משפיע על העתיד</b>: אחרי $m$ כישלונות, ההמתנה שנותרה מתפלגת בדיוק כמו ההמתנה מההתחלה. זה בדיוק "כשל המהמר" משיעור 1, עכשיו עם הוכחה: מטבע שלא יצא עץ 10 פעמים עדיין זקוק, בממוצע, לאותו מספר הטלות. (וההתפלגות הגיאומטרית היא היחידה בדידה עם התכונה הזו.)</p></div>
+<div class="box ml"><div class="t">🤖 קשר ל-ML</div>
+<p>מודל שפה שבכל צעד "עוצר" (מייצר את סימן הסיום, EOS) בסיכוי קבוע $p$ מייצר משפטים שאורכם מתפלג גיאומטרית. וגם בלמידת חיזוק (RL), אם בכל צעד יש סיכוי קבוע שהמשחק נגמר, אורך המשחק גיאומטרי, והסכום $\sum\gamma^k$ שמופיע בהנחת ה"discount factor" הוא בדיוק הטור ההנדסי.</p></div>
+
+<h3>תרגול לסעיף 3</h3>
+<div class="ex">
+  <p class="q">תרגיל 3.1 <span class="tg">הפעלת הטור ההנדסי</span> ⭐<br>חשב: (א) $\sum_{k=0}^\infty(\frac13)^k$. (ב) $\sum_{k=2}^\infty(\frac13)^k$. (ג) $\sum_{k=0}^\infty3\cdot(\frac25)^k$.</p>
+  <details><summary>פתרון</summary><p>(א) $\frac1{1-1/3}=\frac32$. (ב) צורת הזנב: $\frac{(1/3)^2}{1-1/3}=\frac{1/9}{2/3}=\frac16$. (ג) $\frac{3}{1-2/5}=\frac{3}{3/5}=5$.</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 3.2 <span class="tg">הוכחה</span> ⭐⭐<br>הראה ש-$1+r+\cdots+r^n=\frac{1-r^{n+1}}{1-r}$, ובדוק עם $r=2$, $n=3$.</p>
+  <details><summary>פתרון</summary><p>$(1-r)(1+r+\cdots+r^n)=(1+r+\cdots+r^n)-(r+r^2+\cdots+r^{n+1})=1-r^{n+1}$ (כל האיברים האמצעיים מצטמצמים). בדיקה: $1+2+4+8=15$ ו-$\frac{1-2^4}{1-2}=\frac{-15}{-1}=15$ ✔.</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 3.3 <span class="tg">זנב גיאומטרי</span> ⭐⭐<br>בהטלות של מטבע הוגן עד העץ הראשון, מה הסיכוי שיידרשו <b>לפחות 4</b> הטלות? ובהגרלה עם $p=0.2$ להצלחה, מה הסיכוי שלא תצליח ב-5 ניסיונות הראשונים?</p>
+  <details><summary>פתרון</summary><p>"לפחות 4" פירושו שלושת הראשונות פלי: $P(X>3)=(\frac12)^3=\frac18$. בהגרלה: $P(X>5)=0.8^5=0.32768$, וההסתברות להצלחה בתוך 5: $1-0.32768\approx0.672$.</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 3.4 <span class="tg">שני שחקנים (אתגר)</span> ⭐⭐⭐<br>דנה ורון מטילים לסירוגין מטבע הוגן, דנה ראשונה. מי שמקבל עץ ראשון מנצח. מה הסיכוי שדנה מנצחת?</p>
+  <details><summary>רמז</summary><p>דנה מנצחת אם העץ הראשון יוצא בהטלה אי-זוגית: $T=1,3,5,\dots$ סכם את $P(T=k)$ על $k$ אי-זוגיים, וזה טור הנדסי עם יחס $\frac14$.</p></details>
+  <details><summary>פתרון</summary><p>$P(\text{דנה})=\sum_{k\text{ אי-זוגי}}(\tfrac12)^k=\frac12+\frac18+\frac1{32}+\cdots=\frac{1/2}{1-1/4}=\frac23$. (המעבר בין איברים סמוכים הוא פעמים $\frac14$.) לרון נשאר $\frac13$. היתרון של מי שמתחיל: $\frac23$ מול $\frac13$.</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 3.5 <span class="tg">הוכחה: חוסר זיכרון</span> ⭐⭐<br>הוכח ש-$P(X>m+n\mid X>m)=P(X>n)$ בהתפלגות גיאומטרית, וקשר זאת למטבע שיצא בו פלי 10 פעמים.</p>
+  <details><summary>פתרון</summary><p>ההוכחה בשלב 5. הקישור: אחרי 10 פלי, ההמתנה לעץ מתפלגת כמו בהתחלה: $P(X>10+n\mid X>10)=P(X>n)$. אין "חוב" שצריך להשלים.</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 3.6 <span class="tg">בדיקה מושגית (0.999...)</span> ⭐<br>הראה בעזרת טור הנדסי ש-$0.999\ldots=1$.</p>
+  <details><summary>פתרון</summary><p>$0.999\ldots=\frac9{10}+\frac9{100}+\frac9{1000}+\cdots=\sum_{k=1}^\infty9\cdot(\tfrac1{10})^k=9\cdot\frac{1/10}{1-1/10}=9\cdot\frac19=1$. (זה לא "כמעט 1": הסכום <i>הוא</i> 1, כי הסכום האינסופי מוגדר כגבול הסכומים החלקיים.)</p></details>
+</div>
+
+<div class="box bridge"><div class="t">🔗 איפה אנחנו בסיפור</div>
+<p>עכשיו אפשר לתאר כל משתנה בדיד על ידי ה-PMF שלו. אבל שאלות כמו "מה הסיכוי שהסכום קטן או שווה ל-5?" דורשות לחבר הרבה ערכים. לשאלות כאלה כדאי לתת כלי משלהן.</p></div>
+
+<!-- ======================= S4 ======================= -->
+<h2 id="s4"><span class="num">4</span>פונקציית ההתפלגות המצטברת (CDF)</h2>
+<p class="q-lead">❓ אני שואל כל הזמן "מה הסיכוי ש-$X$ קטן או שווה ל-$x$?" (שיעור הבדיקות שנכשלו, אחוזון, חציון). איך מארגנים את כל התשובות בפונקציה אחת?</p>
+
+<h3>שלב 1: ההגדרה</h3>
+<div class="box def"><div class="t">📐 CDF (cumulative distribution function)</div>
+$$F_X(x)=P(X\le x)\qquad\text{לכל מספר ממשי }x.$$
+<p>למשתנה בדיד: $F(x)=\displaystyle\sum_{t\le x}p(t)$ (סכום ה-PMF על כל הערכים עד $x$ כולל). זו פונקציה "מדרגות": קופצת בכל ערך אפשרי $x$ בגובה $p(x)$.</p></div>
+<p><b>דוגמה:</b> מספר העצים $N$ ב-3 הטלות ($p=\frac18,\frac38,\frac38,\frac18$). אז $F(0)=\frac18$, $F(1)=\frac48$, $F(2)=\frac78$, $F(3)=1$. ובין ערכים: $F(1.7)=F(1)=\frac12$ (אין ערכים בין 1 ל-2). מקדימה: $F(x)=0$ עבור $x&lt;0$, ומאחור $F(x)=1$ עבור $x\ge3$.</p>
+
+<h3>שלב 2: מה אפשר לעשות עם $F$</h3>
+<ul>
+  <li><b>הסתברות לקטע:</b> $P(a&lt;X\le b)=F(b)-F(a)$. (הסיבה: $\{X\le b\}=\{X\le a\}\cup\{a&lt;X\le b\}$, איחוד זר, ולכן $F(b)=F(a)+P(a&lt;X\le b)$.)</li>
+  <li><b>משלים:</b> $P(X>x)=1-F(x)$.</li>
+  <li><b>מהמדרגות חזרה ל-PMF:</b> $p(x)=F(x)-F(x^-)$, כלומר גובה הקפיצה ב-$x$.</li>
+  <li><b>תכונות:</b> $F$ לא יורדת; $F(x)\to0$ כש-$x\to-\infty$ ו-$F(x)\to1$ כש-$x\to+\infty$.</li>
+</ul>
+<p><b>דוגמה, סכום שתי קוביות:</b> $P(3&lt;X\le8)=F(8)-F(3)=\frac{26}{36}-\frac3{36}=\frac{23}{36}$. (בדוק: $F(8)=\frac{1+2+3+4+5+6+5}{36}$, $F(3)=\frac{1+2}{36}$.)</p>
+<div class="box warn"><div class="t">⚠️ "קטן" או "קטן-או-שווה"? זה חשוב במשתנים בדידים</div>
+<p>$F(x)=P(X\le x)$ <b>כולל</b> את $x$. לכן $P(X&lt;3)\ne F(3)$. למשתנה שמקבל ערכים שלמים, $P(X&lt;3)=P(X\le2)=F(2)$. הטעות הזו (להחליף $&lt;$ ב-$\le$) נפוצה מאוד, ובמשתנים רציפים (שיעור 3ב) היא תיעלם.</p></div>
+<div class="box ml"><div class="t">🤖 קשר ל-ML</div>
+<p>ה-CDF מופיעה בחציון ובאחוזונים (percentiles), בעקומת ROC ובשטח מתחתיה (AUC), ובמבחן Kolmogorov-Smirnov להשוואת התפלגויות. ובסעיף 6 נראה שהיא גם מנוע של <b>דגימה</b> מהתפלגות.</p></div>
+
+<h3>תרגול לסעיף 4</h3>
+<div class="ex">
+  <p class="q">תרגיל 4.1 <span class="tg">בניית CDF</span> ⭐<br>מספר העצים $N$ ב-3 הטלות. חשב $F(1)$, $P(N\ge2)$ ו-$P(0&lt;N\le2)$ בעזרת $F$.</p>
+  <details><summary>פתרון</summary><p>$F(1)=\frac18+\frac38=\frac12$. $P(N\ge2)=1-F(1)=\frac12$. $P(0&lt;N\le2)=F(2)-F(0)=\frac78-\frac18=\frac34$.</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 4.2 <span class="tg">CDF של התפלגות גיאומטרית</span> ⭐⭐<br>הראה ש-$F(k)=1-q^k$ לכל $k=1,2,\dots$ בהתפלגות גיאומטרית.</p>
+  <details><summary>פתרון</summary><p>$F(k)=P(X\le k)=1-P(X>k)=1-q^k$. (או בטור: $\sum_{j=1}^kq^{j-1}p=p\cdot\frac{1-q^k}{1-q}=1-q^k$, הסכום החלקי של הנדסי.)</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 4.3 <span class="tg">מציאת טעות</span> ⭐⭐<br>סטודנט כותב: "סכום שתי קוביות, $P(X&lt;5)=F(5)=\frac{10}{36}$." מה הטעות?</p>
+  <details><summary>פתרון</summary><p>$F(5)=P(X\le5)=\frac{10}{36}$ נכון, אבל $P(X&lt;5)=P(X\le4)=F(4)=\frac{6}{36}$. הוא כלל את הערך 5 בטעות.</p></details>
+</div>
+
+<div class="box bridge"><div class="t">🔗 איפה אנחנו בסיפור</div>
+<p>עד עכשיו הסתכלנו על משתנה אחד. בפועל מפעילים עליו פונקציות ("ריבוע", ReLU) ומחברים כמה משתנים (סכום תוצאות). איך משתנה ההתפלגות?</p></div>
+
+<!-- ======================= S5 ======================= -->
+<h2 id="s5"><span class="num">5</span>פונקציה של משתנה, וסכום של משתנים בלתי-תלויים</h2>
+<p class="q-lead">❓ אם ל-$X$ יש PMF ידועה, מה ה-PMF של $Y=X^2$? ושל $X+Y$ כשהם בלתי-תלויים?</p>
+
+<h3>שלב 1: פונקציה של משתנה, $Y=g(X)$</h3>
+<div class="box def"><div class="t">📐 ה-PMF של $g(X)$</div>
+$$p_Y(y)=\sum_{x:\ g(x)=y}p_X(x).$$
+<p>(סוכמים את הסתברויות כל ה-$x$ ש-$g$ שולחת ל-$y$.)</p></div>
+<p>ההסבר: המאורע $\{Y=y\}$ הוא איחוד (זר) של המאורעות $\{X=x\}$ עבור כל ה-$x$ ש-$g(x)=y$, וחיבור הסתברויות של זרים הוא האקסיומה.</p>
+<p><b>דוגמה:</b> $X$ אחיד על $\{-2,-1,0,1,2\}$ (כל ערך $\frac15$), $Y=X^2$. הערך $Y=1$ מתקבל מ-$X=-1$ ו-$X=1$: $p_Y(1)=\frac15+\frac15=\frac25$. כך $p_Y(0)=\frac15$, $p_Y(4)=\frac25$.</p>
+<div class="box ml"><div class="t">🤖 קשר ל-ML: ReLU</div>
+<p>פונקציית ההפעלה $\text{ReLU}(x)=\max(0,x)$ שולחת כל ערך שלילי ל-0. אם $X$ מקבל ערכים שליליים בסיכוי כלשהו, אז ל-$Y=\text{ReLU}(X)$ יש "גוש הסתברות" בנקודה 0 ששווה לסכום הסתברויות הערכים השליליים. לכן אחרי ReLU חלק גדול מהנוירונים הם בדיוק 0 (sparsity).</p></div>
+
+<h3>שלב 2: אי-תלות של משתנים</h3>
+<div class="box def"><div class="t">📐 משתנים בלתי-תלויים</div>
+<p>$X$ ו-$Y$ בלתי-תלויים אם <b>כל</b> זוג מאורעות מהצורה $\{X=x\}$, $\{Y=y\}$ בלתי-תלויים:</p>
+$$P(X=x,\ Y=y)=P(X=x)\cdot P(Y=y)\quad\text{לכל }x,y.$$
+<p>(הפסיק פירושו "וגם": $P(X=x,Y=y)=P(\{X=x\}\cap\{Y=y\})$.) כמו בשיעור 2, בלתי-תלויים אומר שאפשר להכפיל.</p></div>
+
+<h3>שלב 3: סכום של בלתי-תלויים (קונבולוציה)</h3>
+<div class="box def"><div class="t">📐 ה-PMF של $X+Y$</div>
+<p>אם $X$ ו-$Y$ בלתי-תלויים ומקבלים ערכים שלמים:</p>
+$$p_{X+Y}(s)=\sum_{x}p_X(x)\,p_Y(s-x).$$</div>
+<p><b>למה?</b> המאורע $\{X+Y=s\}$ הוא איחוד זר, על כל ערך $x$ של $X$, של $\{X=x,\ Y=s-x\}$. הסתברות כל אחד היא $p_X(x)\,p_Y(s-x)$ (אי-תלות), ומחברים.</p>
+<p><b>דוגמה, שתי קוביות:</b> $P(X+Y=4)=p(1)p(3)+p(2)p(2)+p(3)p(1)=3\cdot\frac1{36}=\frac3{36}$ ✔ (זה אותו חישוב כמו בטבלה, בכתיבה אחרת).</p>
+
+<div class="widget" id="dsW">
+  <div class="wt">🎲 סכום של $n$ קוביות</div>
+  <div class="controls"><label>מספר הקוביות n: <input type="range" id="dsN" min="1" max="8" value="2"> <b id="dsNv">2</b></label></div>
+  <canvas id="dsC" width="1000" height="320"></canvas>
+  <div class="out" id="dsOut"></div>
+  <div class="out"><b>נסה:</b> n=1 (אחיד), n=2 (משולש), n=3, 4, 8: הצורה הולכת ונעשית "פעמון". זו לא תאונה: כשמחברים הרבה משתנים בלתי-תלויים מתקבל תמיד אותה צורה. זה <b>משפט הגבול המרכזי</b> (שיעור 7).</div>
+</div>
+
+<div class="box warn"><div class="t">⚠️ $X+X$ אינו $X+Y$</div>
+<p>אם $X$ קובייה, אז $2X=X+X$ (אותה קובייה פעמיים!) מקבל רק את הערכים $2,4,\dots,12$, כל אחד בסיכוי $\frac16$ (צורה אחידה), בעוד $X+Y$ (שתי קוביות <b>בלתי-תלויות</b>) מקבל את כל הערכים 2 עד 12 בצורת משולש. אי-תלות היא מה שגורם ל"פעמון" בסכום.</p></div>
+
+<h3>תרגול לסעיף 5</h3>
+<div class="ex">
+  <p class="q">תרגיל 5.1 <span class="tg">פונקציה של משתנה</span> ⭐⭐<br>$X$ אחיד על $\{-2,-1,0,1,2\}$ ו-$Y=\text{ReLU}(X)=\max(0,X)$. מה ה-PMF של $Y$?</p>
+  <details><summary>פתרון</summary><p>$Y=0$ מתקבל מ-$X=-2,-1,0$: $p_Y(0)=\frac35$. $p_Y(1)=\frac15$, $p_Y(2)=\frac15$. סכום 1 ✔. (שלושה חמישיות מהמסה "נערמות" ב-0.)</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 5.2 <span class="tg">קונבולוציה</span> ⭐⭐<br>$X$ קובייה הוגנת ו-$Y$ מטבע (0 או 1, בסיכוי $\frac12$ כל אחד), בלתי-תלויים. מה ה-PMF של $Z=X+Y$?</p>
+  <details><summary>פתרון</summary><p>$p_Z(1)=p_X(1)p_Y(0)=\frac1{12}$. לערכים $2,\dots,6$: $p_Z(s)=p_X(s)p_Y(0)+p_X(s-1)p_Y(1)=\frac1{12}+\frac1{12}=\frac16$. $p_Z(7)=p_X(6)p_Y(1)=\frac1{12}$. סכום: $\frac1{12}+5\cdot\frac16+\frac1{12}=1$ ✔.</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 5.3 <span class="tg">תלות מול אי-תלות</span> ⭐⭐<br>השווה את $P(2X=8)$ (כש-$X$ קובייה) ל-$P(X+Y=8)$ (שתי קוביות בלתי-תלויות).</p>
+  <details><summary>פתרון</summary><p>$2X=8$ אומר $X=4$: $\frac16=\frac6{36}$. $X+Y=8$: 5 תאים: $\frac5{36}$. הם שונים, כי ב-$2X$ אותו מספר מופיע פעמיים, בעוד ב-$X+Y$ יש שתי קוביות עצמאיות.</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 5.4 <span class="tg">סכום ברנולי</span> ⭐⭐<br>$B_1,B_2$ ברנולי($p$) בלתי-תלויים. מה ה-PMF של $B_1+B_2$?</p>
+  <details><summary>פתרון</summary><p>$P(0)=q^2$, $P(1)=pq+qp=2pq$, $P(2)=p^2$ (שים לב: $q^2+2pq+p^2=(p+q)^2=1$). זו ההתפלגות הבינומית עם $n=2$: הצצה לשיעור 5.</p></details>
+</div>
+
+<div class="box bridge"><div class="t">🔗 איפה אנחנו בסיפור</div>
+<p>עכשיו יש לנו את כל הכלים: PMF, CDF, פונקציות וסכומים. נחבר אותם לשאלה מרכזית ב-ML: <b>איך מייצרים (דוגמים) ערך מהתפלגות נתונה</b>, למשל איך מודל שפה בוחר את המילה הבאה.</p></div>
+
+<!-- ======================= S6 ======================= -->
+<h2 id="s6"><span class="num">6</span>גשר ל-ML: דגימה, softmax וטמפרטורה</h2>
+<p class="q-lead">❓ מודל שפה מוציא בכל צעד PMF על אוצר המילים (עשרות אלפי מילים). איך מוציאים ממנה מילה אחת באקראי? ומה זה "טמפרטורה"?</p>
+<p>נלך בשלבים: (1) דגימה בעזרת ה-CDF, (2) טמפרטורה, (3) חזרה לחוק המספרים הגדולים.</p>
+
+<h3>שלב 1: דגימה בעזרת ה-CDF (inverse transform)</h3>
+<p>מחשב יודע להגריל מספר $U$ <b>אחיד בין 0 ל-1</b> (פונקציה אחת בכל שפת תכנות). איך מהמספר הזה מקבלים ערך שמתפלג לפי PMF נתונה?</p>
+<div class="box def"><div class="t">📐 האלגוריתם</div>
+<ol>
+<li>חשב את ה-CDF: $F(1)=p_1$, $F(2)=p_1+p_2$, ... (הסכומים המצטברים).</li>
+<li>הגרל $U\in[0,1)$ אחיד.</li>
+<li>החזר את הערך $k$ הראשון שמקיים $U&lt;F(k)$. כלומר $k$ שעבורו $F(k-1)\le U&lt;F(k)$.</li>
+</ol></div>
+<div class="box intuition"><div class="t">💡 למה זה עובד?</div>
+<p>חתוך את הקטע $[0,1)$ לתת-קטעים שאורכם $p_1,p_2,\dots$ (בסדר, אחד אחרי השני). $U$ נופל בקטע $k$ בהסתברות השווה לאורכו, כי $U$ אחיד: $P(F(k-1)\le U&lt;F(k))=F(k)-F(k-1)=p_k$. בדיוק מה שרצינו. הקטעים הארוכים (הסתברות גבוהה) נבחרים יותר.</p></div>
+<div class="widget" id="spW">
+  <div class="wt">🎯 דגימה מ-PMF: הזז את המשקלים וראה את ה-CDF</div>
+  <div class="controls"><label>משקל לערך 1: <input type="range" id="spW1" min="0" max="10" step="1" value="5"> <b id="spWv1"></b></label></div>
+  <div class="controls"><label>משקל לערך 2: <input type="range" id="spW2" min="0" max="10" step="1" value="3"> <b id="spWv2"></b></label></div>
+  <div class="controls"><label>משקל לערך 3: <input type="range" id="spW3" min="0" max="10" step="1" value="1"> <b id="spWv3"></b></label></div>
+  <div class="controls"><label>משקל לערך 4: <input type="range" id="spW4" min="0" max="10" step="1" value="1"> <b id="spWv4"></b></label></div>
+  <div class="controls"><button class="btn" id="spBtn1">דגום פעם אחת</button> <button class="btn" id="spBtn1000">דגום 1,000 פעמים</button></div>
+  <canvas id="spC" width="1000" height="320"></canvas>
+  <div class="out" id="spOut"></div>
+  <div class="out"><b>איך קוראים:</b> המדרגות כחולות הן ה-CDF. "דגום פעם אחת": התוצאה $U$ היא הקו הכתום האופקי, והוא "נתקע" במדרגה הראשונה שגבוהה ממנו. מדרגות רחבות (הסתברות גדולה) נתפסות בתדירות גבוהה. 1,000 דגימות: ראה שהתדירויות מתקרבות ל-PMF (חוק המספרים הגדולים).</div>
+</div>
+<pre><code>import numpy as np
+
+p = np.array([0.5, 0.3, 0.2])          # the PMF over three values
+F = np.cumsum(p)                       # the CDF: [0.5, 0.8, 1.0]
+u = np.random.rand()                   # U uniform on [0, 1)
+k = np.searchsorted(F, u, side="right")  # the first index with U &lt; F  (0-based)
+print(u, k)
+
+# check: many samples reproduce the PMF
+ks = np.searchsorted(F, np.random.rand(100_000), side="right")
+print(np.bincount(ks) / 100_000)       # ~ [0.5, 0.3, 0.2]</code></pre>
+
+<h3>שלב 2: טמפרטורה</h3>
+<p>המודל מוציא ציונים (logits) $z_1,\dots,z_K$, ואחר כך ה-softmax הופך אותם ל-PMF (כך נראה: $p_i\propto e^{z_i}$, חלוקה בסכום). בדגימה מודלים משתמשים ב<b>פרמטר טמפרטורה</b> $T>0$:</p>
+<div class="box def"><div class="t">📐 softmax עם טמפרטורה</div>
+$$p_i(T)=\frac{e^{z_i/T}}{\sum_{j}e^{z_j/T}}.$$
+<p>$T=1$ הוא ה-softmax הרגיל. $T\to0$: כל המסה על הערך הגבוה ביותר (בחירת argmax, "חמדנית"). $T\to\infty$: ההתפלגות שואפת לאחידה (כל האפשרויות שוות).</p></div>
+<p><b>למה?</b> חלוקה ב-$T$ משנה את <b>ההפרשים</b> בין הציונים: היחס בין שתי הסתברויות הוא $\frac{p_i}{p_j}=e^{(z_i-z_j)/T}$. כש-$T$ קטן, ההפרש מוגדל והיחס מתפוצץ; כש-$T$ גדול, ההפרש מתכווץ והיחס שואף ל-1.</p>
+<p><b>דוגמה</b> עם $z=(2,1,0)$: ב-$T=1$: $e^2=7.39$, $e^1=2.72$, $e^0=1$, סכום $11.11$, ולכן $p=(0.665,\ 0.245,\ 0.090)$. ב-$T=0.5$: הציונים המחולקים הם $(4,2,0)$: $e^4=54.6$, $e^2=7.39$, $1$, סכום $62.99$, ולכן $p=(0.867,\ 0.117,\ 0.016)$. חדה הרבה יותר.</p>
+<div class="widget" id="tmW">
+  <div class="wt">🌡️ טמפרטורה ו-softmax</div>
+  <div class="controls"><label>טמפרטורה T = <input type="range" id="tmT" min="0.1" max="5" step="0.1" value="1"> <b id="tmTv">1.0</b></label> <button class="btn" id="tmBtn">דגום 1,000 פעמים</button></div>
+  <canvas id="tmC" width="1000" height="320"></canvas>
+  <div class="out" id="tmOut"></div>
+  <div class="out"><b>נסה:</b> T=0.1 (כמעט תמיד "A": דטרמיניסטי). T=1. T=5 (כמעט אחיד: "יצירתי", אבל גם פחות סביר). ואחרי זה לחץ "דגום" וראה שהתדירויות (כתום) מתקרבות להסתברויות (כחול).</div>
+</div>
+<div class="box ml"><div class="t">🤖 איפה זה פוגש אותך</div>
+<p>זה בדיוק מה שה-"temperature" עושה ב-API של מודלי שפה: טמפרטורה נמוכה לתשובות עקביות וצפויות, גבוהה לתשובות מגוונות. וה-PMF עצמה היא רק <i>הצעה</i>: התשובה בפועל היא דגימה ממנה, ולכן אותה שאלה נותנת לפעמים תשובות שונות.</p></div>
+
+<h3>תרגול לסעיף 6</h3>
+<div class="ex">
+  <p class="q">תרגיל 6.1 <span class="tg">דגימה בעזרת CDF</span> ⭐<br>ה-PMF היא $(0.5,\ 0.3,\ 0.2)$ על הערכים 1, 2, 3. מה הערך שנדגם עבור $U=0.2$, $U=0.7$ ו-$U=0.95$?</p>
+  <details><summary>פתרון</summary><p>$F=(0.5,\ 0.8,\ 1.0)$. $U=0.2&lt;0.5$: ערך 1. $U=0.7$: בין 0.5 ל-0.8: ערך 2. $U=0.95$: בין 0.8 ל-1: ערך 3.</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 6.2 <span class="tg">טמפרטורה במספרים</span> ⭐⭐<br>עבור $z=(3,1,0)$ חשב את ה-softmax ב-$T=1$ וב-$T=2$. מה קרה להסתברות הגדולה ביותר?</p>
+  <details><summary>פתרון</summary><p>$T=1$: $e^3=20.09$, $e=2.72$, $1$, סכום $23.80$: $p=(0.844,\ 0.114,\ 0.042)$. $T=2$: ציונים $(1.5,\ 0.5,\ 0)$: $e^{1.5}=4.48$, $e^{0.5}=1.65$, $1$, סכום $7.13$: $p=(0.628,\ 0.231,\ 0.140)$. טמפרטורה גבוהה יותר "ממתנת" את ההתפלגות: הגדולה ירדה מ-0.84 ל-0.63.</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 6.3 <span class="tg">קוד</span> ⭐⭐<br>כתוב פונקציה שמקבלת וקטור logits וטמפרטורה, ומחזירה דגימה אחת (אינדקס), בעזרת ה-CDF והאלגוריתם מסעיף 6. בדוק שב-$T$ קטן היא כמעט תמיד מחזירה את ה-argmax.</p>
+  <details><summary>פתרון</summary>
+<pre><code>import numpy as np
+
+def sample(logits, T=1.0, rng=np.random.default_rng()):
+    z = np.asarray(logits, dtype=float) / T
+    p = np.exp(z - z.max())          # subtract max: numerical stability (does not change the PMF)
+    p /= p.sum()                     # normalize
+    return int(np.searchsorted(np.cumsum(p), rng.random(), side="right"))
+
+logits = [2.0, 1.0, 0.0]
+for T in (0.1, 1.0, 5.0):
+    counts = np.bincount([sample(logits, T) for _ in range(20_000)], minlength=3)
+    print(T, counts / counts.sum())   # T=0.1 -> ~[1, 0, 0];  T=5 -> close to uniform</code></pre></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 6.4 <span class="tg">הסבר</span> ⭐⭐<br>למה כש-$T\to0$ ההתפלגות מתרכזת על ה-argmax? (רמז: יחס ההסתברויות.)</p>
+  <details><summary>פתרון</summary><p>היחס בין הגדולה ($z_1$) לשנייה ($z_2$): $\frac{p_1}{p_2}=e^{(z_1-z_2)/T}$. כש-$T\to0$ המעריך $\frac{z_1-z_2}{T}\to+\infty$ (כי $z_1>z_2$), והיחס מתפוצץ: כל המסה עוברת ל-$z_1$.</p></details>
+</div>
+
+<!-- ======================= MIXED ======================= -->
+<h2 id="mixed"><span class="num">★</span>תרגול משולב</h2>
+<p>בלי כותרת טכניקה (היא רשומה בפתרון).</p>
+
+<div class="ex">
+  <p class="q">תרגיל מ.1 ⭐⭐<br>מטילים מטבע הוגן 4 פעמים, $N$ מספר העצים. חשב את ה-PMF ואת ה-CDF, ואת $P(1&lt;N\le3)$.</p>
+  <details><summary>פתרון</summary><p><b>בחר מקומות + CDF.</b> $p=(\frac1{16},\frac4{16},\frac6{16},\frac4{16},\frac1{16})$. $F=(\frac1{16},\frac5{16},\frac{11}{16},\frac{15}{16},1)$. $P(1&lt;N\le3)=F(3)-F(1)=\frac{15}{16}-\frac5{16}=\frac{10}{16}=\frac58$.</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל מ.2 ⭐⭐⭐<br>מטילים מטבע הוגן עד העץ הראשון. מה הסיכוי שמספר ההטלות הוא <b>זוגי</b>? והכללה: בהתפלגות גיאומטרית עם $p$, מה $P(X\text{ זוגי})$?</p>
+  <details><summary>פתרון</summary><p><b>טור הנדסי.</b> $P(T\text{ זוגי})=\sum_{k=2,4,\dots}(\tfrac12)^k=\frac{1/4}{1-1/4}=\frac13$. הכללה: $\sum_{j\ge1}q^{2j-1}p=pq\sum_{j\ge0}(q^2)^j=\frac{pq}{1-q^2}=\frac{pq}{(1-q)(1+q)}=\frac{q}{1+q}$. ל-$q=\frac12$: $\frac{1/2}{3/2}=\frac13$ ✔.</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל מ.3 (ML) ⭐⭐<br>מודל שפה "עוצר" בכל צעד בסיכוי $0.1$ (בלתי-תלוי). מה ההסתברות שהמשפט ארוך מ-20 מילים? ושהוא באורך 10 לכל היותר?</p>
+  <details><summary>פתרון</summary><p><b>גיאומטרית + זנב.</b> אורך $L\sim\text{Geo}(0.1)$. $P(L>20)=0.9^{20}\approx0.1216$. $P(L\le10)=1-0.9^{10}\approx1-0.3487=0.6513$.</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל מ.4 ⭐⭐<br>בהטלת שלוש קוביות, $S$ הוא מספר ה-6 שיצאו. מה ה-PMF של $S$?</p>
+  <details><summary>פתרון</summary><p><b>בחר מקומות + אי-תלות.</b> $S\sim$ בינומית($n=3$, $p=\frac16$): $P(S=k)=\binom3k(\frac16)^k(\frac56)^{3-k}$. $P(0)=\frac{125}{216}$, $P(1)=\frac{75}{216}$, $P(2)=\frac{15}{216}$, $P(3)=\frac1{216}$. סכום: $\frac{216}{216}=1$ ✔.</p></details>
+</div>
+
+<!-- ======================= SUMMARY ======================= -->
+<h2 id="sum"><span class="num">7</span>סיכום: הסיפור בקצרה</h2>
+<ol class="story">
+  <li><b>משתנה מקרי</b> הוא פונקציה $X:\Omega\to\mathbb R$. $\{X=x\}$ הוא מאורע; $P(X=x)$ הסתברותו. אינדיקטור $I_A$ הוא המשתנה "האם $A$ קרה".</li>
+  <li><b>PMF:</b> $p(x)=P(X=x)$, אי-שלילית, וסכומה 1. היא ה"התפלגות": שני משתנים עם אותה PMF מתפלגים אותו דבר, גם אם הם שונים.</li>
+  <li><b>סכום אינסופי</b> = גבול הסכומים החלקיים. <b>טור הנדסי:</b> $\sum_{k=0}^\infty r^k=\frac1{1-r}$ ל-$|r|&lt;1$ (מתבדר אחרת), וזנב $\frac{r^m}{1-r}$.</li>
+  <li><b>גיאומטרית:</b> $P(X=k)=q^{k-1}p$, $P(X>m)=q^m$, וחסרת זיכרון.</li>
+  <li><b>CDF:</b> $F(x)=P(X\le x)$. $P(a&lt;X\le b)=F(b)-F(a)$. שים לב ל-$&lt;$ מול $\le$ בבדידים.</li>
+  <li>$p_{g(X)}(y)=\sum_{x:g(x)=y}p_X(x)$. <b>סכום בלתי-תלויים:</b> קונבולוציה, ו"פעמון" כשמחברים הרבה.</li>
+  <li><b>ב-ML:</b> פלט המסווג הוא PMF. דגימה: $U$ אחיד ו-CDF. טמפרטורה: $p_i\propto e^{z_i/T}$.</li>
+</ol>
+
+<div class="box intuition"><div class="t">🔭 בשיעור 3ב</div>
+<p>מה כשהמשתנה יכול לקבל <b>כל</b> ערך בקטע (גובה, זמן המתנה)? אין "הסתברות לערך בודד" (היא 0!), ובמקומה יש <b>צפיפות</b>. נלמד שם את הכלי המתמטי השני שלא למדת: <b>אינטגרל כשטח</b>, מאפס, בקצב איטי. ונראה למה צפיפות יכולה להיות גדולה מ-1 ועדיין ההסתברויות חוקיות.</p></div>
+
+<div class="pager">
+  <a href="lesson02.html">← שיעור 2</a>
+  <span class="muted">שיעור 3ב — בקרוב</span>
+</div>
+
+</div>
+
+<script>
+/* Lesson 3a widgets: random variable on two dice + PMF, sum of n dice, geometric series, geometric distribution,
+   sampling from a PMF via the CDF, softmax temperature. */
+
+function cv_(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+function gcd3(a, b) { return b ? gcd3(b, a % b) : a; }
+function fr3(c, n) { if (c === 0) return '0'; var g = gcd3(c, n); return (c / g) + '/' + (n / g); }
+
+/* Draw a bar chart. series: [{vals:[...], color:'#..', hl:index|null}] (several series are drawn side by side). */
+function drawBars(canvas, labels, series, opts) {
+  opts = opts || {};
+  var ctx = canvas.getContext('2d'), W = canvas.width, H = canvas.height, L = 62, R = 16, T = 18, B = 44;
+  var pw = W - L - R, ph = H - T - B, n = labels.length, muted = cv_('--muted');
+  var ymax = opts.ymax || Math.max.apply(null, [0.0001].concat(series.reduce(function (a, s) { return a.concat(s.vals); }, []))) * 1.12;
+  ctx.clearRect(0, 0, W, H); ctx.font = '22px sans-serif'; ctx.fillStyle = muted; ctx.strokeStyle = muted; ctx.lineWidth = 1;
+  [0, 0.5, 1].forEach(function (f) {
+    var y = T + ph * (1 - f); ctx.globalAlpha = .25; ctx.beginPath(); ctx.moveTo(L, y); ctx.lineTo(W - R, y); ctx.stroke(); ctx.globalAlpha = 1;
+    ctx.fillText((ymax * f).toFixed(ymax < 0.1 ? 3 : 2), 4, y + 7);
+  });
+  var bw = pw / n, k = series.length;
+  series.forEach(function (s, si) {
+    s.vals.forEach(function (v, i) {
+      var h = ph * v / ymax, x = L + i * bw + 3 + si * ((bw - 6) / k), w = (bw - 6) / k - (k > 1 ? 2 : 0);
+      ctx.fillStyle = (s.hl === i) ? (s.hlColor || '#ea580c') : s.color; ctx.fillRect(x, T + ph - h, Math.max(1, w), h);
+    });
+  });
+  ctx.fillStyle = muted;
+  labels.forEach(function (lb, i) { if (n <= 16 || i % 2 === 0) ctx.fillText(lb, L + i * bw + bw / 2 - 8 * String(lb).length * 0.6, H - 14); });
+}
+
+/* ============ W1: a random variable on two dice, and its PMF ============ */
+(function () {
+  var sel = document.getElementById('rvX');
+  if (!sel) return;
+  var FUNS = {
+    sum: ['הסכום i+j', function (i, j) { return i + j; }],
+    max: ['המקסימום max(i,j)', function (i, j) { return Math.max(i, j); }],
+    min: ['המינימום min(i,j)', function (i, j) { return Math.min(i, j); }],
+    diff: ['ההפרש המוחלט |i−j|', function (i, j) { return Math.abs(i - j); }],
+    sixes: ['מספר ה-6 שיצאו', function (i, j) { return (i === 6 ? 1 : 0) + (j === 6 ? 1 : 0); }]
+  };
+  Object.keys(FUNS).forEach(function (k) { var o = document.createElement('option'); o.value = k; o.textContent = FUNS[k][0]; sel.appendChild(o); });
+  var grid = document.getElementById('rvGrid'), cv = document.getElementById('rvC'), out = document.getElementById('rvOut'), chosen = null, vals = [], cells = [];
+  var html = '<tr><th></th>'; for (var j = 1; j <= 6; j++) html += '<th>' + j + '</th>'; html += '</tr>';
+  for (var i = 1; i <= 6; i++) { html += '<tr><th>' + i + '</th>'; for (var jj = 1; jj <= 6; jj++) html += '<td data-i="' + i + '" data-j="' + jj + '"></td>'; html += '</tr>'; }
+  grid.innerHTML = html; grid.querySelectorAll('td').forEach(function (td) { cells.push({ td: td, i: +td.dataset.i, j: +td.dataset.j }); });
+  function update() {
+    var f = FUNS[sel.value][1], count = {};
+    cells.forEach(function (c) { c.x = f(c.i, c.j); count[c.x] = (count[c.x] || 0) + 1; });
+    vals = Object.keys(count).map(Number).sort(function (a, b) { return a - b; });
+    if (chosen === null || vals.indexOf(chosen) < 0) { chosen = vals.reduce(function (b, v) { return count[v] > count[b] ? v : b; }, vals[0]); }
+    cells.forEach(function (c) { c.td.textContent = c.x; c.td.className = (c.x === chosen) ? 'res' : ''; });
+    var p = vals.map(function (v) { return count[v] / 36; });
+    drawBars(cv, vals.map(String), [{ vals: p, color: 'rgba(37,99,235,.65)', hl: vals.indexOf(chosen), hlColor: '#ea580c' }]);
+    out.innerHTML = 'הערך שנבחר: <b>x = ' + chosen + '</b>. המאורע {X = ' + chosen + '} הוא קבוצת התאים המסומנת (<b>' + count[chosen] + '</b> מתוך 36). לכן <b>p(' + chosen + ') = P(X = ' + chosen + ') = ' + fr3(count[chosen], 36) + '</b> ≈ ' + (count[chosen] / 36).toFixed(3) +
+      '.<br>הטבלה של כל ה-PMF: ' + vals.map(function (v) { return 'p(' + v + ')=' + fr3(count[v], 36); }).join(' , ') + '.<br>סכום כל הערכים: <b>' + fr3(vals.reduce(function (s, v) { return s + count[v]; }, 0), 36) + '</b> = 1.';
+  }
+  cv.addEventListener('click', function (e) {
+    var r = cv.getBoundingClientRect(), x = (e.clientX - r.left) * cv.width / r.width, L = 62, R = 16, pw = cv.width - L - R, idx = Math.floor((x - L) / (pw / vals.length));
+    if (idx >= 0 && idx < vals.length) { chosen = vals[idx]; update(); }
+  });
+  sel.addEventListener('change', function () { chosen = null; update(); });
+  update();
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', update);
+})();
+
+/* ============ W2: PMF of the sum of n dice ============ */
+(function () {
+  var sl = document.getElementById('dsN');
+  if (!sl) return;
+  var cv = document.getElementById('dsC'), out = document.getElementById('dsOut');
+  function pmfSum(n) {
+    var p = [1]; // distribution of sum of 0 dice: value 0 with prob 1
+    for (var d = 0; d < n; d++) {
+      var q = new Array(p.length + 6).fill(0);
+      for (var s = 0; s < p.length; s++) for (var f = 1; f <= 6; f++) q[s + f] += p[s] / 6;
+      p = q;
+    }
+    return p;
+  }
+  function draw() {
+    var n = parseInt(sl.value, 10); document.getElementById('dsNv').textContent = n;
+    var p = pmfSum(n), labels = [], vals = [];
+    for (var s = n; s < p.length; s++) { labels.push(String(s)); vals.push(p[s]); }
+    drawBars(cv, labels, [{ vals: vals, color: 'rgba(37,99,235,.7)' }]);
+    var best = vals.indexOf(Math.max.apply(null, vals));
+    out.innerHTML = 'סכום של <b>' + n + '</b> קוביות: ערכים מ-' + n + ' עד ' + (6 * n) + '. הערך השכיח ביותר: <b>' + labels[best] + '</b> (הסתברות ' + vals[best].toFixed(4) + '). סה"כ ההסתברויות: ' + vals.reduce(function (a, b) { return a + b; }, 0).toFixed(6) + '.';
+  }
+  sl.addEventListener('input', draw); draw();
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+})();
+
+/* ============ W3: geometric series partial sums ============ */
+(function () {
+  var sl = document.getElementById('gsR');
+  if (!sl) return;
+  var cv = document.getElementById('gsC'), ctx = cv.getContext('2d'), out = document.getElementById('gsOut');
+  function draw() {
+    var r = parseFloat(sl.value); document.getElementById('gsRv').textContent = r.toFixed(2);
+    var N = 25, S = [], s = 0;
+    for (var k = 0; k <= N; k++) { s += Math.pow(r, k); S.push(s); }
+    var W = cv.width, H = cv.height, L = 62, Rr = 16, T = 18, B = 44, pw = W - L - Rr, ph = H - T - B, muted = cv_('--muted');
+    var lim = Math.abs(r) < 1 ? 1 / (1 - r) : null;
+    var lo = Math.min.apply(null, S.concat([0])), hi = Math.max.apply(null, S.concat([lim === null ? 0 : lim]));
+    if (hi - lo > 12) { hi = lo + 12; } if (hi - lo < 1) { hi = lo + 1; }
+    var X = function (k) { return L + pw * k / N; }, Y = function (v) { return T + ph * (1 - (Math.max(lo, Math.min(hi, v)) - lo) / (hi - lo)); };
+    ctx.clearRect(0, 0, W, H); ctx.font = '22px sans-serif'; ctx.fillStyle = muted; ctx.strokeStyle = muted; ctx.lineWidth = 1;
+    [lo, (lo + hi) / 2, hi].forEach(function (v) { ctx.globalAlpha = .25; ctx.beginPath(); ctx.moveTo(L, Y(v)); ctx.lineTo(W - Rr, Y(v)); ctx.stroke(); ctx.globalAlpha = 1; ctx.fillText(v.toFixed(1), 4, Y(v) + 7); });
+    [0, 5, 10, 15, 20, 25].forEach(function (k) { ctx.fillText(k, X(k) - 8, H - 14); });
+    if (lim !== null) { ctx.strokeStyle = '#ea580c'; ctx.lineWidth = 3; ctx.setLineDash([10, 8]); ctx.beginPath(); ctx.moveTo(L, Y(lim)); ctx.lineTo(W - Rr, Y(lim)); ctx.stroke(); ctx.setLineDash([]); }
+    ctx.strokeStyle = '#2563eb'; ctx.fillStyle = '#2563eb'; ctx.lineWidth = 3; ctx.beginPath();
+    S.forEach(function (v, k) { if (k === 0) ctx.moveTo(X(k), Y(v)); else ctx.lineTo(X(k), Y(v)); }); ctx.stroke();
+    S.forEach(function (v, k) { ctx.beginPath(); ctx.arc(X(k), Y(v), 5, 0, 6.3); ctx.fill(); });
+    out.innerHTML = 'r = <b>' + r.toFixed(2) + '</b>: הסכום החלקי אחרי 25 איברים הוא <b>' + S[N].toFixed(4) + '</b>. ' +
+      (lim !== null ? 'הנוסחה 1/(1−r) = <b>' + lim.toFixed(4) + '</b> (הקו הכתום). הסכומים החלקיים מתקרבים אליו: <span class="same yes">מתכנס ✔</span>'
+        : (r >= 1 ? '|r| ≥ 1: האיברים לא קטנים, והסכום החלקי גדל בלי גבול: <span class="same no">מתבדר ✘</span>' : 'r ≤ −1: הסכומים החלקיים מתנדנדים ולא מתקרבים לשום מספר: <span class="same no">מתבדר ✘</span>'));
+  }
+  sl.addEventListener('input', draw); draw();
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+})();
+
+/* ============ W4: geometric distribution ============ */
+(function () {
+  var sp = document.getElementById('gdP');
+  if (!sp) return;
+  var sm = document.getElementById('gdM'), cv = document.getElementById('gdC'), out = document.getElementById('gdOut');
+  function draw() {
+    var p = parseFloat(sp.value), m = parseInt(sm.value, 10), q = 1 - p;
+    document.getElementById('gdPv').textContent = p.toFixed(2); document.getElementById('gdMv').textContent = m;
+    var labels = [], vals = [], tail = 0, shown = 0;
+    for (var k = 1; k <= 15; k++) { labels.push(String(k)); var v = Math.pow(q, k - 1) * p; vals.push(v); shown += v; }
+    var cols = vals.map(function (v, i) { return i + 1 > m ? 1 : 0; });
+    var ctxSeries = [{ vals: vals, color: 'rgba(37,99,235,.7)', hl: -1 }];
+    drawBars(cv, labels, ctxSeries);
+    // paint the tail bars (k > m) in orange on top
+    var ctx = cv.getContext('2d'), W = cv.width, H = cv.height, L = 62, R = 16, T = 18, B = 44, pw = W - L - R, ph = H - T - B, ymax = Math.max.apply(null, vals) * 1.12, bw = pw / 15;
+    vals.forEach(function (v, i) { if (i + 1 > m) { var h = ph * v / ymax; ctx.fillStyle = '#ea580c'; ctx.fillRect(L + i * bw + 3, T + ph - h, bw - 6, h); } });
+    out.innerHTML = 'הצלחה בכל ניסיון בסיכוי p = <b>' + p.toFixed(2) + '</b>. P(X = k) = q<sup>k−1</sup>·p, עם q = ' + q.toFixed(2) + '.<br>' +
+      'הזנב (כתום): P(X &gt; ' + m + ') = q<sup>' + m + '</sup> = <b>' + Math.pow(q, m).toFixed(4) + '</b>, כלומר ' + m + ' כישלונות ראשונים.<br>' +
+      'סכום 15 הערכים המוצגים: ' + shown.toFixed(4) + ' (= 1 − q<sup>15</sup>; כל השאר, עד אינסוף, מוסיף את ' + Math.pow(q, 15).toFixed(4) + ' ומשלים ל-1).';
+  }
+  [sp, sm].forEach(function (e) { e.addEventListener('input', draw); }); draw();
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+})();
+
+/* ============ W5: CDF and sampling from a PMF ============ */
+(function () {
+  var ws = [1, 2, 3, 4].map(function (i) { return document.getElementById('spW' + i); });
+  if (!ws[0]) return;
+  var cv = document.getElementById('spC'), ctx = cv.getContext('2d'), out = document.getElementById('spOut'), lastU = null, lastPick = null;
+  function pmf() { var w = ws.map(function (s) { return parseFloat(s.value); }), t = w.reduce(function (a, b) { return a + b; }, 0) || 1; return w.map(function (x) { return x / t; }); }
+  function cdf(p) { var c = [], s = 0; p.forEach(function (x) { s += x; c.push(s); }); return c; }
+  function pick(c, u) { for (var i = 0; i < c.length; i++) if (u < c[i]) return i; return c.length - 1; }
+  function draw() {
+    var p = pmf(), c = cdf(p), W = cv.width, H = cv.height, L = 62, R = 16, T = 18, B = 44, pw = W - L - R, ph = H - T - B, muted = cv_('--muted');
+    p.forEach(function (x, i) { document.getElementById('spWv' + (i + 1)).textContent = x.toFixed(3); });
+    var X = function (x) { return L + pw * (x - 0.5) / 5; }, Y = function (v) { return T + ph * (1 - v); };
+    ctx.clearRect(0, 0, W, H); ctx.font = '22px sans-serif'; ctx.fillStyle = muted; ctx.strokeStyle = muted; ctx.lineWidth = 1;
+    [0, 0.5, 1].forEach(function (v) { ctx.globalAlpha = .25; ctx.beginPath(); ctx.moveTo(L, Y(v)); ctx.lineTo(W - R, Y(v)); ctx.stroke(); ctx.globalAlpha = 1; ctx.fillText(v.toFixed(1), 18, Y(v) + 7); });
+    for (var k = 1; k <= 4; k++) ctx.fillText(k, X(k) - 6, H - 14);
+    ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(X(0.5), Y(0)); ctx.lineTo(X(1), Y(0));
+    for (k = 1; k <= 4; k++) { ctx.lineTo(X(k), Y(c[k - 1])); ctx.lineTo(X(k + 1 > 4.5 ? 4.5 : k + 1), Y(c[k - 1])); }
+    ctx.stroke();
+    ctx.fillStyle = '#2563eb'; for (k = 1; k <= 4; k++) { ctx.beginPath(); ctx.arc(X(k), Y(c[k - 1]), 6, 0, 6.3); ctx.fill(); }
+    if (lastU !== null) {
+      ctx.strokeStyle = '#ea580c'; ctx.lineWidth = 3; ctx.setLineDash([10, 8]); ctx.beginPath(); ctx.moveTo(L, Y(lastU)); ctx.lineTo(X(lastPick + 1), Y(lastU)); ctx.lineTo(X(lastPick + 1), Y(0)); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = '#ea580c'; ctx.beginPath(); ctx.arc(X(lastPick + 1), Y(lastU), 7, 0, 6.3); ctx.fill();
+    }
+    var base = 'הטבלה: p = (' + p.map(function (x) { return x.toFixed(2); }).join(', ') + '), F = (' + c.map(function (x) { return x.toFixed(2); }).join(', ') + ').';
+    out.innerHTML = base + (lastU !== null ? '<br>הוגרל U = <b>' + lastU.toFixed(3) + '</b>. הוא נפל בין F(' + lastPick + ') = ' + (lastPick ? c[lastPick - 1].toFixed(3) : '0') + ' ל-F(' + (lastPick + 1) + ') = ' + c[lastPick].toFixed(3) + ', לכן הערך שנדגם: <b>' + (lastPick + 1) + '</b>.' : '');
+  }
+  document.getElementById('spBtn1').addEventListener('click', function () { var c = cdf(pmf()); lastU = Math.random(); lastPick = pick(c, lastU); draw(); });
+  document.getElementById('spBtn1000').addEventListener('click', function () {
+    var p = pmf(), c = cdf(p), cnt = [0, 0, 0, 0], T = 1000;
+    for (var t = 0; t < T; t++) cnt[pick(c, Math.random())]++;
+    draw();
+    out.innerHTML += '<br>1,000 דגימות: ' + cnt.map(function (n, i) { return 'ערך ' + (i + 1) + ': ' + n + ' (' + (n / T).toFixed(3) + ' מול p = ' + p[i].toFixed(3) + ')'; }).join(' &nbsp;|&nbsp; ');
+  });
+  ws.forEach(function (s) { s.addEventListener('input', function () { lastU = null; draw(); }); });
+  draw();
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+})();
+
+/* ============ W6: softmax with temperature, and sampling ============ */
+(function () {
+  var st = document.getElementById('tmT');
+  if (!st) return;
+  var cv = document.getElementById('tmC'), out = document.getElementById('tmOut'), Z = [2, 1, 0], names = ['A', 'B', 'C'], emp = null;
+  function sm(T) { var e = Z.map(function (z) { return Math.exp(z / T); }), s = e.reduce(function (a, b) { return a + b; }, 0); return e.map(function (x) { return x / s; }); }
+  function draw() {
+    var T = parseFloat(st.value); document.getElementById('tmTv').textContent = T.toFixed(1);
+    var p = sm(T), series = [{ vals: p, color: 'rgba(37,99,235,.75)' }];
+    if (emp) series.push({ vals: emp, color: 'rgba(234,88,12,.8)' });
+    drawBars(cv, names, series, { ymax: 1.05 });
+    out.innerHTML = 'ציונים z = (2, 1, 0), טמפרטורה <b>T = ' + T.toFixed(1) + '</b>: ההסתברויות (כחול) = <b>(' + p.map(function (x) { return x.toFixed(3); }).join(', ') + ')</b>.' +
+      (emp ? '<br>1,000 דגימות (כתום): (' + emp.map(function (x) { return x.toFixed(3); }).join(', ') + ').' : '');
+  }
+  document.getElementById('tmBtn').addEventListener('click', function () {
+    var p = sm(parseFloat(st.value)), c = [p[0], p[0] + p[1], 1], cnt = [0, 0, 0];
+    for (var t = 0; t < 1000; t++) { var u = Math.random(), i = u < c[0] ? 0 : (u < c[1] ? 1 : 2); cnt[i]++; }
+    emp = cnt.map(function (n) { return n / 1000; }); draw();
+  });
+  st.addEventListener('input', function () { emp = null; draw(); });
+  draw();
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+})();
+
+</script>
+</body>
+</html>
