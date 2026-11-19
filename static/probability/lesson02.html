@@ -146,6 +146,19 @@ table.dice td.cab { background: var(--accent); color: #fff; border-color: var(--
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
 <script>
 // Shared helpers for the probability course.
+
+// The pages are RTL, and canvas text inherits that direction: with the default textAlign the text
+// would be drawn to the left of its x coordinate and get clipped at the canvas edge.
+// Force LTR drawing for every 2D context; labels in our canvases are numbers and Latin text.
+(function () {
+  var orig = HTMLCanvasElement.prototype.getContext;
+  HTMLCanvasElement.prototype.getContext = function (type, opts) {
+    var c = orig.call(this, type, opts);
+    if (c && type === '2d' && !c.__ltrSet) { c.direction = 'ltr'; c.textAlign = 'left'; c.__ltrSet = true; }
+    return c;
+  };
+})();
+
 (function () {
   function renderMath() {
     if (!window.renderMathInElement) return;

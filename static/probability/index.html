@@ -146,6 +146,19 @@ table.dice td.cab { background: var(--accent); color: #fff; border-color: var(--
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
 <script>
 // Shared helpers for the probability course.
+
+// The pages are RTL, and canvas text inherits that direction: with the default textAlign the text
+// would be drawn to the left of its x coordinate and get clipped at the canvas edge.
+// Force LTR drawing for every 2D context; labels in our canvases are numbers and Latin text.
+(function () {
+  var orig = HTMLCanvasElement.prototype.getContext;
+  HTMLCanvasElement.prototype.getContext = function (type, opts) {
+    var c = orig.call(this, type, opts);
+    if (c && type === '2d' && !c.__ltrSet) { c.direction = 'ltr'; c.textAlign = 'left'; c.__ltrSet = true; }
+    return c;
+  };
+})();
+
 (function () {
   function renderMath() {
     if (!window.renderMathInElement) return;
@@ -291,6 +304,23 @@ table.dice td.cab { background: var(--accent); color: #fff; border-color: var(--
     <p>תהליכים עם "זיכרון קצר".</p>
     <div class="mlhook">🤖 ל-ML: RL, HMM, מודלי דיפוזיה</div>
   </div>
+</div>
+
+<h2><span class="num">📎</span>נספחים</h2>
+<p>חומר שאפשר לקרוא ברצף או לחזור אליו כשצריך, בלי קשר לסדר השיעורים.</p>
+<div class="cards">
+  <a class="card" href="appendixA1.html">
+    <div class="n">נספח א1 <span class="tag">זמין</span></div>
+    <h3>קומבינטוריקה: יסודות הספירה</h3>
+    <p>חיבור, כפל ומשלים; תמורות; צירופים, משולש פסקל ומשפט הבינום; מקדם מולטינומי; כוכבים וקווים. עם בורר נוסחאות ותרגול מגוון.</p>
+    <div class="mlhook">🤖 ל-ML: נרמול ההתפלגות הבינומית, bag-of-words, גודל מרחבי חיפוש</div>
+  </a>
+  <a class="card" href="appendixA2.html">
+    <div class="n">נספח א2 <span class="tag">זמין</span></div>
+    <h3>קומבינטוריקה: כלים מתקדמים ויישומים להסתברות</h3>
+    <p>הכלה והפרדה, בעיית הכובעים, שובך יונים, מסלולי סריג, ספירה לשם הסתברות (היפרגאומטרית, ידי פוקר, בינומי), סטירלינג ואנטרופיה.</p>
+    <div class="mlhook">🤖 ל-ML: תכנות דינמי (HMM), התנגשויות hash, סימטריות ברשתות, אנטרופיה כספירה</div>
+  </a>
 </div>
 
 <h2><span class="num">🧰</span>ארגז הכלים: מתמטיקה שנלמד בדיוק כשצריך</h2>

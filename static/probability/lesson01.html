@@ -146,6 +146,19 @@ table.dice td.cab { background: var(--accent); color: #fff; border-color: var(--
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
 <script>
 // Shared helpers for the probability course.
+
+// The pages are RTL, and canvas text inherits that direction: with the default textAlign the text
+// would be drawn to the left of its x coordinate and get clipped at the canvas edge.
+// Force LTR drawing for every 2D context; labels in our canvases are numbers and Latin text.
+(function () {
+  var orig = HTMLCanvasElement.prototype.getContext;
+  HTMLCanvasElement.prototype.getContext = function (type, opts) {
+    var c = orig.call(this, type, opts);
+    if (c && type === '2d' && !c.__ltrSet) { c.direction = 'ltr'; c.textAlign = 'left'; c.__ltrSet = true; }
+    return c;
+  };
+})();
+
 (function () {
   function renderMath() {
     if (!window.renderMathInElement) return;
@@ -680,7 +693,7 @@ $$P(\text{לפחות אחד})=1-P(\text{אף אחד}).$$
 <div class="ex">
   <p class="q">תרגיל 4.2 <span class="tg">בדיקת שפיות (האם זה אפשרי?)</span> ⭐<br>האם יתכן $P(A)=0.3$, $P(B)=0.5$ ו-$P(A\cap B)=0.4$?</p>
   <details><summary>פתרון</summary>
-    <p>לא. $A\cap B\subseteq A$, ולכן (מונוטוניות) $P(A\cap B)\le P(A)=0.3<0.4$. כללי אצבע לבדיקה: חיתוך לא עולה על אף אחד מהמאורעות, ואיחוד לא קטן מאף אחד מהם.</p></details>
+    <p>לא. $A\cap B\subseteq A$, ולכן (מונוטוניות) $P(A\cap B)\le P(A)=0.3&lt;0.4$. כללי אצבע לבדיקה: חיתוך לא עולה על אף אחד מהמאורעות, ואיחוד לא קטן מאף אחד מהם.</p></details>
 </div>
 
 <div class="ex">
@@ -788,7 +801,7 @@ $$\binom{n}{k}=\frac{n!}{k!\,(n-k)!}$$
 
 <details>
 <summary>➕ הרחבה: מקרה רביעי, "בלי סדר, עם החזרה"</summary>
-<p>בחירת $k$ פריטים מתוך $n$ סוגים כשאפשר לחזור על סוג, והסדר לא חשוב (למשל 5 כדורי גלידה מ-3 טעמים): $\binom{n+k-1}{k}$ (שיטת "כוכבים וקווים"). נפגוש את זה רק מעט, אז אפשר לדלג.</p>
+<p>בחירת $k$ פריטים מתוך $n$ סוגים כשאפשר לחזור על סוג, והסדר לא חשוב (למשל 5 כדורי גלידה מ-3 טעמים): $\binom{n+k-1}{k}$ (שיטת "כוכבים וקווים"). נפגוש את זה רק מעט, אז אפשר לדלג. הסבר מלא עם מעבדה וקישור ל-ML ב<a href="appendixA1.html#s5">נספח א1</a>.</p>
 </details>
 
 <div class="box ml"><div class="t">🤖 קשר ל-ML</div>

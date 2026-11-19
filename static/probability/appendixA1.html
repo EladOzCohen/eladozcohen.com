@@ -1,0 +1,806 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>נספח א1 — יסודות הספירה</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<style>
+:root {
+  --bg: #fbfaf7; --fg: #1c1d21; --muted: #62666f; --card: #ffffff; --line: #e4e2db;
+  --accent: #2563eb; --accent-soft: #dbe7fe; --accent2: #ea580c;
+  --warn: #b45309; --warn-bg: #fef3dc;
+  --ok: #15803d; --ok-bg: #e2f5e8;
+  --bad: #b91c1c; --bad-bg: #fde4e4;
+  --ml: #6d28d9; --ml-bg: #efe8fd;
+  --trick: #0e7490; --trick-bg: #dff3f8;
+  --hist: #6b5a43; --hist-bg: #f1ebe0;
+  --def: #1d4ed8; --def-bg: #e6eefe;
+  --code-bg: #f3f1ec;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #14151a; --fg: #e8e8ea; --muted: #9a9ea8; --card: #1d1f26; --line: #2f323c;
+    --accent: #6ea0ff; --accent-soft: #1f2d4d; --accent2: #fb923c;
+    --warn: #fbbf4a; --warn-bg: #3a2c10;
+    --ok: #4ade80; --ok-bg: #12301d;
+    --bad: #f87171; --bad-bg: #3b1717;
+    --ml: #b69cff; --ml-bg: #281f45;
+    --trick: #5fd0e8; --trick-bg: #10303a;
+    --hist: #d9c4a3; --hist-bg: #2c261c;
+    --def: #8fb4ff; --def-bg: #1a2644;
+    --code-bg: #101116;
+  }
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font-family: "Segoe UI", Heebo, Arial, sans-serif; font-size: 18px; line-height: 1.8;
+}
+.katex { direction: ltr; unicode-bidi: isolate; font-size: 1.08em; }
+.katex-display { direction: ltr; margin: 1em 0; overflow-x: auto; overflow-y: hidden; }
+.wrap { max-width: 860px; margin: 0 auto; padding: 0 16px 80px; }
+header.hero { padding: 48px 16px 28px; border-bottom: 1px solid var(--line); background: linear-gradient(180deg, var(--accent-soft), transparent); }
+header.hero .wrap { padding-bottom: 0; }
+header.hero h1 { margin: 0 0 6px; font-size: 2.1rem; line-height: 1.3; }
+header.hero p { margin: 6px 0; color: var(--muted); }
+.crumb { font-size: .9rem; margin-bottom: 8px; }
+a { color: var(--accent); }
+nav.toc {
+  position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(6px); border-bottom: 1px solid var(--line);
+}
+nav.toc .wrap { display: flex; gap: 6px; overflow-x: auto; padding: 8px 16px; white-space: nowrap; }
+nav.toc a { font-size: .85rem; padding: 3px 10px; border-radius: 99px; background: var(--card); border: 1px solid var(--line); text-decoration: none; color: var(--fg); }
+nav.toc a:hover { border-color: var(--accent); color: var(--accent); }
+h2 { margin: 2.6em 0 .4em; font-size: 1.6rem; line-height: 1.35; padding-top: .4em; border-top: 1px solid var(--line); }
+h2 .num { display: inline-block; min-width: 1.9em; text-align: center; background: var(--accent); color: #fff; border-radius: 8px; font-size: 1.1rem; margin-left: 8px; padding: 0 6px; }
+h3 { margin: 1.8em 0 .3em; font-size: 1.2rem; }
+p, li { margin: .6em 0; }
+ul, ol { padding-inline-start: 1.4em; }
+.box { border-radius: 12px; padding: 12px 18px; margin: 1.2em 0; border-inline-start: 5px solid; }
+.box > .t { font-weight: 700; margin-bottom: 2px; }
+.box p:first-of-type { margin-top: .2em; } .box p:last-child, .box ul:last-child { margin-bottom: .2em; }
+.box.def { background: var(--def-bg); border-color: var(--def); } .box.def > .t { color: var(--def); }
+.box.intuition { background: var(--ok-bg); border-color: var(--ok); } .box.intuition > .t { color: var(--ok); }
+.box.warn { background: var(--warn-bg); border-color: var(--warn); } .box.warn > .t { color: var(--warn); }
+.box.trick { background: var(--trick-bg); border-color: var(--trick); } .box.trick > .t { color: var(--trick); }
+.box.ml { background: var(--ml-bg); border-color: var(--ml); } .box.ml > .t { color: var(--ml); }
+.box.history { background: var(--hist-bg); border-color: var(--hist); } .box.history > .t { color: var(--hist); }
+table.tbl { border-collapse: collapse; width: 100%; margin: 1em 0; font-size: .95rem; background: var(--card); border-radius: 10px; overflow: hidden; }
+table.tbl th, table.tbl td { border: 1px solid var(--line); padding: 6px 10px; text-align: center; }
+table.tbl th { background: var(--accent-soft); }
+.widget { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px 16px; margin: 1.4em 0; box-shadow: 0 1px 3px rgba(0,0,0,.05); }
+.widget > .wt { font-weight: 700; margin-bottom: 8px; }
+.widget .controls { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; margin: 8px 0; font-size: .95rem; }
+.widget .out { font-size: .95rem; color: var(--muted); margin-top: 6px; line-height: 1.7; }
+.widget .out b { color: var(--fg); }
+.widget canvas { width: 100%; height: auto; display: block; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 640px) { .grid2 { grid-template-columns: 1fr; } body { font-size: 17px; } }
+select, input[type=number] { font: inherit; font-size: .95rem; padding: 3px 6px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); }
+input[type=range] { vertical-align: middle; }
+.btn { font: inherit; font-size: .92rem; padding: 4px 12px; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent-soft); color: var(--fg); cursor: pointer; }
+.btn:hover { background: var(--accent); color: #fff; }
+.same { font-weight: 700; padding: 2px 10px; border-radius: 99px; }
+.same.yes { background: var(--ok-bg); color: var(--ok); } .same.no { background: var(--bad-bg); color: var(--bad); }
+table.dice { direction: ltr; border-collapse: separate; border-spacing: 3px; margin: 8px auto; }
+table.dice th { font-weight: 600; color: var(--muted); font-size: .85rem; width: 44px; }
+table.dice td { width: 44px; height: 44px; text-align: center; border-radius: 8px; background: var(--bg); border: 1px solid var(--line); font-size: .78rem; position: relative; line-height: 1.1; }
+table.dice td.res { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 700; }
+table.dice td .m { position: absolute; top: 1px; left: 3px; font-size: .62rem; opacity: .85; }
+table.dice td .m2 { position: absolute; top: 1px; right: 3px; font-size: .62rem; opacity: .85; }
+pre, code { direction: ltr; text-align: left; font-family: Consolas, "Cascadia Mono", monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--line); padding: 12px 14px; border-radius: 10px; overflow-x: auto; font-size: .9rem; line-height: 1.55; }
+code { background: var(--code-bg); padding: 1px 5px; border-radius: 5px; font-size: .88em; }
+pre code { background: none; padding: 0; }
+details { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 8px 14px; margin: .8em 0; }
+details summary { cursor: pointer; font-weight: 600; }
+details[open] summary { margin-bottom: 6px; }
+.ex { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 4px 16px 10px; margin: 1em 0; }
+.ex .q { font-weight: 600; }
+.quiz { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 8px 16px 14px; margin: 1em 0; }
+.quiz .opts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.quiz .opt { font: inherit; font-size: .95rem; padding: 6px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); cursor: pointer; }
+.quiz .opt:hover:not(:disabled) { border-color: var(--accent); }
+.quiz .opt.good { background: var(--ok-bg); border-color: var(--ok); color: var(--ok); font-weight: 700; }
+.quiz .opt.bad { background: var(--bad-bg); border-color: var(--bad); color: var(--bad); }
+.quiz .explain { margin-top: 8px; font-size: .95rem; color: var(--muted); }
+.cards { display: grid; gap: 12px; margin: 1em 0; }
+.card { display: block; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 16px; text-decoration: none; color: var(--fg); }
+a.card:hover { border-color: var(--accent); transform: translateY(-1px); }
+.card .n { color: var(--accent); font-weight: 700; font-size: .85rem; }
+.card h3 { margin: 0 0 2px; font-size: 1.1rem; }
+.card p { margin: 2px 0; color: var(--muted); font-size: .92rem; line-height: 1.6; }
+.card .mlhook { color: var(--ml); font-size: .9rem; }
+.card.soon { opacity: .6; }
+.tag { display: inline-block; font-size: .72rem; padding: 0 8px; border-radius: 99px; background: var(--ok-bg); color: var(--ok); margin-inline-start: 6px; }
+.tag.soon { background: var(--line); color: var(--muted); }
+.pager { display: flex; justify-content: space-between; margin-top: 3em; gap: 10px; }
+.muted { color: var(--muted); }
+.big { font-size: 1.6rem; font-weight: 700; color: var(--accent); }
+
+.ex .tg { font-size: .78rem; padding: 0 9px; border-radius: 99px; background: var(--accent-soft); color: var(--accent); margin-inline-start: 6px; font-weight: 600; white-space: nowrap; }
+.box.bridge { background: var(--card); border-color: var(--accent); border-inline-start-width: 5px; }
+.box.bridge > .t { color: var(--accent); }
+ol.story { counter-reset: s; list-style: none; padding: 0; }
+ol.story li { counter-increment: s; position: relative; padding: 6px 44px 6px 10px; margin: 6px 0; background: var(--card); border: 1px solid var(--line); border-radius: 10px; }
+ol.story li::before { content: counter(s); position: absolute; right: 10px; top: 6px; width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: #fff; font-size: .85rem; text-align: center; line-height: 24px; font-weight: 700; }
+.q-lead { font-size: 1.25rem; font-weight: 700; color: var(--accent); margin: .2em 0 .4em; }
+
+table.dice td.dim { opacity: .25; }
+table.dice td.inb { background: var(--accent-soft); border-color: var(--accent); }
+table.dice td.ca { background: rgba(37,99,235,.35); }
+table.dice td.cb { background: rgba(234,88,12,.35); }
+table.dice td.cab { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 700; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: .88rem; margin: 6px 0; }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-inline-end: 5px; vertical-align: -1px; }
+.treeSvg { width: 100%; max-width: 660px; height: auto; display: block; margin: 10px auto; direction: ltr; }
+.treeSvg text { fill: var(--fg); font-family: "Segoe UI", Heebo, Arial, sans-serif; }
+.treeSvg line { stroke: var(--muted); stroke-width: 1.6; }
+.treeSvg .hl { fill: var(--accent); font-weight: 700; }
+
+</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script>
+// Shared helpers for the probability course.
+
+// The pages are RTL, and canvas text inherits that direction: with the default textAlign the text
+// would be drawn to the left of its x coordinate and get clipped at the canvas edge.
+// Force LTR drawing for every 2D context; labels in our canvases are numbers and Latin text.
+(function () {
+  var orig = HTMLCanvasElement.prototype.getContext;
+  HTMLCanvasElement.prototype.getContext = function (type, opts) {
+    var c = orig.call(this, type, opts);
+    if (c && type === '2d' && !c.__ltrSet) { c.direction = 'ltr'; c.textAlign = 'left'; c.__ltrSet = true; }
+    return c;
+  };
+})();
+
+(function () {
+  function renderMath() {
+    if (!window.renderMathInElement) return;
+    window.renderMathInElement(document.body, {
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '$', right: '$', display: false }
+      ],
+      throwOnError: false
+    });
+  }
+  window.addEventListener('load', renderMath);
+
+  // Simple multiple-choice quizzes: <div class="quiz"> ... <button class="opt" data-ok="1"> ... <div class="explain" hidden>
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var opts = q.querySelectorAll('.opt');
+      opts.forEach(function (b) {
+        b.addEventListener('click', function () {
+          opts.forEach(function (x) { x.disabled = true; });
+          if (b.dataset.ok) b.classList.add('good'); else b.classList.add('bad');
+          var right = q.querySelector('.opt[data-ok]');
+          if (right) right.classList.add('good');
+          var ex = q.querySelector('.explain');
+          if (ex) ex.hidden = false;
+        });
+      });
+    });
+  });
+
+  window.gcd = function gcd(a, b) { return b ? gcd(b, a % b) : a; };
+  window.frac = function (c, n) {
+    if (c === 0) return '0';
+    var g = window.gcd(c, n);
+    return (c / g) + '/' + (n / g);
+  };
+  window.cssVar = function (name) {
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  };
+})();
+
+</script>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <div class="crumb"><a href="index.html">← מפת הדרכים</a> &nbsp;·&nbsp; <a href="https://eladozcohen.com/">eladozcohen.com</a></div>
+    <h1>נספח א1 — יסודות הספירה</h1>
+    <p>קומבינטוריקה בשביל הסתברות: חיבור, כפל, תמורות, צירופים, מקדם מולטינומי וכוכבים וקווים. זמן משוער: כ-2.5 שעות כולל התרגול. דרישות קדם: אין.</p>
+  </div>
+</header>
+<nav class="toc"><div class="wrap">
+  <a href="#story">הסיפור</a><a href="#s1">1 עקרונות</a><a href="#s2">2 תמורות</a><a href="#s3">3 צירופים</a>
+  <a href="#s4">4 מולטינומי</a><a href="#s5">5 חזרות</a><a href="#s6">6 בחירת כלי</a><a href="#mixed">תרגול משולב</a><a href="#sum">סיכום</a>
+</div></nav>
+
+<div class="wrap">
+
+<!-- ======================= STORY ======================= -->
+<h2 id="story"><span class="num">★</span>למה נספח על ספירה, ואיך משתמשים בו</h2>
+<p>בשיעור 1 ראינו שבמקרה האחיד $P(A)=\frac{|A|}{|\Omega|}$, ולכן <b>חצי מההסתברות היא ספירה</b>. הספירה חוזרת בהמשך הקורס שוב ושוב: ההתפלגות הבינומית, המולטינומית וההיפרגאומטרית הן כולן ספירה מחופשת, וגם חלק מההוכחות ב-ML (גודל מרחב ההשערות, מספר ה-labelings) נשענות עליה.</p>
+<p>הנספח הזה הוא <b>ארגז כלים מלא</b> שאפשר לקרוא ברצף או לחזור אליו כשצריך. הוא נחלק לשניים: <b>א1</b> (הדף הזה) הוא היסודות, ו<b>א2</b> הוא כלים מתקדמים ויישומים להסתברות (הכלה והפרדה, בעיית הכובעים, שובך יונים, ספירה לחישוב הסתברות, סטירלינג ועוד).</p>
+
+<ol class="story">
+  <li><b>איך סופרים בלי לרשום הכל?</b> <span class="muted">← חיבור, כפל, משלים והתאמה חח"ע</span></li>
+  <li>כמה דרכים <b>לסדר</b> פריטים? <span class="muted">← תמורות ועצרת</span></li>
+  <li>כמה דרכים <b>לבחור</b> פריטים? <span class="muted">← צירופים, משולש פסקל, משפט הבינום</span></li>
+  <li>מה כשיש <b>כמה קבוצות</b> מסומנות? <span class="muted">← מקדם מולטינומי</span></li>
+  <li>מה כשמותר <b>לחזור</b> על אותו פריט? <span class="muted">← כוכבים וקווים</span></li>
+  <li><b>איך בוחרים כלי</b> לבעיה חדשה? <span class="muted">← מפת החלטה ותרגול משולב</span></li>
+</ol>
+
+<h3>איפה כל כלי יופיע בקורס</h3>
+<table class="tbl">
+  <tr><th>כלי</th><th>איפה בקורס</th></tr>
+  <tr><td>כפל ומשלים</td><td>כל חישוב הסתברות (שיעורים 1–2)</td></tr>
+  <tr><td>צירופים ומשפט הבינום</td><td>ההתפלגות הבינומית ונרמולה (שיעור 5)</td></tr>
+  <tr><td>מקדם מולטינומי</td><td>ההתפלגות המולטינומית וספירות מילים (שיעורים 5–6)</td></tr>
+  <tr><td>כוכבים וקווים</td><td>bag-of-words, היסטוגרמות, חלוקת "תקציב"</td></tr>
+  <tr><td>תמורות</td><td>ערבוב דאטה, מבחני פרמוטציה, חישוב $n!$ בלוגים</td></tr>
+</table>
+
+<div class="box trick"><div class="t">🎯 המשפט האחד שכדאי לזכור</div>
+<p>כמעט כל בעיית ספירה היא אחת משלוש פעולות: <b>"או" = לחבר</b>, <b>"וגם / אחר כך" = להכפיל</b>, <b>"ספרתי יותר מדי" = לחלק</b>. כל השאר הם וריאציות.</p></div>
+
+<!-- ======================= S1 ======================= -->
+<h2 id="s1"><span class="num">1</span>עקרונות היסוד של הספירה</h2>
+<p class="q-lead">❓ כמה "דרכים" יש לעשות משהו, כשאי אפשר לרשום אותן אחת-אחת?</p>
+<p>נלך בשלבים: (1) כלל החיבור, (2) כלל הכפל, (3) הספירה בחיסור (משלים), (4) התאמה חח"ע, (5) ספירה עם עודף.</p>
+
+<h3>שלב 1: כלל החיבור ("או")</h3>
+<p>אם אפשר לבחור מתוך מקרים שאינם חופפים, <b>מחברים</b>. למשל לקינוח יש 3 סוגי עוגה <i>או</i> 2 סוגי גלידה: $3+2=5$ אפשרויות.</p>
+<div class="box intuition"><div class="t">💡 אינטואיציה</div>
+<p>זו בדיוק האקסיומה השלישית מהשיעור הראשון, בגרסת "ספירה": אם שני מאורעות <b>זרים</b> (אין תוצאה משותפת), מספר התוצאות באיחוד הוא הסכום. אם <i>יש</i> חפיפה, צריך להחסיר אותה, וזה יהיה "הכלה והפרדה" (נספח א2).</p></div>
+
+<h3>שלב 2: כלל הכפל ("וגם / אחר כך")</h3>
+<p>אם תהליך נעשה בשלבים, מכפילים את מספר האפשרויות בכל שלב. 3 חולצות ו-2 מכנסיים: $3\cdot2=6$ תלבושות (כמו שורות ועמודות בטבלה). הדגש החשוב:</p>
+<div class="box warn"><div class="t">⚠️ הדיוק שחשוב</div>
+<p>הכלל דורש ש<b>מספר</b> האפשרויות בכל שלב יהיה קבוע, אבל <b>לא</b> שהאפשרויות עצמן יהיו אותן אפשרויות. דוגמה: מילה בת 3 אותיות מתוך 26, <i>בלי</i> לחזור על אות: 26 אפשרויות לראשונה, ואז 25 לשנייה (בלי האות שנבחרה, גם אם היא שונה בכל מקרה), ואז 24: $26\cdot25\cdot24=15{,}600$. כל עוד המספר לא תלוי במה שנבחר קודם, מותר להכפיל.</p></div>
+
+<div class="box trick"><div class="t">🎯 "או" או "וגם"? מה לעשות?</div>
+<p>שאל את עצמך: האם אני <b>בוחר אחד מבין כמה מקרים</b> (חיבור) או <b>מבצע כמה בחירות ברצף</b> (כפל)? "עוגה <i>או</i> גלידה" = חיבור. "חולצה <i>וגם</i> מכנס" = כפל. הטעות הנפוצה ביותר בקומבינטוריקה היא להחליף ביניהם.</p></div>
+
+<h3>שלב 3: ספירה בחיסור (משלים)</h3>
+<p>כשקשה לספור ישירות, ספור את ההפך וחסר: $\text{מה שרוצים}=\text{הכל}-\text{מה שלא רוצים}$. זה אותו טריק המשלים של שיעור 1, רק בספירה.</p>
+<p><b>דוגמה:</b> כמה קודי PIN בני 4 ספרות יש עם <b>לפחות ספרה חוזרת אחת</b>? ישירות: מסובך (איזו ספרה? כמה פעמים?). בחיסור: כל הקודים $10^4=10{,}000$, ובלי חזרות בכלל $10\cdot9\cdot8\cdot7=5{,}040$. התשובה: $10{,}000-5{,}040=4{,}960$.</p>
+
+<h3>שלב 4: התאמה חח"ע (bijection)</h3>
+<p>לפעמים קל יותר לספור משהו <b>אחר</b> שיש לו בדיוק אותה כמות. אם אפשר להתאים לכל פריט בקבוצה אחת פריט אחד ויחיד בקבוצה השנייה, ולהפך, הקבוצות באותו גודל.</p>
+<div class="box intuition"><div class="t">💡 אינטואיציה: "אותו מספר, תלבושת אחרת"</div>
+<p>כמה תתי-קבוצות יש לקבוצה בת $n$ איברים? לכל איבר מחליטים "בפנים" או "בחוץ", כלומר רצף של $n$ כן/לא. תתי-קבוצות ↔ רצפים בינאריים באורך $n$, ולכן יש $2^n$ מהן. (עוד דוגמה: מסלולי סריג, בסעיף 5 בנספח א2, מתאימים למחרוזות של "ימינה/למעלה".)</p></div>
+
+<h3>שלב 5: "ספור עם עודף, וחלק"</h3>
+<p>כבר פגשת את הטריק הזה בשיעור 1: ספור משהו שסופר כל פריט <b>אותו מספר פעמים</b>, ואז חלק בגורם. הוא ישמש אותנו בתמורות עם אותיות חוזרות, בצירופים, ובשולחן עגול.</p>
+
+<h3>תרגול לסעיף 1</h3>
+<div class="ex">
+  <p class="q">תרגיל 1.1 <span class="tg">כפל</span> ⭐<br>לוחית רישוי בנויה משתי אותיות (מתוך 26) ואחריהן שלוש ספרות. כמה לוחיות יש?</p>
+  <details><summary>פתרון</summary><p>$26\cdot26\cdot10\cdot10\cdot10=676{,}000$.</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 1.2 <span class="tg">משלים</span> ⭐⭐<br>כמה מספרים בין 1 ל-999 מכילים לפחות פעם אחת את הספרה 7?</p>
+  <details><summary>רמז</summary><p>ספור את אלה שאינם מכילים 7 כלל. תחשוב על מספרים כרצפים של שלוש ספרות (עם אפסים מובילים).</p></details>
+  <details><summary>פתרון</summary><p>רצפים של שלוש ספרות מ-000 עד 999: $10^3=1000$. בלי 7 בכלל: $9^3=729$. לכן עם 7: $1000-729=271$. (המספר 000 אינו מכיל 7, ולכן ההחסרה נכונה גם לטווח 1–999.)</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 1.3 <span class="tg">התאמה חח"ע</span> ⭐⭐<br>הראה שלקבוצה בת $n\ge1$ איברים יש בדיוק $2^{n-1}$ תתי-קבוצות בגודל זוגי. (זה הסבר נוסף לכך שבתרגיל מ.1 בשיעור 1 קיבלנו 1/2.)</p>
+  <details><summary>רמז</summary><p>תתי-קבוצות בגודל זוגי ↔ תתי-קבוצות בגודל אי-זוגי: מה קורה אם "הופכים" את האיבר הראשון (מוציאים אם הוא בפנים, מכניסים אם הוא בחוץ)?</p></details>
+  <details><summary>פתרון</summary><p>ההיפוך של איבר 1 משנה את גודל הקבוצה ב-1, ולכן הופך זוגי לאי-זוגי ולהפך. זו התאמה חח"ע בין זוגיות לאי-זוגיות, ולכן הכמויות שוות: כל אחת $2^n/2=2^{n-1}$.</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 1.4 <span class="tg">מציאת טעות</span> ⭐<br>דני סופר: "בכיתה 12 בנים ו-15 בנות. כמה דרכים לבחור נציג אחד?" ועונה $12\cdot15=180$. מה הטעות, ומה התשובה?</p>
+  <details><summary>פתרון</summary><p>"בן <i>או</i> בת" הם מקרים זרים, ולכן מחברים: $12+15=27$ (פשוט כל תלמיד בכיתה). הכפל היה נכון לשאלה אחרת: "כמה זוגות (בן, בת) אפשר ליצור".</p></details>
+</div>
+
+<div class="box bridge"><div class="t">🔗 איפה אנחנו בסיפור</div>
+<p>יש לנו כפל לספירה "בשלבים". עכשיו נתמקד בבעיה שחוזרת הכי הרבה: <b>סידור פריטים בשורה</b>.</p></div>
+
+<!-- ======================= S2 ======================= -->
+<h2 id="s2"><span class="num">2</span>תמורות: כמה דרכים לסדר?</h2>
+<p class="q-lead">❓ בכמה דרכים אפשר לסדר 5 אנשים בשורה?</p>
+<p>נלך בשלבים: (1) עצרת, (2) סידור חלקי, (3) "הדבקה", (4) אותיות חוזרות, (5) שולחן עגול.</p>
+
+<h3>שלב 1: עצרת</h3>
+<p>למקום הראשון יש 5 מועמדים, למקום השני נשארו 4, אחר כך 3, 2, 1. לפי כלל הכפל: $5\cdot4\cdot3\cdot2\cdot1=120$. את המכפלה הזו מסמנים <b>עצרת</b> (factorial): $n!=n\cdot(n-1)\cdots2\cdot1$ (והגדרה: $0!=1$, כי יש בדיוק דרך אחת לסדר "כלום").</p>
+
+<div class="box intuition"><div class="t">💡 אינטואיציה: העצרת מתפוצצת</div>
+<p>$5!=120$, $10!=3{,}628{,}800$, $20!\approx2.4\cdot10^{18}$ (יותר מאלף מיליון מיליון). זו הסיבה שאי אפשר "לנסות כל סדר" כבר ב-20 פריטים, ושכדאי תמיד לחשב עצרות בלוגים או בשברים מצומצמים (פירוט בנספח א2).</p></div>
+
+<h3>שלב 2: סידור חלקי</h3>
+<p>מסדרים רק $k$ מתוך $n$ (למשל מדליות זהב/כסף/ארד מ-5 רצים): $n(n-1)\cdots(n-k+1)=\frac{n!}{(n-k)!}$. ($5\cdot4\cdot3=60$.)</p>
+
+<h3>שלב 3: הטריק "הדבקה"</h3>
+<p><b>שאלה:</b> 5 אנשים בשורה, ושניים מסוימים (נקרא להם דנה ורון) <b>חייבים לשבת צמודים</b>. כמה סידורים?</p>
+<p><b>הרעיון:</b> נדביק אותם ל"בלוק" אחד. עכשיו יש 4 "יחידות" לסדר: $4!=24$. ובתוך הבלוק אפשר לסדר אותם בשני אופנים (דנה-רון או רון-דנה): $\times2$. סה"כ $4!\cdot2=48$.</p>
+<p><b>והשאלה ההפוכה</b> (שני אנשים <i>לא</i> צמודים): בחיסור! $5!-48=120-48=72$.</p>
+
+<h3>שלב 4: אותיות חוזרות</h3>
+<p>כמה "מילים" שונות אפשר ליצור מסידור האותיות של <b>BANANA</b>? אם כל 6 האותיות היו שונות, היו $6!=720$. אבל יש שלוש A זהות. כל מילה אמיתית נספרה 6 פעמים (כל הסדרים של שלוש ה-A), ו-2 פעמים בגלל שתי ה-N. לפי "ספור עם עודף וחלק":</p>
+$$\frac{6!}{3!\cdot2!\cdot1!}=\frac{720}{12}=60.$$
+<p>נסה בעצמך:</p>
+<div class="widget" id="anW">
+  <div class="wt">🔤 מחשבון אנגרמות</div>
+  <div class="controls"><label>מילה: <input type="text" id="anIn" value="MISSISSIPPI" style="font:inherit;padding:3px 8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);direction:ltr" maxlength="25"></label></div>
+  <div class="out" id="anOut"></div>
+  <div id="anList"></div>
+  <div class="out"><b>נסה:</b> BANANA (60). AAB (3, ותראה את כולן ברשימה). ABCD (24, כל האותיות שונות). AAAA (1).</div>
+</div>
+
+<h3>שלב 5: שולחן עגול</h3>
+<p>כמה דרכים להושיב $n$ אנשים סביב שולחן עגול (שני סידורים זהים אם אפשר לסובב אחד לשני)? ספור עם עודף: $n!$ סידורים בשורה, וכל סידור עגול נספר $n$ פעמים (בכל אחת מ-$n$ הסיבובים). לכן $\frac{n!}{n}=(n-1)!$. (דרך נוספת לחשוב: "תקבע" אדם אחד במקומו, והשאר מסתדרים ב-$(n-1)!$ דרכים.)</p>
+
+<div class="box ml"><div class="t">🤖 קשר ל-ML</div>
+<p>ערבוב דאטה לפני אימון (shuffle) הוא בחירה של אחת מתוך $N!$ תמורות. כל פעם שמוסיפים random seed, בעצם מציינים איזו תמורה בוחרים. <b>מבחני פרמוטציה</b> (permutation tests) בודקים אם תוצאה יכולה להיות מקרית על ידי ערבוב התוויות הרבה פעמים, ותלויים בכך שמספר התמורות עצום.</p></div>
+
+<h3>תרגול לסעיף 2</h3>
+<div class="ex">
+  <p class="q">תרגיל 2.1 <span class="tg">עצרת</span> ⭐<br>7 ספרים שונים על מדף. בכמה דרכים אפשר לסדר אותם? ואם רק 3 מהם נבחרים ומסודרים?</p>
+  <details><summary>פתרון</summary><p>$7!=5040$. סידור חלקי של 3 מתוך 7: $7\cdot6\cdot5=210$.</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 2.2 <span class="tg">הדבקה + משלים</span> ⭐⭐<br>6 אנשים בשורה. שניים מסוימים <b>לא</b> רוצים לשבת צמודים. כמה סידורים?</p>
+  <details><summary>פתרון</summary><p>הכל: $6!=720$. צמודים: בלוק, 5 יחידות ושני סדרים: $5!\cdot2=240$. לא צמודים: $720-240=480$.</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 2.3 <span class="tg">אותיות חוזרות</span> ⭐⭐<br>כמה מילים שונות אפשר ליצור מ-<b>STATISTICS</b>?</p>
+  <details><summary>רמז</summary><p>ספור את האותיות: S ×3, T ×3, A ×1, I ×2, C ×1. סה"כ 10.</p></details>
+  <details><summary>פתרון</summary><p>$\frac{10!}{3!\,3!\,1!\,2!\,1!}=\frac{3628800}{72}=50{,}400$. (בדוק במחשבון למעלה.)</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 2.4 <span class="tg">שולחן עגול + הדבקה</span> ⭐⭐<br>4 זוגות נשואים מתיישבים סביב שולחן עגול, וכל זוג יושב צמוד. כמה סידורים?</p>
+  <details><summary>פתרון</summary><p>כל זוג הוא בלוק: 4 בלוקים סביב שולחן עגול: $(4-1)!=6$. בכל בלוק שני סדרים פנימיים: $2^4=16$. סה"כ $6\cdot16=96$.</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 2.5 <span class="tg">הסתברות מתמורות</span> ⭐⭐<br>5 ספרים שונים מסודרים באקראי על מדף. מה הסיכוי ששני ספרים מסוימים יהיו צמודים?</p>
+  <details><summary>פתרון</summary><p>כל סידור שווה-סיכוי. צמודים: $4!\cdot2=48$ מתוך $5!=120$. לכן $\frac{48}{120}=\frac25$.</p></details>
+</div>
+
+<div class="box bridge"><div class="t">🔗 איפה אנחנו בסיפור</div>
+<p>סידור הוא "מי במקום ראשון, מי בשני". לפעמים לא אכפת לנו מהסדר, רק <b>מי נבחר</b> (ועדה, יד של קלפים). זה מנוע הצירופים.</p></div>
+
+<!-- ======================= S3 ======================= -->
+<h2 id="s3"><span class="num">3</span>צירופים: כמה דרכים לבחור?</h2>
+<p class="q-lead">❓ בכמה דרכים אפשר לבחור ועדה של 3 אנשים מתוך 5, כשלא אכפת לנו מהסדר?</p>
+<p>נלך בשלבים: (1) הנוסחה, (2) ערכים מיוחדים, (3) כלל פסקל, (4) סכום השורה, (5) משפט הבינום, (6) הרחבה היפרגאומטרית.</p>
+
+<h3>שלב 1: מ"סידור" ל"בחירה"</h3>
+<p>סידור חלקי של 3 מתוך 5 הוא $5\cdot4\cdot3=60$. אבל בוועדה הסדר לא משנה, וכל ועדה נספרה $3!=6$ פעמים (כל הסדרים של שלושה אנשים). לכן $60\div6=10$:</p>
+$$\binom{n}{k}=\frac{n!}{k!\,(n-k)!}\qquad\text{("}n\text{ בוחר }k\text{").}$$
+
+<h3>שלב 2: ערכים מיוחדים (כדאי לזכור)</h3>
+<ul>
+  <li>$\binom n0=1$: דרך אחת לבחור "אף אחד". $\binom nn=1$: דרך אחת לבחור את כולם.</li>
+  <li>$\binom n1=n$: בוחרים נציג אחד.</li>
+  <li>$\binom n2=\frac{n(n-1)}{2}$: מספר <b>הזוגות</b> (לחיצות יד, קווי חיבור). ל-10 אנשים: $45$.</li>
+  <li><b>סימטריה:</b> $\binom nk=\binom n{n-k}$. הסבר: לבחור מי נכנס לוועדה זה אותו דבר כמו לבחור מי <i>נשאר בחוץ</i>.</li>
+</ul>
+
+<h3>שלב 3: כלל פסקל (הוכחה קומבינטורית)</h3>
+<p>נבחר ועדה של $k$ מתוך $n$ אנשים, ונתמקד באדם אחד, X. שני מקרים זרים:</p>
+<ul>
+  <li><b>X בוועדה:</b> צריך לבחור עוד $k-1$ מתוך $n-1$ הנותרים: $\binom{n-1}{k-1}$.</li>
+  <li><b>X לא בוועדה:</b> צריך לבחור $k$ מתוך $n-1$ הנותרים: $\binom{n-1}{k}$.</li>
+</ul>
+<p>לפי כלל החיבור:</p>
+$$\binom nk=\binom{n-1}{k-1}+\binom{n-1}{k}.$$
+<p>הכלל הזה בונה את <b>משולש פסקל</b>: כל מספר הוא סכום שני המספרים שמעליו. לחץ על מספר באמצע שורה, וראה (בירוק) מהם שני ה"הורים" שלו:</p>
+<div class="widget" id="pcW">
+  <div class="wt">🔺 משולש פסקל</div>
+  <div class="controls"><label>מספר שורות: <input type="range" id="pcRows" min="2" max="12" value="7"> <b id="pcRowsV">7</b></label></div>
+  <div id="pcT" style="overflow-x:auto"></div>
+  <div class="out" id="pcOut"></div>
+</div>
+
+<div class="box intuition"><div class="t">💡 הוכחה קומבינטורית: "נספור את אותו דבר בשתי דרכים"</div>
+<p>הוכחנו את כלל פסקל בלי אלגברה, בעזרת סיפור על ועדה. זו שיטה חזקה: אם מוצאים סיפור שבו שני הצדדים של משוואה סופרים <i>את אותו הדבר</i> (בדרכים שונות), המשוואה נכונה. השתמש בזה בתרגיל 3.3.</p></div>
+
+<h3>שלב 4: סכום השורה הוא $2^n$</h3>
+<p>סכום שורה $n$ במשולש: $\binom n0+\binom n1+\cdots+\binom nn=2^n$. <b>למה?</b> ספור את כל תתי-הקבוצות של קבוצה בת $n$ איברים בשתי דרכים: (א) לפי הגודל: $\binom nk$ תתי-קבוצות בגודל $k$, ולחבר על כל $k$. (ב) לפי החלטות כן/לא לכל איבר: $2^n$ (סעיף 1). שתי הספירות שוות. (הוזכר במעבדה למעלה: "סכום שורה".)</p>
+
+<h3>שלב 5: משפט הבינום</h3>
+$$(a+b)^n=\sum_{k=0}^n\binom nk\,a^k\,b^{n-k}.$$
+<div class="box intuition"><div class="t">💡 למה זה נכון? ("בחר מקומות" שוב)</div>
+<p>$(a+b)^n$ הוא מכפלה של $n$ סוגריים $(a+b)(a+b)\cdots(a+b)$. כשפותחים, מכל סוגר בוחרים <i>או</i> $a$ <i>או</i> $b$. כדי לקבל את האיבר $a^kb^{n-k}$ צריך ש-$a$ יבוא מ-$k$ מהסוגריים: ובחירה של <b>איזה</b> $k$ סוגריים נותנת $a$ היא בדיוק $\binom nk$. לכן המקדם של $a^kb^{n-k}$ הוא $\binom nk$.</p>
+<p>למשל $n=3$: $(a+b)^3=a^3+3a^2b+3ab^2+b^3$, והמקדמים $1,3,3,1$ הם שורה 3 של פסקל.</p></div>
+
+<div class="box ml"><div class="t">🤖 למה זה חשוב להסתברות</div>
+<p>נציב $a=p$ ו-$b=1-p$: $(p+(1-p))^n=1^n=1$. כלומר $\sum_k\binom nkp^k(1-p)^{n-k}=1$. זה בדיוק הסיבה שהתפלגות בינומית ("כמה הצלחות ב-$n$ ניסיונות") היא התפלגות תקפה: הסתברויותיה מסתכמות ל-1 (שיעור 5). וגם המקדם $\binom nk$ מופיע שם משום שיש $\binom nk$ רצפים עם $k$ הצלחות (טריק "בחר מקומות").</p></div>
+
+<details>
+<summary>➕ הרחבה: זהות ונדרמונד, ולמה ההתפלגות ההיפרגאומטרית מתנרמלת</summary>
+<p>מחפיסה של $N$ קלפים, $K$ מהם "אדומים", בוחרים $n$ קלפים. ספור את כל הבחירות לפי מספר הקלפים האדומים $j$ שנבחרו: $\binom Kj\binom{N-K}{n-j}$. ולכן: $\sum_j\binom Kj\binom{N-K}{n-j}=\binom Nn$ (כל בחירה נספרת בדיוק בקבוצת ה-$j$ המתאימה). בלי חישוב, לפי "ספור בשתי דרכים". ממנה נובע שההתפלגות ההיפרגאומטרית (נספרת בנספח א2) מסתכמת ל-1.</p>
+</details>
+
+<div class="box ml"><div class="t">🤖 קשר ל-ML</div>
+<p>$\binom n2=\frac{n(n-1)}2$ הוא מספר הזוגות. ב-dataset של 1,000 דוגמאות יש $499{,}500$ זוגות, ולכן מטריצת מרחקים בין כולן היא כבר חצי מיליון ערכים (ובמיליון דוגמאות: חמישים מיליארד). זו הסיבה שאלגוריתמים "ריבועיים" ב-$n$ לא מתאימים לדאטה גדול.</p></div>
+
+<h3>תרגול לסעיף 3</h3>
+<div class="ex">
+  <p class="q">תרגיל 3.1 <span class="tg">צירופים + משלים</span> ⭐<br>בוחרים ועדה של 3 מתוך 10 אנשים, ש-4 מהם נשים. בכמה דרכים תהיה לפחות אשה אחת?</p>
+  <details><summary>פתרון</summary><p>הכל: $\binom{10}3=120$. בלי נשים כלל (3 מתוך 6 הגברים): $\binom63=20$. התשובה: $120-20=100$.</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 3.2 <span class="tg">כפל של בחירות</span> ⭐⭐<br>ועדה של 4 מתוך 6 גברים ו-5 נשים, עם בדיוק 2 נשים. כמה ועדות?</p>
+  <details><summary>פתרון</summary><p>בוחרים 2 נשים מתוך 5 <i>וגם</i> 2 גברים מתוך 6, ומכפילים: $\binom52\binom62=10\cdot15=150$.</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 3.3 <span class="tg">הוכחה קומבינטורית</span> ⭐⭐⭐<br>הוכח: $k\binom nk=n\binom{n-1}{k-1}$, בעזרת "ספירה בשתי דרכים". (רמז: ועדה של $k$ <b>עם יו"ר</b>.)</p>
+  <details><summary>פתרון</summary><p>נספור את מספר הזוגות (ועדה של $k$ אנשים מתוך $n$, יו"ר מתוכה). <b>דרך א:</b> בוחרים קודם ועדה ($\binom nk$ דרכים), ואז יו"ר מתוכה ($k$ דרכים): $k\binom nk$. <b>דרך ב:</b> בוחרים קודם יו"ר ($n$ דרכים), ואז את שאר $k-1$ חברי הוועדה מתוך $n-1$ הנותרים: $n\binom{n-1}{k-1}$. אותה כמות. ∎</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 3.4 <span class="tg">משפט הבינום</span> ⭐⭐<br>א. חשב $\sum_{k=0}^n\binom nk2^k$. ב. הוכח $\sum_{k=0}^n(-1)^k\binom nk=0$ עבור $n\ge1$, והסבר קישור לתרגיל 1.3.</p>
+  <details><summary>פתרון</summary><p>א. $a=2,b=1$ במשפט הבינום: $(2+1)^n=3^n$. ב. $a=-1,b=1$: $(-1+1)^n=0$. כלומר $\sum_{k\text{ זוגי}}\binom nk=\sum_{k\text{ אי-זוגי}}\binom nk$: מספר תתי-הקבוצות הזוגיות שווה לאי-זוגיות, בדיוק מה שהוכחנו בהתאמה חח"ע.</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 3.5 <span class="tg">זוגות</span> ⭐<br>10 אנשים נפגשים, וכל אחד לוחץ יד לכל אחד אחר פעם אחת. כמה לחיצות יד?</p>
+  <details><summary>פתרון</summary><p>$\binom{10}2=45$. (לא $10\cdot9=90$, זה סופר כל לחיצה פעמיים.)</p></details>
+</div>
+
+<div class="box bridge"><div class="t">🔗 איפה אנחנו בסיפור</div>
+<p>צירופים מחלקים את העולם לשני חלקים: "נבחרו" ו"לא נבחרו". מה אם יש <b>כמה</b> קבוצות (חלוקה לצוותים, אותיות בכמה סוגים)? זה הרחבה טבעית.</p></div>
+
+<!-- ======================= S4 ======================= -->
+<h2 id="s4"><span class="num">4</span>מקדם מולטינומי: חלוקה לכמה קבוצות</h2>
+<p class="q-lead">❓ בכמה דרכים אפשר לחלק 6 אנשים לשלוש קבוצות מסומנות, בגדלים 3, 2 ו-1?</p>
+
+<h3>שלב 1: בוחרים קבוצה אחרי קבוצה</h3>
+<p>קודם בוחרים את הקבוצה בת 3 מבין 6: $\binom63=20$. מבין 3 הנותרים בוחרים את הקבוצה בת 2: $\binom32=3$. ה-1 האחרון הוא הקבוצה השלישית: $\binom11=1$. לפי כלל הכפל: $20\cdot3\cdot1=60$.</p>
+<p>נפתח את הנוסחה: $\binom63\binom32\binom11=\frac{6!}{3!\,3!}\cdot\frac{3!}{2!\,1!}\cdot1=\frac{6!}{3!\,2!\,1!}$ (גורמי "$3!$" מצטמצמים).</p>
+<div class="box def"><div class="t">📐 מקדם מולטינומי</div>
+$$\binom{n}{k_1,k_2,\dots,k_m}=\frac{n!}{k_1!\,k_2!\cdots k_m!}\qquad(k_1+\cdots+k_m=n).$$
+<p>מספר הדרכים לחלק $n$ פריטים לקבוצות <b>מסומנות</b> בגדלים $k_1,\dots,k_m$.</p></div>
+
+<div class="box intuition"><div class="t">💡 זה אותו דבר כמו אנגרמות!</div>
+<p>זה בדיוק הנוסחה של BANANA: $\frac{6!}{3!\,2!\,1!}$. הקשר: "לסדר אותיות עם חזרות" ו"לחלק מקומות לתוויות" הם אותו דבר. בכל מילה ב-BANANA, "קבוצת ה-A" היא אוסף המקומות שבהם יושבת A. לבחור מילה = לבחור מקומות לכל אות = לחלק את 6 המקומות ל-3 קבוצות מסומנות (A: 3, N: 2, B: 1). וזה "בחר מקומות" בגרסת כמה תוויות.</p></div>
+
+<h3>שלב 2: קבוצות לא מסומנות</h3>
+<p>אם הקבוצות <b>זהות</b> (אין שמות), חולקים ב-$m!$ כשכולן באותו גודל. למשל 6 אנשים ל-3 זוגות (בלי שמות לזוגות): קודם עם שמות: $\frac{6!}{2!2!2!}=90$. בלי שמות, כל חלוקה נספרה $3!=6$ פעמים (בכל תיוג של הזוגות): $90/6=15$. ("ספור עם עודף וחלק", שוב.)</p>
+
+<h3>שלב 3: משפט מולטינומי, והתפלגות מולטינומית</h3>
+<p>כמו משפט הבינום: $(a_1+\cdots+a_m)^n=\sum\binom{n}{k_1,\dots,k_m}a_1^{k_1}\cdots a_m^{k_m}$ (סכום על כל הצירופים של $k_i$ עם סכום $n$). הנימוק זהה: מכל אחד מ-$n$ הסוגריים בוחרים סוג, והמקדם סופר איזה סוגריים נותנים כל סוג.</p>
+<div class="box ml"><div class="t">🤖 קשר ל-ML: ספירות של קטגוריות</div>
+<p>מטילים קובייה $n=6$ פעמים. מה הסיכוי שכל פאה יוצאת בדיוק פעם אחת? יש $\frac{6!}{1!\cdots1!}=720$ רצפים כאלה, והסתברות כל רצף $(1/6)^6$: $\frac{720}{46656}\approx0.0154$. אותה צורה, $\binom{n}{k_1,\dots,k_m}\prod p_i^{k_i}$, היא <b>ההתפלגות המולטינומית</b> (שיעורים 5–6): "כמה פעמים כל קטגוריה" בהרבה דגימות מ-softmax, וגם ספירות מילים במסמך.</p></div>
+
+<h3>תרגול לסעיף 4</h3>
+<div class="ex">
+  <p class="q">תרגיל 4.1 <span class="tg">חלוקה לקבוצות מסומנות</span> ⭐<br>10 תלמידים מחולקים לקבוצות של 5, 3 ו-2 (לכל קבוצה מטרה שונה). כמה חלוקות?</p>
+  <details><summary>פתרון</summary><p>$\frac{10!}{5!\,3!\,2!}=2520$.</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 4.2 <span class="tg">קבוצות לא מסומנות</span> ⭐⭐<br>12 אנשים מחולקים לשלוש קבוצות של 4, שאין להן שמות. כמה חלוקות?</p>
+  <details><summary>פתרון</summary><p>עם שמות: $\frac{12!}{4!\,4!\,4!}=34{,}650$. בלי שמות, מחלקים ב-$3!$: $5{,}775$.</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 4.3 <span class="tg">הסתברות מולטינומית</span> ⭐⭐<br>קובייה הוגנת מוטלת 12 פעמים. מה הסיכוי שכל פאה תצא בדיוק פעמיים?</p>
+  <details><summary>פתרון</summary><p>רצפים עם כל פאה פעמיים: $\frac{12!}{(2!)^6}=7{,}484{,}400$. מתוך $6^{12}=2{,}176{,}782{,}336$ רצפים שוות-סיכוי. התשובה: $\approx0.00344$ (כ-0.34%).</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 4.4 <span class="tg">משפט מולטינומי</span> ⭐⭐<br>מהו המקדם של $x^2yz$ בפיתוח $(x+y+z)^4$?</p>
+  <details><summary>פתרון</summary><p>$\frac{4!}{2!\,1!\,1!}=12$.</p></details>
+</div>
+
+<div class="box bridge"><div class="t">🔗 איפה אנחנו בסיפור</div>
+<p>עד כה בחרנו <i>בלי</i> חזרות. מה אם מותר לבחור שוב את אותו הדבר, והסדר לא חשוב? זה המקרה הרביעי והמפתיע ביותר.</p></div>
+
+<!-- ======================= S5 ======================= -->
+<h2 id="s5"><span class="num">5</span>בחירה עם חזרות: כוכבים וקווים</h2>
+<p class="q-lead">❓ אני קונה 5 כדורי גלידה בבית קפה עם 3 טעמים. הסדר לא משנה, ומותר לבחור אותו טעם כמה פעמים. כמה "הזמנות" שונות יש?</p>
+
+<h3>שלב 1: מה בעצם סופרים?</h3>
+<p>רק מספר הכדורים מכל טעם: שלשה $(x_1,x_2,x_3)$ של מספרים לא שליליים עם סכום 5. למשל $(2,1,2)$ הוא "שני כדורי וניל, אחד שוקולד, שניים תות". כמה שלשות כאלה?</p>
+
+<h3>שלב 2: הטריק, כוכבים וקווים</h3>
+<p>נצייר כל כדור כ-★, ונפריד בין הטעמים ב"קווים" |. כל הזמנה הופכת לרצף:</p>
+<p style="text-align:center;font-size:1.3rem;direction:ltr">★★ | ★ | ★★ &nbsp; = &nbsp;(2,1,2)</p>
+<p>ויש כאן 5 כוכבים ו-2 קווים (כדי להפריד בין 3 טעמים צריך 2 קווים), בסך הכל <b>7 מקומות</b>. כל הזמנה נקבעת על ידי <b>באילו 2 מקומות מתוך 7 יושבים הקווים</b>: זה "בחר מקומות" שלמדנו:</p>
+$$\binom{5+3-1}{3-1}=\binom72=21.$$
+<div class="box def"><div class="t">📐 כוכבים וקווים</div>
+<p>מספר הדרכים לחלק $n$ פריטים <b>זהים</b> ל-$k$ תאים (מספר הפתרונות השלמים הלא-שליליים של $x_1+\cdots+x_k=n$):</p>
+$$\binom{n+k-1}{k-1}=\binom{n+k-1}{n}.$$</div>
+
+<div class="box intuition"><div class="t">💡 אינטואיציה</div>
+<p>הטריק המרכזי: <b>להפוך בעיה חדשה לבעיה שכבר פתרנו.</b> כל הזמנה מתורגמת לרצף של כוכבים וקווים, ו"כמה רצפים עם $k-1$ קווים בין $n+k-1$ מקומות" היא בעיית צירופים. בעיות עם "חלוקה של פריטים זהים" הן ברובן כוכבים וקווים.</p></div>
+
+<div class="widget" id="sbW">
+  <div class="wt">⭐ מציג כוכבים וקווים</div>
+  <div class="controls">
+    <label>מספר כדורים n: <input type="range" id="sbN" min="0" max="8" value="5"> <b id="sbNv">5</b></label>
+    <label>מספר טעמים k: <input type="range" id="sbK" min="1" max="6" value="3"> <b id="sbKv">3</b></label>
+    <label><input type="checkbox" id="sbMin"> מכל טעם לפחות אחד</label>
+  </div>
+  <div class="out" id="sbOut"></div>
+  <div id="sbList"></div>
+</div>
+
+<h3>שלב 3: וריאציות</h3>
+<ul>
+  <li><b>"לפחות אחד מכל טעם":</b> קודם מניחים כדור אחד בכל טעם, ואז מחלקים את ה-$n-k$ הנותרים בלי הגבלה: $\binom{(n-k)+k-1}{k-1}=\binom{n-1}{k-1}$.</li>
+  <li><b>"לפחות $m_i$ מטעם $i$":</b> קודם מניחים את המינימום, ומחלקים את השאר.</li>
+  <li><b>"לכל היותר":</b> (למשל $x_i\le5$) דורש הכלה והפרדה, בנספח א2.</li>
+</ul>
+
+<h3>שלב 4: המלכודת, מה "זהה" ומה "שונה"</h3>
+<div class="box warn"><div class="t">⚠️ אי-הבנה נפוצה</div>
+<p>5 ממתקים ל-3 ילדים. כמה דרכים?</p>
+<ul>
+<li>אם הממתקים <b>שונים</b> זה מזה: כל ממתק בוחר ילד: $3^5=243$.</li>
+<li>אם הם <b>זהים</b>: כוכבים וקווים: $\binom72=21$.</li>
+<li>זהים וכל ילד מקבל <b>לפחות אחד</b>: $\binom42=6$.</li>
+</ul>
+<p>הכלל: קודם תשאל "האם הפריטים מובחנים?". זו ההבחנה בין $k^n$ ל-$\binom{n+k-1}{k-1}$.</p></div>
+
+<div class="box ml"><div class="t">🤖 קשר ל-ML</div>
+<p><b>Bag-of-words:</b> מסמך באורך $n$ מילים וכל מילה מאוצר מילים בגודל $V$, כשלא אכפת לנו מסדר המילים (רק כמה פעמים כל מילה). מספר וקטורי הספירה האפשריים הוא $\binom{n+V-1}{V-1}$. לעומת זאת, מספר הרצפים האפשריים הוא $V^n$. אותו עיקרון בהיסטוגרמה: $n$ דגימות ב-$k$ תאים.</p></div>
+
+<h3>תרגול לסעיף 5</h3>
+<div class="ex">
+  <p class="q">תרגיל 5.1 <span class="tg">כוכבים וקווים</span> ⭐<br>6 כדורי גלידה מ-4 טעמים, בלי סדר ועם חזרות. כמה הזמנות?</p>
+  <details><summary>פתרון</summary><p>$\binom{6+4-1}{4-1}=\binom93=84$.</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 5.2 <span class="tg">פתרונות של משוואה</span> ⭐⭐<br>כמה פתרונות בשלמים לא שליליים יש ל-$x+y+z=10$? וכמה בשלמים <b>חיוביים</b> (כל אחד ≥1)?</p>
+  <details><summary>פתרון</summary><p>לא שליליים: $\binom{12}2=66$. חיוביים: $\binom{9}2=36$ (נותנים 1 לכל אחד, ומחלקים 7 בלי הגבלה: $\binom{9}2$).</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 5.3 <span class="tg">מובחן או זהה?</span> ⭐⭐<br>מחלקים 4 תפוחים ל-3 ילדים. כמה דרכים אם: (א) התפוחים שונים; (ב) התפוחים זהים; (ג) זהים וכל ילד מקבל לפחות אחד?</p>
+  <details><summary>פתרון</summary><p>(א) $3^4=81$. (ב) $\binom{6}{2}=15$. (ג) $\binom{3}{2}=3$ (בוחרים איזה ילד מקבל שני תפוחים).</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 5.4 <span class="tg">מינימום שונה לכל תא</span> ⭐⭐⭐<br>כמה פתרונות שלמים לא שליליים יש ל-$x_1+x_2+x_3+x_4=12$ עם $x_1\ge2$ ו-$x_2\ge3$?</p>
+  <details><summary>פתרון</summary><p>מציבים $x_1'=x_1-2$, $x_2'=x_2-3$ (מורידים את המינימום). הסכום החדש: $12-5=7$ בארבעה תאים בלי הגבלה: $\binom{7+4-1}{3}=\binom{10}3=120$.</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל 5.5 <span class="tg">ML: רצפים או ספירות?</span> ⭐⭐<br>אוצר מילים של 4 מילים, ומסמכים באורך 3. כמה רצפי מילים אפשריים, וכמה וקטורי bag-of-words שונים?</p>
+  <details><summary>פתרון</summary><p>רצפים: $4^3=64$. וקטורי ספירה: $\binom{3+4-1}{3}=\binom63=20$. הרבה פחות, כי הרצפים "AAB", "ABA", "BAA" כולם ממופים לאותה ספירה.</p></details>
+</div>
+
+<div class="box bridge"><div class="t">🔗 איפה אנחנו בסיפור</div>
+<p>יש לנו עכשיו ארבעה כלים בסיסיים: כפל, תמורות, צירופים וכוכבים וקווים (ועוד מולטינומי). הבעיה בבעיות אמיתיות: <b>איזה מהם?</b></p></div>
+
+<!-- ======================= S6 ======================= -->
+<h2 id="s6"><span class="num">6</span>איך בוחרים כלי? מפת החלטה</h2>
+<p class="q-lead">❓ קיבלתי בעיית ספירה חדשה. איזה כלי אני מפעיל?</p>
+
+<h3>שלב 1: שתי שאלות שמכריעות</h3>
+<p>כשבוחרים $k$ פריטים מתוך $n$, שתי שאלות קובעות הכל: <b>(1) האם הסדר חשוב?</b> ו-<b>(2) האם מותר לחזור על אותו פריט?</b></p>
+<table class="tbl">
+  <tr><th></th><th>בלי חזרות</th><th>עם חזרות</th></tr>
+  <tr><th>סדר חשוב</th><td>$\dfrac{n!}{(n-k)!}$</td><td>$n^k$</td></tr>
+  <tr><th>סדר לא חשוב</th><td>$\dbinom nk$</td><td>$\dbinom{n+k-1}{k}$</td></tr>
+</table>
+
+<div class="widget" id="chW">
+  <div class="wt">🧭 בורר נוסחאות</div>
+  <div class="controls">
+    <label>האם הסדר חשוב? <select id="chOrd"><option value="yes">כן</option><option value="no" selected>לא</option></select></label>
+    <label>האם מותר לחזור? <select id="chRep"><option value="yes">כן</option><option value="no" selected>לא</option></select></label>
+    <label>n: <input type="number" id="chN" value="10" min="0" max="60" style="width:4.5em"></label>
+    <label>k: <input type="number" id="chK" value="3" min="0" max="60" style="width:4.5em"></label>
+  </div>
+  <div class="out" id="chOut"></div>
+</div>
+
+<h3>שלב 2: שאלות נוספות לפני שמחליטים</h3>
+<ol>
+  <li><b>האם יש פריטים זהים?</b> (אותיות חוזרות, ממתקים זהים) ← מחלקים בעצרות (שלב 4 בסעיף 2), או כוכבים וקווים.</li>
+  <li><b>האם יש כמה קבוצות מסומנות?</b> ← מקדם מולטינומי.</li>
+  <li><b>האם יש תנאי "לפחות אחד" או "בדיוק"?</b> ← משלים (שלב 3 בסעיף 1), או חלוקה למקרים.</li>
+  <li><b>האם יש תנאי "צמוד" או "לא צמוד"?</b> ← הדבקה.</li>
+  <li><b>האם יש חפיפה בין מקרים?</b> ← הכלה והפרדה (נספח א2).</li>
+</ol>
+
+<div class="box trick"><div class="t">🎯 בדיקת שפיות: "האם המספר הגיוני?"</div>
+<p>אחרי כל חישוב שאל: (א) אם הסדר <i>לא</i> חשוב, האם התשובה קטנה מהגרסה "עם סדר"? (חייבת להיות, כי ספרנו כל קבוצה פחות פעמים.) (ב) מקרה קטן ($n=3$ או $4$): האם אפשר לרשום הכל ולהשוות? ברוב הטעויות הנפוצות (ספירה כפולה, התעלמות מסדר) בדיקה על מקרה קטן חושפת אותן מיד.</p></div>
+
+<!-- ======================= MIXED ======================= -->
+<h2 id="mixed"><span class="num">★</span>תרגול משולב</h2>
+<p>בלי כותרת של טכניקה: תחליט בעצמך אילו כלים צריך (הטכניקה רשומה בפתרון).</p>
+
+<div class="ex">
+  <p class="q">תרגיל מ.1 ⭐⭐<br>סיסמה בת 5 תווים: 3 אותיות קטנות <b>שונות זו מזו</b> ואחריהן 2 ספרות (חזרות מותרות). כמה סיסמאות?</p>
+  <details><summary>פתרון</summary><p><b>כפל + סדר חשוב ובלי חזרות.</b> $26\cdot25\cdot24\cdot10\cdot10=1{,}560{,}000$.</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל מ.2 ⭐⭐<br>מטילים מטבע הוגן 6 פעמים. מה הסיכוי לבדיוק 3 עצים? ולפחות עץ אחד?</p>
+  <details><summary>פתרון</summary><p><b>בחר מקומות + משלים.</b> בדיוק 3 עצים: $\binom63/2^6=\frac{20}{64}=0.3125$. לפחות עץ אחד: $1-\frac1{64}=\frac{63}{64}$.</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל מ.3 ⭐⭐⭐<br>כמה קודים בני 5 ספרות (0 עד 9, חזרות מותרות) יש עם <b>סכום ספרות 10</b>?</p>
+  <details><summary>רמז</summary><p>כוכבים וקווים נותן את כל הפתרונות הלא-שליליים של $d_1+\cdots+d_5=10$, אבל ספרה אחת לא יכולה להיות יותר מ-9. כמה פתרונות "פסולים" יש, כלומר עם $d_i\ge10$?</p></details>
+  <details><summary>פתרון</summary><p><b>כוכבים וקווים + משלים.</b> בלי הגבלה: $\binom{14}4=1001$. פסולים: ספרה אחת שווה 10 (והשאר 0): 5 אפשרויות. (שתי ספרות ≥10 היו נותנות סכום ≥20, בלתי אפשרי.) התשובה: $1001-5=996$.</p></details>
+</div>
+<div class="ex">
+  <p class="q">תרגיל מ.4 ⭐⭐<br>מחלקים 8 אנשים לשתי קבוצות של 4 בלי שמות לקבוצות. כמה חלוקות? מה אם לקבוצות יש שמות?</p>
+  <details><summary>פתרון</summary><p><b>צירופים + חלוקה בסימטריה.</b> עם שמות: $\binom84=70$. בלי שמות: כל חלוקה נספרה פעמיים: $70/2=35$.</p></details>
+</div>
+
+<!-- ======================= SUMMARY ======================= -->
+<h2 id="sum"><span class="num">7</span>סיכום ארגז הכלים</h2>
+<table class="tbl">
+  <tr><th>המצב</th><th>הכלי</th><th>הנוסחה</th></tr>
+  <tr><td>מקרים זרים ("או")</td><td>חיבור</td><td>$a+b$</td></tr>
+  <tr><td>שלבים ברצף ("וגם")</td><td>כפל</td><td>$a\cdot b$</td></tr>
+  <tr><td>קשה לספור ישירות</td><td>משלים</td><td>הכל − לא רוצים</td></tr>
+  <tr><td>סידור $n$ פריטים</td><td>עצרת</td><td>$n!$</td></tr>
+  <tr><td>סידור $k$ מתוך $n$</td><td>תמורה חלקית</td><td>$\frac{n!}{(n-k)!}$</td></tr>
+  <tr><td>בחירה בלי סדר</td><td>צירוף</td><td>$\binom nk$</td></tr>
+  <tr><td>אותיות חוזרות / קבוצות מסומנות</td><td>מולטינומי</td><td>$\frac{n!}{k_1!\cdots k_m!}$</td></tr>
+  <tr><td>בלי סדר, עם חזרות (פריטים זהים)</td><td>כוכבים וקווים</td><td>$\binom{n+k-1}{k-1}$</td></tr>
+  <tr><td>שני פריטים צמודים</td><td>הדבקה</td><td>בלוק × סידור פנימי</td></tr>
+  <tr><td>ספרתי יותר מדי</td><td>חלוקה בעודף</td><td>ספור עם עודף, חלק</td></tr>
+</table>
+
+<ul>
+  <li><b>המשפט האחד:</b> "או" = לחבר, "וגם / אחר כך" = להכפיל, "ספרתי יותר מדי" = לחלק.</li>
+  <li><b>הוכחות קומבינטוריות:</b> סיפור אחד, שתי דרכים לספור אותו. כלל פסקל, סכום השורה, משפט הבינום וזהות ונדרמונד הוכחו כך.</li>
+  <li><b>משפט הבינום ← נרמול ההתפלגות הבינומית:</b> $(p+(1-p))^n=1$.</li>
+</ul>
+
+<div class="box intuition"><div class="t">🔭 מה הלאה</div>
+<p>בנספח א2 נראה את הכלים המתקדמים: <b>הכלה והפרדה</b> ל-3 מאורעות ויותר, <b>בעיית הכובעים</b>, <b>שובך יונים</b>, מסלולי סריג, ספירה לשם חישוב הסתברות (ידי פוקר, בחירה בלי החזרה), וקצב הגדילה של העצרת (סטירלינג) שמופיע באנטרופיה.</p></div>
+
+<div class="pager">
+  <a href="index.html">← מפת הדרכים</a>
+  <a href="appendixA2.html">נספח א2 →</a>
+</div>
+
+</div>
+
+<script>
+/* Appendix A1 widgets: anagram/multinomial calculator, Pascal triangle, stars & bars viewer, formula chooser. */
+
+function bFact(n) { var r = 1n; for (var i = 2n; i <= BigInt(n); i++) r *= i; return r; }
+function bComb(n, k) {
+  n = BigInt(n); k = BigInt(k);
+  if (k < 0n || k > n) return 0n;
+  if (k > n - k) k = n - k;
+  var r = 1n;
+  for (var i = 1n; i <= k; i++) r = r * (n - k + i) / i;
+  return r;
+}
+function commaB(b) { return b.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+function fmtBig(b) {
+  var s = b.toString();
+  if (s.length <= 15) return commaB(b);
+  return commaB(b) + '<br><small>≈ ' + (Number(s.slice(0, 4)) / 1000).toFixed(3) + ' · 10<sup>' + (s.length - 1) + '</sup></small>';
+}
+
+/* ============ Anagram / multinomial calculator ============ */
+(function () {
+  var inp = document.getElementById('anIn');
+  if (!inp) return;
+  var out = document.getElementById('anOut'), list = document.getElementById('anList');
+  function perms(arr) {
+    var res = {}, used = new Array(arr.length).fill(false), cur = [];
+    (function rec() {
+      if (cur.length === arr.length) { res[cur.join('')] = 1; return; }
+      var seen = {};
+      for (var i = 0; i < arr.length; i++) {
+        if (used[i] || seen[arr[i]]) continue;
+        seen[arr[i]] = 1; used[i] = true; cur.push(arr[i]); rec(); cur.pop(); used[i] = false;
+      }
+    })();
+    return Object.keys(res);
+  }
+  function update() {
+    var s = inp.value.replace(/\s+/g, '').toUpperCase();
+    list.innerHTML = '';
+    if (!s.length) { out.innerHTML = 'הקלד מילה (אותיות לטיניות או עבריות).'; return; }
+    if (s.length > 25) { out.innerHTML = 'עד 25 אותיות, בבקשה.'; return; }
+    var cnt = {}; s.split('').forEach(function (c) { cnt[c] = (cnt[c] || 0) + 1; });
+    var letters = Object.keys(cnt).sort(), n = s.length;
+    var den = 1n, parts = [];
+    letters.forEach(function (c) { den *= bFact(cnt[c]); parts.push(cnt[c] + '!'); });
+    var total = bFact(n) / den;
+    out.innerHTML = 'n = <b>' + n + '</b> אותיות. הספירות: ' + letters.map(function (c) { return '<b>' + c + '</b>×' + cnt[c]; }).join(', ') +
+      '<br>מספר המילים השונות = ' + n + '! / (' + parts.join(' · ') + ') = <span class="big">' + commaB(total) + '</span>' +
+      '<br><small>(לעומת ' + n + '! = ' + commaB(bFact(n)) + ' אם כל האותיות היו שונות; כל מילה נספרה ' + commaB(den) + ' פעמים.)</small>';
+    if (n <= 6) {
+      var p = perms(s.split(''));
+      list.innerHTML = '<div class="legend">' + p.slice(0, 60).map(function (w) { return '<code>' + w + '</code>'; }).join(' &nbsp;') + (p.length > 60 ? ' …' : '') + '</div>';
+    }
+  }
+  inp.addEventListener('input', update);
+  update();
+})();
+
+/* ============ Pascal triangle ============ */
+(function () {
+  var rng = document.getElementById('pcRows');
+  if (!rng) return;
+  var box = document.getElementById('pcT'), out = document.getElementById('pcOut'), sel = [5, 2];
+  function render() {
+    var N = parseInt(rng.value, 10);
+    document.getElementById('pcRowsV').textContent = N;
+    if (sel[0] > N) sel = [N, Math.min(sel[1], N)];
+    var html = '';
+    for (var n = 0; n <= N; n++) {
+      html += '<div style="display:flex;justify-content:center;gap:4px;margin:3px 0;direction:ltr">';
+      for (var k = 0; k <= n; k++) {
+        var v = bComb(n, k), cls = 'btn';
+        var isSel = (n === sel[0] && k === sel[1]);
+        var isPar = (n === sel[0] - 1 && (k === sel[1] - 1 || k === sel[1]));
+        var st = 'min-width:42px;padding:3px 4px;font-size:.85rem;';
+        if (isSel) st += 'background:var(--accent);color:#fff;';
+        else if (isPar) st += 'background:var(--ok);color:#fff;border-color:var(--ok);';
+        html += '<button class="' + cls + '" data-n="' + n + '" data-k="' + k + '" style="' + st + '">' + v.toString() + '</button>';
+      }
+      html += '</div>';
+    }
+    box.innerHTML = html;
+    box.querySelectorAll('button').forEach(function (b) {
+      b.addEventListener('click', function () { sel = [+b.dataset.n, +b.dataset.k]; render(); });
+    });
+    var n0 = sel[0], k0 = sel[1], v0 = bComb(n0, k0);
+    var rowSum = 0n; for (var j = 0; j <= n0; j++) rowSum += bComb(n0, j);
+    var msg = 'נבחר: <b>C(' + n0 + ',' + k0 + ') = ' + v0 + '</b>.';
+    if (n0 >= 1 && k0 >= 1 && k0 < n0) msg += '<br>כלל פסקל: C(' + n0 + ',' + k0 + ') = C(' + (n0 - 1) + ',' + (k0 - 1) + ') + C(' + (n0 - 1) + ',' + k0 + ') = ' + bComb(n0 - 1, k0 - 1) + ' + ' + bComb(n0 - 1, k0) + ' (הירוקים).';
+    else msg += '<br>בקצוות השורה תמיד 1. לחץ על מספר באמצע השורה כדי לראות מאילו שניים הוא נבנה.';
+    msg += '<br>סכום שורה ' + n0 + ' = <b>' + rowSum + ' = 2<sup>' + n0 + '</sup></b>.';
+    out.innerHTML = msg;
+  }
+  rng.addEventListener('input', render);
+  render();
+})();
+
+/* ============ Stars & bars viewer ============ */
+(function () {
+  var sn = document.getElementById('sbN');
+  if (!sn) return;
+  var sk = document.getElementById('sbK'), sm = document.getElementById('sbMin'), out = document.getElementById('sbOut'), list = document.getElementById('sbList');
+  function enumerate(n, k, min1, cap) {
+    var res = [], cur = [];
+    (function rec(i, left) {
+      if (res.length >= cap) return;
+      if (i === k - 1) {
+        var last = left;
+        if (min1 && last < 1) return;
+        cur.push(last); res.push(cur.slice()); cur.pop(); return;
+      }
+      for (var x = (min1 ? 1 : 0); x <= left; x++) { cur.push(x); rec(i + 1, left - x); cur.pop(); if (res.length >= cap) return; }
+    })(0, n);
+    return res;
+  }
+  function update() {
+    var n = parseInt(sn.value, 10), k = parseInt(sk.value, 10), min1 = sm.checked;
+    document.getElementById('sbNv').textContent = n;
+    document.getElementById('sbKv').textContent = k;
+    var cnt = min1 ? bComb(n - 1, k - 1) : bComb(n + k - 1, k - 1);
+    if (min1 && n < k) cnt = 0n;
+    var formula = min1 ? 'C(' + (n - 1) + ', ' + (k - 1) + ')' : 'C(' + (n + k - 1) + ', ' + (k - 1) + ')';
+    out.innerHTML = n + ' כדורי גלידה (זהים) ו-' + k + ' טעמים' + (min1 ? ', מכל טעם <b>לפחות אחד</b>' : '') + ': <b>' + formula + ' = ' + cnt + '</b> חלוקות אפשריות.';
+    var cap = 60, rows = enumerate(n, k, min1, cap);
+    list.innerHTML = '<div style="display:flex;flex-wrap:wrap;gap:6px 14px;direction:ltr;font-family:Consolas,monospace;font-size:.95rem">' +
+      rows.map(function (r) {
+        var s = r.map(function (x) { return new Array(x + 1).join('★'); }).join('|');
+        return '<span style="background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:2px 8px">' + (s || '&nbsp;') + ' <small class="muted">(' + r.join(',') + ')</small></span>';
+      }).join('') + '</div>' + (cnt > BigInt(cap) ? '<div class="muted" style="font-size:.85rem;margin-top:4px">מוצגות ' + cap + ' הראשונות מתוך ' + cnt + '.</div>' : '');
+  }
+  [sn, sk, sm].forEach(function (e) { e.addEventListener('input', update); e.addEventListener('change', update); });
+  update();
+})();
+
+/* ============ Which formula? chooser ============ */
+(function () {
+  var so = document.getElementById('chOrd');
+  if (!so) return;
+  var sr = document.getElementById('chRep'), nI = document.getElementById('chN'), kI = document.getElementById('chK'), out = document.getElementById('chOut');
+  function update() {
+    var ord = so.value === 'yes', rep = sr.value === 'yes';
+    var n = Math.max(0, Math.min(60, parseInt(nI.value, 10) || 0)), k = Math.max(0, Math.min(60, parseInt(kI.value, 10) || 0));
+    var N = BigInt(n), K = BigInt(k), val, formula, ex;
+    if (ord && rep) { val = N ** K; formula = 'n<sup>k</sup>'; ex = 'סיסמה: בכל מקום בוחרים אות/ספרה כלשהי; הטלת קובייה k פעמים.'; }
+    else if (ord && !rep) { val = k <= n ? bFact(n) / bFact(n - k) : 0n; formula = 'n! / (n−k)!'; ex = 'מדליות זהב/כסף/ארד; "מקום ראשון, שני, שלישי".'; }
+    else if (!ord && !rep) { val = bComb(n, k); formula = 'C(n,k) = n! / (k!·(n−k)!)'; ex = 'ועדה של k אנשים; ידי קלפים; תת-קבוצה.'; }
+    else { val = bComb(n + k - 1, k); formula = 'C(n+k−1, k)'; ex = 'k כדורי גלידה מ-n טעמים (כוכבים וקווים); histogram של k דגימות ב-n תאים.'; }
+    out.innerHTML = '<b>נוסחה:</b> ' + formula + '<br><b>עם n = ' + n + ', k = ' + k + ':</b> <span class="big">' + (val === 0n && !rep && ord && k > n ? '0 (אי אפשר לבחור יותר מ-n פריטים בלי חזרה)' : fmtBig(val)) + '</span><br><b>דוגמה טיפוסית:</b> ' + ex;
+  }
+  [so, sr, nI, kI].forEach(function (e) { e.addEventListener('input', update); e.addEventListener('change', update); });
+  update();
+})();
+
+</script>
+</body>
+</html>
