@@ -1,0 +1,912 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>שיעור 2 — מה משתנה כשמקבלים מידע?</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<style>
+:root {
+  --bg: #fbfaf7; --fg: #1c1d21; --muted: #62666f; --card: #ffffff; --line: #e4e2db;
+  --accent: #2563eb; --accent-soft: #dbe7fe; --accent2: #ea580c;
+  --warn: #b45309; --warn-bg: #fef3dc;
+  --ok: #15803d; --ok-bg: #e2f5e8;
+  --bad: #b91c1c; --bad-bg: #fde4e4;
+  --ml: #6d28d9; --ml-bg: #efe8fd;
+  --trick: #0e7490; --trick-bg: #dff3f8;
+  --hist: #6b5a43; --hist-bg: #f1ebe0;
+  --def: #1d4ed8; --def-bg: #e6eefe;
+  --code-bg: #f3f1ec;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #14151a; --fg: #e8e8ea; --muted: #9a9ea8; --card: #1d1f26; --line: #2f323c;
+    --accent: #6ea0ff; --accent-soft: #1f2d4d; --accent2: #fb923c;
+    --warn: #fbbf4a; --warn-bg: #3a2c10;
+    --ok: #4ade80; --ok-bg: #12301d;
+    --bad: #f87171; --bad-bg: #3b1717;
+    --ml: #b69cff; --ml-bg: #281f45;
+    --trick: #5fd0e8; --trick-bg: #10303a;
+    --hist: #d9c4a3; --hist-bg: #2c261c;
+    --def: #8fb4ff; --def-bg: #1a2644;
+    --code-bg: #101116;
+  }
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font-family: "Segoe UI", Heebo, Arial, sans-serif; font-size: 18px; line-height: 1.8;
+}
+.katex { direction: ltr; unicode-bidi: isolate; font-size: 1.08em; }
+.katex-display { direction: ltr; margin: 1em 0; overflow-x: auto; overflow-y: hidden; }
+.wrap { max-width: 860px; margin: 0 auto; padding: 0 16px 80px; }
+header.hero { padding: 48px 16px 28px; border-bottom: 1px solid var(--line); background: linear-gradient(180deg, var(--accent-soft), transparent); }
+header.hero .wrap { padding-bottom: 0; }
+header.hero h1 { margin: 0 0 6px; font-size: 2.1rem; line-height: 1.3; }
+header.hero p { margin: 6px 0; color: var(--muted); }
+.crumb { font-size: .9rem; margin-bottom: 8px; }
+a { color: var(--accent); }
+nav.toc {
+  position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(6px); border-bottom: 1px solid var(--line);
+}
+nav.toc .wrap { display: flex; gap: 6px; overflow-x: auto; padding: 8px 16px; white-space: nowrap; }
+nav.toc a { font-size: .85rem; padding: 3px 10px; border-radius: 99px; background: var(--card); border: 1px solid var(--line); text-decoration: none; color: var(--fg); }
+nav.toc a:hover { border-color: var(--accent); color: var(--accent); }
+h2 { margin: 2.6em 0 .4em; font-size: 1.6rem; line-height: 1.35; padding-top: .4em; border-top: 1px solid var(--line); }
+h2 .num { display: inline-block; min-width: 1.9em; text-align: center; background: var(--accent); color: #fff; border-radius: 8px; font-size: 1.1rem; margin-left: 8px; padding: 0 6px; }
+h3 { margin: 1.8em 0 .3em; font-size: 1.2rem; }
+p, li { margin: .6em 0; }
+ul, ol { padding-inline-start: 1.4em; }
+.box { border-radius: 12px; padding: 12px 18px; margin: 1.2em 0; border-inline-start: 5px solid; }
+.box > .t { font-weight: 700; margin-bottom: 2px; }
+.box p:first-of-type { margin-top: .2em; } .box p:last-child, .box ul:last-child { margin-bottom: .2em; }
+.box.def { background: var(--def-bg); border-color: var(--def); } .box.def > .t { color: var(--def); }
+.box.intuition { background: var(--ok-bg); border-color: var(--ok); } .box.intuition > .t { color: var(--ok); }
+.box.warn { background: var(--warn-bg); border-color: var(--warn); } .box.warn > .t { color: var(--warn); }
+.box.trick { background: var(--trick-bg); border-color: var(--trick); } .box.trick > .t { color: var(--trick); }
+.box.ml { background: var(--ml-bg); border-color: var(--ml); } .box.ml > .t { color: var(--ml); }
+.box.history { background: var(--hist-bg); border-color: var(--hist); } .box.history > .t { color: var(--hist); }
+table.tbl { border-collapse: collapse; width: 100%; margin: 1em 0; font-size: .95rem; background: var(--card); border-radius: 10px; overflow: hidden; }
+table.tbl th, table.tbl td { border: 1px solid var(--line); padding: 6px 10px; text-align: center; }
+table.tbl th { background: var(--accent-soft); }
+.widget { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px 16px; margin: 1.4em 0; box-shadow: 0 1px 3px rgba(0,0,0,.05); }
+.widget > .wt { font-weight: 700; margin-bottom: 8px; }
+.widget .controls { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; margin: 8px 0; font-size: .95rem; }
+.widget .out { font-size: .95rem; color: var(--muted); margin-top: 6px; line-height: 1.7; }
+.widget .out b { color: var(--fg); }
+.widget canvas { width: 100%; height: auto; display: block; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 640px) { .grid2 { grid-template-columns: 1fr; } body { font-size: 17px; } }
+select, input[type=number] { font: inherit; font-size: .95rem; padding: 3px 6px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); }
+input[type=range] { vertical-align: middle; }
+.btn { font: inherit; font-size: .92rem; padding: 4px 12px; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent-soft); color: var(--fg); cursor: pointer; }
+.btn:hover { background: var(--accent); color: #fff; }
+.same { font-weight: 700; padding: 2px 10px; border-radius: 99px; }
+.same.yes { background: var(--ok-bg); color: var(--ok); } .same.no { background: var(--bad-bg); color: var(--bad); }
+table.dice { direction: ltr; border-collapse: separate; border-spacing: 3px; margin: 8px auto; }
+table.dice th { font-weight: 600; color: var(--muted); font-size: .85rem; width: 44px; }
+table.dice td { width: 44px; height: 44px; text-align: center; border-radius: 8px; background: var(--bg); border: 1px solid var(--line); font-size: .78rem; position: relative; line-height: 1.1; }
+table.dice td.res { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 700; }
+table.dice td .m { position: absolute; top: 1px; left: 3px; font-size: .62rem; opacity: .85; }
+table.dice td .m2 { position: absolute; top: 1px; right: 3px; font-size: .62rem; opacity: .85; }
+pre, code { direction: ltr; text-align: left; font-family: Consolas, "Cascadia Mono", monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--line); padding: 12px 14px; border-radius: 10px; overflow-x: auto; font-size: .9rem; line-height: 1.55; }
+code { background: var(--code-bg); padding: 1px 5px; border-radius: 5px; font-size: .88em; }
+pre code { background: none; padding: 0; }
+details { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 8px 14px; margin: .8em 0; }
+details summary { cursor: pointer; font-weight: 600; }
+details[open] summary { margin-bottom: 6px; }
+.ex { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 4px 16px 10px; margin: 1em 0; }
+.ex .q { font-weight: 600; }
+.quiz { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 8px 16px 14px; margin: 1em 0; }
+.quiz .opts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.quiz .opt { font: inherit; font-size: .95rem; padding: 6px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); cursor: pointer; }
+.quiz .opt:hover:not(:disabled) { border-color: var(--accent); }
+.quiz .opt.good { background: var(--ok-bg); border-color: var(--ok); color: var(--ok); font-weight: 700; }
+.quiz .opt.bad { background: var(--bad-bg); border-color: var(--bad); color: var(--bad); }
+.quiz .explain { margin-top: 8px; font-size: .95rem; color: var(--muted); }
+.cards { display: grid; gap: 12px; margin: 1em 0; }
+.card { display: block; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 16px; text-decoration: none; color: var(--fg); }
+a.card:hover { border-color: var(--accent); transform: translateY(-1px); }
+.card .n { color: var(--accent); font-weight: 700; font-size: .85rem; }
+.card h3 { margin: 0 0 2px; font-size: 1.1rem; }
+.card p { margin: 2px 0; color: var(--muted); font-size: .92rem; line-height: 1.6; }
+.card .mlhook { color: var(--ml); font-size: .9rem; }
+.card.soon { opacity: .6; }
+.tag { display: inline-block; font-size: .72rem; padding: 0 8px; border-radius: 99px; background: var(--ok-bg); color: var(--ok); margin-inline-start: 6px; }
+.tag.soon { background: var(--line); color: var(--muted); }
+.pager { display: flex; justify-content: space-between; margin-top: 3em; gap: 10px; }
+.muted { color: var(--muted); }
+.big { font-size: 1.6rem; font-weight: 700; color: var(--accent); }
+
+.ex .tg { font-size: .78rem; padding: 0 9px; border-radius: 99px; background: var(--accent-soft); color: var(--accent); margin-inline-start: 6px; font-weight: 600; white-space: nowrap; }
+.box.bridge { background: var(--card); border-color: var(--accent); border-inline-start-width: 5px; }
+.box.bridge > .t { color: var(--accent); }
+ol.story { counter-reset: s; list-style: none; padding: 0; }
+ol.story li { counter-increment: s; position: relative; padding: 6px 44px 6px 10px; margin: 6px 0; background: var(--card); border: 1px solid var(--line); border-radius: 10px; }
+ol.story li::before { content: counter(s); position: absolute; right: 10px; top: 6px; width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: #fff; font-size: .85rem; text-align: center; line-height: 24px; font-weight: 700; }
+.q-lead { font-size: 1.25rem; font-weight: 700; color: var(--accent); margin: .2em 0 .4em; }
+
+table.dice td.dim { opacity: .25; }
+table.dice td.inb { background: var(--accent-soft); border-color: var(--accent); }
+table.dice td.ca { background: rgba(37,99,235,.35); }
+table.dice td.cb { background: rgba(234,88,12,.35); }
+table.dice td.cab { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 700; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: .88rem; margin: 6px 0; }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-inline-end: 5px; vertical-align: -1px; }
+.treeSvg { width: 100%; max-width: 660px; height: auto; display: block; margin: 10px auto; direction: ltr; }
+.treeSvg text { fill: var(--fg); font-family: "Segoe UI", Heebo, Arial, sans-serif; }
+.treeSvg line { stroke: var(--muted); stroke-width: 1.6; }
+.treeSvg .hl { fill: var(--accent); font-weight: 700; }
+
+</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script>
+// Shared helpers for the probability course.
+(function () {
+  function renderMath() {
+    if (!window.renderMathInElement) return;
+    window.renderMathInElement(document.body, {
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '$', right: '$', display: false }
+      ],
+      throwOnError: false
+    });
+  }
+  window.addEventListener('load', renderMath);
+
+  // Simple multiple-choice quizzes: <div class="quiz"> ... <button class="opt" data-ok="1"> ... <div class="explain" hidden>
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var opts = q.querySelectorAll('.opt');
+      opts.forEach(function (b) {
+        b.addEventListener('click', function () {
+          opts.forEach(function (x) { x.disabled = true; });
+          if (b.dataset.ok) b.classList.add('good'); else b.classList.add('bad');
+          var right = q.querySelector('.opt[data-ok]');
+          if (right) right.classList.add('good');
+          var ex = q.querySelector('.explain');
+          if (ex) ex.hidden = false;
+        });
+      });
+    });
+  });
+
+  window.gcd = function gcd(a, b) { return b ? gcd(b, a % b) : a; };
+  window.frac = function (c, n) {
+    if (c === 0) return '0';
+    var g = window.gcd(c, n);
+    return (c / g) + '/' + (n / g);
+  };
+  window.cssVar = function (name) {
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  };
+})();
+
+</script>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <div class="crumb"><a href="index.html">← מפת הדרכים</a> &nbsp;·&nbsp; <a href="https://eladozcohen.com/">eladozcohen.com</a></div>
+    <h1>שיעור 2 — מה משתנה כשמקבלים מידע?</h1>
+    <p>הסתברות מותנית, אי-תלות ומשפט בייס. זמן משוער: כ-2 שעות כולל התרגול. דרישות קדם: שיעור 1.</p>
+  </div>
+</header>
+<nav class="toc"><div class="wrap">
+  <a href="#story">הסיפור</a><a href="#s1">1 מותנית</a><a href="#s2">2 כלל הכפל</a><a href="#s3">3 אי-תלות</a>
+  <a href="#s4">4 הסתברות שלמה</a><a href="#s5">5 בייס</a><a href="#s6">6 ML</a><a href="#mixed">תרגול משולב</a><a href="#sum">סיכום</a>
+</div></nav>
+
+<div class="wrap">
+
+<!-- ======================= STORY ======================= -->
+<h2 id="story"><span class="num">★</span>הסיפור של השיעור</h2>
+<p>בשיעור 1 חישבנו הסתברות כשאין לנו שום מידע מיוחד. אבל בחיים (וב-ML) כמעט תמיד <b>יודעים משהו</b>: התוצאה של בדיקה, מילה שהופיעה במייל, פיקסל בתמונה. השיעור הזה עוסק בשאלה אחת גדולה: <b>איך משנים את ההסתברות כשמגיע מידע חדש?</b></p>
+
+<div class="box intuition"><div class="t">📋 תזכורת קצרה משיעור 1 (למקרה שעבר זמן)</div>
+<ul>
+<li>הסתברות היא "חלק יחסי"; מאורע הוא קבוצת תוצאות מתוך מרחב המדגם $\Omega$.</li>
+<li>$A\cup B$ = "$A$ או $B$", $A\cap B$ = "$A$ וגם $B$", $A^c$ = "לא $A$".</li>
+<li>אקסיומות: $P(A)\ge0$, $P(\Omega)=1$, ולזרים $P(A\cup B)=P(A)+P(B)$. מהן נגזר $P(A^c)=1-P(A)$.</li>
+<li>כשהתוצאות שוות-סיכוי: $P(A)=|A|/|\Omega|$, ו"טבלת 36 התאים" של שתי קוביות.</li>
+</ul></div>
+
+<ol class="story">
+  <li>ידעתי משהו חדש. <b>איך משנים את הסיכוי?</b> <span class="muted">← הסתברות מותנית</span></li>
+  <li>איך מחשבים "קרה $A$ <b>וגם</b> אחר כך $B$"? <span class="muted">← כלל הכפל ועצי הסתברות</span></li>
+  <li><b>מתי מידע לא משנה כלום?</b> <span class="muted">← אי-תלות</span></li>
+  <li>איך חושבים כשיש כמה "מצבי עולם" אפשריים? <span class="muted">← נוסחת ההסתברות השלמה</span></li>
+  <li>איך <b>הופכים כיוון</b>: מ"אם חולה אז הבדיקה חיובית" ל"הבדיקה חיובית, אז כמה סביר שאני חולה"? <span class="muted">← משפט בייס</span></li>
+  <li>ומה זה קשור ל-<b>ML</b>? <span class="muted">← מסווג כ-$P(y\mid x)$, Naive Bayes, ולמה 99% דיוק יכול להטעות</span></li>
+</ol>
+
+<div class="box trick"><div class="t">🎯 כלי חדש בשיעור הזה: אין</div>
+<p>לא צריך שום מתמטיקה חדשה, רק שברים וכפל. ה"כלי" היחיד הוא דרך חשיבה: <b>לצמצם את היקום</b> למה שנשאר אחרי שיודעים משהו.</p></div>
+
+<!-- ======================= S1 ======================= -->
+<h2 id="s1"><span class="num">1</span>הסתברות מותנית: מידע שמצמצם את היקום</h2>
+<p class="q-lead">❓ הטלתי קובייה ולא הראיתי לך את התוצאה. מה הסיכוי שיצא מספר זוגי? ומה אם אגלה לך שיצא מספר גדול מ-3?</p>
+
+<p>הסעיף בנוי בשלבים: (0) דוגמה קטנה, (1) צמצום היקום, (2) הנוסחה, (3) מעבדה, (4) התכונה החשובה, (5) מלכודת נפוצה.</p>
+
+<h3>שלב 0: דוגמה קטנה, קובייה אחת</h3>
+<ul>
+  <li><b>בלי מידע:</b> $\Omega=\{1,2,3,4,5,6\}$, והמאורע "זוגי" הוא $A=\{2,4,6\}$. הסיכוי: $3/6=1/2$.</li>
+  <li><b>עם מידע:</b> אני מגלה שיצא מספר גדול מ-3, כלומר $B=\{4,5,6\}$.</li>
+</ul>
+<p>עכשיו נחשוב: איזה מבין התוצאות האפשריות <i>נשארו</i>? רק 4, 5, 6. שלוש תוצאות שוות-סיכוי. מהן זוגיות: 4 ו-6, כלומר שתיים. הסיכוי החדש הוא $2/3$.</p>
+<p>המידע שינה את התשובה מ-$\tfrac12$ ל-$\tfrac23$. זה הרעיון כולו.</p>
+
+<h3>שלב 1: צמצום היקום</h3>
+<div class="box def"><div class="t">📐 הסתברות מותנית</div>
+<p>$P(A\mid B)$ נקרא "ההסתברות של $A$ <b>בהינתן</b> $B$" (given $B$), והוא ההסתברות ש-$A$ קרה, כשידוע ש-$B$ קרה. הקו האנכי $\mid$ נקרא "בהינתן". בדוגמה: $P(\text{זוגי}\mid\text{גדול מ-3})=\frac23$.</p></div>
+
+<div class="box intuition"><div class="t">💡 האינטואיציה</div>
+<p>ידיעה ש-$B$ קרה פירושה: <b>כל מה שמחוץ ל-$B$ נפל מהמשחק</b>. $B$ הוא עכשיו "העולם החדש", $\Omega$ החדש. ההסתברות של $A$ בעולם הזה היא החלק היחסי של $A$ <i>בתוך $B$</i>: כמה תוצאות של $A$ נשארו, מתוך כמה תוצאות נשארו בסך הכל.</p></div>
+
+<h3>שלב 2: הנוסחה</h3>
+<p>כשהתוצאות שוות-סיכוי, "החלק של $A$ בתוך $B$" הוא $\frac{|A\cap B|}{|B|}$ (התוצאות שב-$A$ <i>וגם</i> ב-$B$, מתוך תוצאות $B$). נחלק מונה ומכנה ב-$|\Omega|$, ונקבל נוסחה שמתאימה לכל מצב, גם כשהתוצאות לא שוות-סיכוי:</p>
+$$P(A\mid B)=\frac{|A\cap B|}{|B|}=\frac{|A\cap B|/|\Omega|}{|B|/|\Omega|}=\frac{P(A\cap B)}{P(B)}\qquad(\text{בתנאי ש-}P(B)>0).$$
+<p>בדוגמה: $A\cap B=\{4,6\}$, $P(A\cap B)=\frac26$, $P(B)=\frac36$, והיחס $=\frac23$ ✔. (הדרישה $P(B)>0$ נחוצה: אי אפשר "להתנות" במאורע שאי אפשר שיקרה, זה חילוק באפס.)</p>
+
+<h3>שלב 3: מעבדה על הקוביות</h3>
+<p>נחזור לטבלת 36 התאים. בחר מה <b>ידוע</b> ($B$) ומה <b>שואלים</b> ($A$). התאים שמחוץ ל-$B$ מתעמעמים: הם נפלו מהמשחק.</p>
+<div class="widget" id="cdW">
+  <div class="wt">🔎 מעבדת התניה: P(A | B)</div>
+  <div class="controls">
+    <label>A (השאלה): <select id="cdA"></select></label>
+    <label>B (הידוע): <select id="cdB"></select></label>
+  </div>
+  <table class="dice" id="cdT"></table>
+  <div class="legend"><span><i style="background:var(--accent)"></i>גם ב-A וגם ב-B</span><span><i style="background:var(--accent-soft);border:1px solid var(--accent)"></i>ב-B בלבד</span><span><i style="background:var(--bg);border:1px solid var(--line)"></i>מחוץ ל-B (נפל מהמשחק)</span></div>
+  <div class="out" id="cdOut"></div>
+</div>
+<p><b>ניסוי מודרך:</b></p>
+<ol>
+  <li>השאלה "דאבל" והידוע "הסכום זוגי": כל 6 הדאבלים הם בעלי סכום זוגי, ויש 18 תאים עם סכום זוגי. $P=6/18=1/3$, לעומת $6/36=1/6$ בלי הידיעה. <b>המידע העלה</b> את הסיכוי.</li>
+  <li>השאלה "הסכום הוא 7" והידוע "הסכום זוגי": התשובה 0. סכום זוגי ו-7 לא יכולים לקרות יחד.</li>
+  <li>השאלה "הקובייה הראשונה = 6" והידוע "הסכום זוגי": ראה ש-$P(A\mid B)=P(A)$. <b>המידע לא שינה כלום.</b> על המקרה הזה נחזור בסעיף 3.</li>
+</ol>
+
+<h3>שלב 4: ההסתברות המותנית היא הסתברות לכל דבר</h3>
+<p>לעולם החדש ($B$) יש הסתברויות משלו, והן מקיימות את האקסיומות מהשיעור הקודם: לא שליליות, $P(B\mid B)=1$, וחיבור לזרים. לכן <b>כל החוקים שלמדנו ממשיכים לעבוד</b>, פשוט עם "$\mid B$" בכל מקום. למשל חוק המשלים:</p>
+$$P(A^c\mid B)=1-P(A\mid B).$$
+<p>בדוגמה: $P(\text{אי-זוגי}\mid\text{גדול מ-3})=1-\frac23=\frac13$, ואכן רק התוצאה 5 מתוך $\{4,5,6\}$ ✔.</p>
+
+<h3>שלב 5: המלכודת הנפוצה: $P(A\mid B)\neq P(B\mid A)$</h3>
+<div class="box warn"><div class="t">⚠️ אי-הבנה נפוצה: להפוך את הכיוון בלי לשים לב</div>
+<p>$P(A\mid B)$ ו-$P(B\mid A)$ הם <b>מספרים שונים</b>, והבלבול ביניהם הוא אחת הטעויות הנפוצות ביותר בהסתברות. דוגמה על הקוביות: $A$ = "הסכום 12" ו-$B$ = "דאבל". אז:</p>
+<ul>
+<li>$P(B\mid A)=1$: אם הסכום 12, ודאי שזה דאבל, (6,6).</li>
+<li>$P(A\mid B)=\frac16$: אם יצא דאבל, רק אחד משש האפשרויות נותן סכום 12.</li>
+</ul>
+<p>דוגמה מהחיים: "כל מי שמדבר עברית ברחוב בתל אביב כנראה ישראלי" שונה מ"כל ישראלי מדבר עברית ברחוב". כשיש לך נתון מהצורה $P(A\mid B)$, אל תשתמש בו כאילו הוא $P(B\mid A)$. בסעיף 5 נראה איך באמת עוברים בין הכיוונים.</p></div>
+
+<div class="box warn"><div class="t">⚠️ "בהינתן" אינו "כי" ואינו "אחרי"</div>
+<p>$P(A\mid B)$ מדבר על <b>מידע</b>, לא על סיבה ותוצאה, ולא על סדר בזמן. אפשר להתנות באירוע שקרה <i>אחרי</i> $A$ (למשל "ירד גשם" בהינתן "ראיתי מטרייה פתוחה"), ואין בכך טענה שהמטרייה גרמה לגשם.</p></div>
+
+<h3>תרגול לסעיף 1</h3>
+<div class="ex">
+  <p class="q">תרגיל 1.1 <span class="tg">חישוב מטבלה</span> ⭐<br>מטילים שתי קוביות. ידוע שהקובייה הראשונה יצאה 3. מה הסיכוי שהסכום הוא 8? השווה לסיכוי ללא הידיעה.</p>
+  <details><summary>פתרון</summary>
+    <p>$B$ = "הראשונה 3": 6 תאים. $A\cap B$: רק $(3,5)$, תא אחד. לכן $P(A\mid B)=1/6\approx0.167$. בלי הידיעה: $P(\text{סכום }8)=5/36\approx0.139$. המידע העלה מעט את הסיכוי. (אפשר לבדוק במעבדה.)</p></details>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל 1.2 <span class="tg">מציאת טעות בטיעון</span> ⭐⭐<br>בדיקת קורונה מזהה 95% מהחולים. מישהו אומר: "הבדיקה שלי יצאה חיובית, לכן הסיכוי שאני חולה הוא 95%". איזו הסתברות מותנית הוא מחליף באיזו?</p>
+  <details><summary>פתרון</summary>
+    <p>המספר 95% הוא $P(\text{חיובית}\mid\text{חולה})$ ("אם חולה, הבדיקה חיובית"). השאלה שלו היא $P(\text{חולה}\mid\text{חיובית})$. הם שונים, ובסעיף 5 נראה שהשני יכול להיות קטן בהרבה מהראשון.</p></details>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל 1.3 <span class="tg">פרדוקס שני הילדים</span> ⭐⭐⭐<br>למשפחה שני ילדים (בן או בת, כל אפשרות שווה-סיכוי, ללא תלות). (א) ידוע שלפחות אחד מהם בן. מה הסיכוי ששניהם בנים? (ב) ידוע שהילד <b>הבכור</b> בן. מה הסיכוי ששניהם בנים?</p>
+  <details><summary>רמז</summary><p>רשום את מרחב המדגם עם סדר (בכור, צעיר): ארבע תוצאות שוות-סיכוי. "תצבע את הילדים".</p></details>
+  <details><summary>פתרון</summary>
+    <p>$\Omega=\{BB,BG,GB,GG\}$ (אות ראשונה: הבכור). (א) "לפחות בן" $=\{BB,BG,GB\}$, שלוש תוצאות, ו"שניהם בנים" היא אחת מהן: <b>$1/3$</b>. (ב) "הבכור בן" $=\{BB,BG\}$, ושניהם בנים היא אחת: <b>$1/2$</b>.</p>
+    <p>הלקח: <i>אילו</i> מילים מדויקות בידיעה משנות את היקום שנשאר. "לפחות אחד" ו"הבכור" הם שני מידעים שונים.</p></details>
+</div>
+
+<div class="box bridge"><div class="t">🔗 איפה אנחנו בסיפור</div>
+<p>הצלחנו להגדיר "הסתברות בהינתן מידע". עכשיו נחבר אותה לשאלה שנשארה פתוחה בשיעור 1: איך מחשבים את הסיכוי ש<b>שני</b> דברים קורים, אחד אחרי השני?</p></div>
+
+<!-- ======================= S2 ======================= -->
+<h2 id="s2"><span class="num">2</span>כלל הכפל ועצי הסתברות</h2>
+<p class="q-lead">❓ שולפים שני קלפים מחפיסה, בזה אחר זה, בלי להחזיר. מה הסיכוי ששניהם אסים?</p>
+
+<h3>שלב 1: הכלל</h3>
+<p>נסדר מחדש את הנוסחה $P(A\mid B)=\frac{P(A\cap B)}{P(B)}$: נכפיל את שני הצדדים ב-$P(B)$ ונקבל</p>
+$$P(A\cap B)=P(B)\cdot P(A\mid B).$$
+<p>במילים: <b>"הסיכוי ששניהם קרו" = "הסיכוי שהראשון קרה" כפול "הסיכוי שהשני קרה, כשידוע שהראשון קרה".</b> זה כלל הכפל.</p>
+
+<h3>שלב 2: דוגמה, שני אסים</h3>
+<p>הראשון הוא אס בסיכוי $\frac{4}{52}$ (4 אסים מתוך 52). אם יצא אס, נשארו 51 קלפים ובהם 3 אסים, לכן הסיכוי לאס שני <b>בהינתן</b> שהראשון אס הוא $\frac3{51}$. לפי כלל הכפל:</p>
+$$P(\text{שני אסים})=\frac{4}{52}\cdot\frac{3}{51}=\frac{12}{2652}=\frac1{221}.$$
+<p><b>בדיקה בשיטה אחרת (ספירה משיעור 1):</b> $\binom{4}{2}\big/\binom{52}{2}=\frac{6}{1326}=\frac1{221}$ ✔. אותה תשובה. (מעניין שכלל הכפל מבצע בדיוק את אותה ספירה, צעד אחר צעד.)</p>
+<p>שים לב ל"בהינתן": הסיכוי לאס השני <i>השתנה</i> מ-$\frac4{52}$ ל-$\frac3{51}$ בגלל שהראשון נשלף, וזה בדיוק למה אי אפשר סתם להכפיל $\frac4{52}\cdot\frac4{52}$.</p>
+
+<h3>שלב 3: הרחבה לכמה צעדים</h3>
+<p>אפשר לשרשר: $P(A\cap B\cap C)=P(A)\cdot P(B\mid A)\cdot P(C\mid A\cap B)$. כל גורם הוא "הסיכוי לצעד הבא, בהינתן כל מה שקרה עד עכשיו". זה הבסיס ל"עץ הסתברות": מציירים את הצעדים כענפים ומכפילים לאורך המסלול.</p>
+
+<div class="box trick"><div class="t">🎯 טריק: ציור עץ</div>
+<p>בכל בעיה עם כמה שלבים: צייר עץ. על כל ענף כתוב את ההסתברות <b>המותנית</b> של הצעד, ועל כל עלה את המכפלה לאורך המסלול. (עץ מלא נבנה בסעיף 4.)</p></div>
+
+<h3>תרגול לסעיף 2</h3>
+<div class="ex">
+  <p class="q">תרגיל 2.1 <span class="tg">כלל הכפל + בדיקה בספירה</span> ⭐<br>שולפים 3 קלפים מחפיסה בלי החזרה. מה הסיכוי שכולם לבבות? פתור בשתי דרכים.</p>
+  <details><summary>פתרון</summary>
+    <p>כלל הכפל: $\frac{13}{52}\cdot\frac{12}{51}\cdot\frac{11}{50}=\frac{1716}{132600}\approx0.0129$. ספירה: $\binom{13}{3}\big/\binom{52}{3}=\frac{286}{22100}\approx0.0129$ ✔.</p></details>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל 2.2 <span class="tg">מציאת הטעות</span> ⭐<br>תלמיד טוען: "הסיכוי לשני אסים הוא $\frac4{52}\cdot\frac4{52}=\frac1{169}$ כי בכל שליפה יש 4 אסים". איפה הטעות? באיזה מצב הוא היה צודק?</p>
+  <details><summary>פתרון</summary>
+    <p>הוא התעלם מכך שהקלף הראשון הוצא: הסיכוי לאס שני תלוי במה שיצא. החישוב שלו נכון אם <b>מחזירים</b> את הקלף הראשון לחפיסה ומערבבים (עם החזרה), כי אז השליפות לא משפיעות זו על זו. כאן התעלמות מהתלות נותנת $\frac1{169}$ במקום $\frac1{221}$.</p></details>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל 2.3 <span class="tg">סימולציה</span> ⭐⭐<br>כתוב סימולציה שמעריכה את הסיכוי לשני אסים בשליפת שני קלפים, ובדוק שמתקבל בערך $1/221\approx0.0045$.</p>
+  <details><summary>פתרון</summary>
+<pre><code>import numpy as np
+rng = np.random.default_rng(0)
+deck = np.array([1]*4 + [0]*48)           # 1 = ace, 0 = other card
+
+def two_aces():
+    hand = rng.choice(deck, size=2, replace=False)   # draw without replacement
+    return hand.sum() == 2
+
+print(np.mean([two_aces() for _ in range(500_000)]))   # ~0.0045 = 1/221</code></pre>
+  <p>שים לב לפרמטר <code>replace=False</code>: הוא בדיוק ההבדל בין "בלי החזרה" (תלות) לבין "עם החזרה".</p></details>
+</div>
+
+<div class="box bridge"><div class="t">🔗 איפה אנחנו בסיפור</div>
+<p>ראינו שהסיכוי לצעד שני תלוי בצעד הראשון. אבל לפעמים <b>הוא לא תלוי</b>. מתי? זו השאלה הבאה.</p></div>
+
+<!-- ======================= S3 ======================= -->
+<h2 id="s3"><span class="num">3</span>אי-תלות: כשמידע לא משנה כלום</h2>
+<p class="q-lead">❓ בהטלת קובייה, האם הידיעה שהקובייה הראשונה יצאה 6 משנה משהו לגבי הסכום הזוגי? ומתי, בכלל, מידע על דבר אחד לא משנה כלום על דבר אחר?</p>
+
+<h3>שלב 1: ההגדרה</h3>
+<div class="box def"><div class="t">📐 אי-תלות</div>
+<p>$A$ ו-$B$ הם <b>בלתי-תלויים</b> (independent) אם הידיעה ש-$B$ קרה לא משנה את הסיכוי של $A$:</p>
+$$P(A\mid B)=P(A).$$
+<p>נציב ב"כלל הכפל" ונקבל הגדרה שקולה (ונוחה יותר, כי היא סימטרית ועובדת גם כש-$P(B)=0$):</p>
+$$P(A\cap B)=P(A)\cdot P(B).$$</div>
+<p>הכלל המעשי: <b>בלתי-תלויים = אפשר פשוט להכפיל</b> את ההסתברויות כדי לקבל את ההסתברות ל"וגם". זה בדיוק מה שהנחנו בשיעור 1 ב-$(5/6)^4$.</p>
+
+<h3>שלב 2: בדוק בעצמך על הקוביות</h3>
+<div class="widget" id="inW">
+  <div class="wt">🧪 מעבדת אי-תלות: האם A ו-B בלתי-תלויים?</div>
+  <div class="controls">
+    <label>A: <select id="inA"></select></label>
+    <label>B: <select id="inB"></select></label>
+  </div>
+  <table class="dice" id="inT"></table>
+  <div class="legend"><span><i style="background:rgba(37,99,235,.35)"></i>A בלבד</span><span><i style="background:rgba(234,88,12,.35)"></i>B בלבד</span><span><i style="background:var(--accent)"></i>A∩B</span></div>
+  <div class="out" id="inOut"></div>
+  <div class="out"><b>נסה:</b> (1) A = "הסכום 7", B = "הראשונה = 6": בלתי-תלויים! (מפתיע, ראה תרגיל 3.5.) (2) A = "הסכום 8", B = "הראשונה = 6": תלויים. (3) A = "הסכום 7", B = "הסכום זוגי": זרים, ולכן תלויים.</div>
+</div>
+
+<h3>שלב 3: מלכודת, "זרים" אינם "בלתי-תלויים"</h3>
+<div class="box warn"><div class="t">⚠️ אי-הבנה נפוצה מאוד</div>
+<p>זרים: $A\cap B=\emptyset$, כלומר לא יכולים לקרות יחד. בלתי-תלויים: $P(A\cap B)=P(A)P(B)$. אלה שני דברים שונים, ואפילו <b>הפוכים</b> בספיריט: אם $A$ ו-$B$ זרים ושניהם אפשריים, אז ידיעה ש-$A$ קרה מבטיחה ש-$B$ <i>לא</i> קרה: $P(B\mid A)=0\neq P(B)$. הם <b>תלויים בחוזקה</b>.</p></div>
+
+<div class="quiz">
+  <div class="q"><b>בדיקה מהירה:</b> $P(A)=0.3$, $P(B)=0.5$ והמאורעות זרים. האם הם בלתי-תלויים?</div>
+  <div class="opts">
+    <button class="opt">כן</button>
+    <button class="opt" data-ok="1">לא</button>
+    <button class="opt">תלוי בניסוי</button>
+  </div>
+  <div class="explain" hidden>לא. $P(A\cap B)=0$ כי הם זרים, אבל $P(A)P(B)=0.15\neq0$. (ידיעה ש-$A$ קרה מבטיחה ש-$B$ לא קרה, וזה מידע חזק.)</div>
+</div>
+
+<h3>שלב 4: אי-תלות כהנחה, לא כעובדה</h3>
+<p>באופן מעשי, כמעט אף פעם לא <b>בודקים</b> אי-תלות במספרים. מניחים אותה כשהמצב הפיזי מצדיק: שתי הטלות נפרדות של מטבע, שתי קוביות שונות, אנשים לא קשורים. זו <b>החלטת מידול</b>. ואם ההנחה שגויה, החישובים שנסמוך עליה שגויים.</p>
+<div class="box ml"><div class="t">🤖 קשר ל-ML: הנחת ה-i.i.d.</div>
+<p>כמעט כל אלגוריתם למידה מניח שדוגמאות האימון הן <b>i.i.d.</b>: independent (בלתי-תלויות זו בזו) ו-identically distributed (נדגמו מאותה התפלגות). הנחת האי-תלות היא זו שמאפשרת לכתוב את ה-likelihood כמכפלה של גורמים, כלומר לפרק בעיה ענקית לחלקים קטנים (נראה בשיעור 8). ואם הדאטה שלך לא כזה (למשל תמונות מאותו מטופל שנכנסו גם ל-train וגם ל-test), המודל "ירמה" והציון שלו מנופח.</p></div>
+
+<h3>שלב 5: עוד תכונה, והוכחה קצרה</h3>
+<p>אם $A$ ו-$B$ בלתי-תלויים, אז גם $A$ ו-$B^c$ ("לא $B$") בלתי-תלויים. <b>הוכחה</b> (בטכניקה של פירוק לזרים משיעור 1): $A=(A\cap B)\cup(A\cap B^c)$ זרים, לכן $P(A\cap B^c)=P(A)-P(A\cap B)=P(A)-P(A)P(B)=P(A)\,(1-P(B))=P(A)\,P(B^c)$. ∎</p>
+
+<details>
+<summary>➕ הרחבה: בלתי-תלויים בזוגות מול בלתי-תלויים ביחד</summary>
+<p>עבור שלושה מאורעות או יותר, "כל זוג בלתי-תלוי" <b>לא</b> מספיק. אי-תלות מלאה (mutual independence) דורשת שכל תת-קבוצה מקיימת את כלל המכפלה. דוגמה קלאסית: שתי הטלות מטבע, $A$ = "הראשונה עץ", $B$ = "השנייה עץ", $C$ = "שתי ההטלות זהות": כל זוג בלתי-תלוי, אבל שלושתם יחד לא. נפגוש את זה בעת עיסוק ב-Naive Bayes.</p>
+</details>
+
+<h3>תרגול לסעיף 3</h3>
+<div class="ex">
+  <p class="q">תרגיל 3.1 <span class="tg">בדיקת אי-תלות מנתונים</span> ⭐<br>נתון $P(A)=0.4$, $P(B)=0.5$, $P(A\cup B)=0.7$. האם $A,B$ בלתי-תלויים?</p>
+  <details><summary>פתרון</summary>
+    <p>הכלה והפרדה: $P(A\cap B)=0.4+0.5-0.7=0.2$. וגם $P(A)P(B)=0.4\cdot0.5=0.2$. שווים, אז <b>כן</b>, בלתי-תלויים.</p></details>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל 3.2 <span class="tg">אי-תלות + משלים</span> ⭐<br>מערכת מורכבת מ-3 רכיבים. כל רכיב מתקלקל בסיכוי 10%, באופן בלתי-תלוי. מה הסיכוי שלפחות רכיב אחד מתקלקל?</p>
+  <details><summary>פתרון</summary>
+    <p>טריק המשלים + אי-תלות: $P(\text{אף רכיב לא מתקלקל})=0.9^3=0.729$. לכן $1-0.729=0.271$.</p></details>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל 3.3 <span class="tg">אי-תלות, מקרה ללא החזרה</span> ⭐⭐<br>בשקית 5 כדורים אדומים ו-3 כחולים. שולפים שניים, אחד אחרי השני. האם "הראשון אדום" ו"השני אדום" בלתי-תלויים (א) כששולפים עם החזרה? (ב) כששולפים בלי החזרה?</p>
+  <details><summary>פתרון</summary>
+    <p>(א) עם החזרה: בכל שליפה $P=\frac58$, והשליפות לא משפיעות זו על זו: בלתי-תלויים, $P(\text{שניהם אדומים})=\frac{25}{64}$. (ב) בלי החזרה: $P(\text{שני אדומים})=\frac58\cdot\frac47=\frac{20}{56}=\frac5{14}\approx0.357$, בעוד $P(\text{ראשון})P(\text{שני})=\frac58\cdot\frac58=\frac{25}{64}\approx0.391$ (הסיכוי לשני אדום הוא גם $\frac58$, ראה תרגיל 4.1). הם לא שווים, ולכן <b>תלויים</b>.</p></details>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל 3.4 <span class="tg">הוכחה</span> ⭐⭐<br>הוכח: אם $A$ ו-$B$ בלתי-תלויים, אז גם $A^c$ ו-$B^c$ בלתי-תלויים.</p>
+  <details><summary>רמז</summary><p>דה-מורגן: $A^c\cap B^c=(A\cup B)^c$, ואז חוק המשלים והכלה והפרדה.</p></details>
+  <details><summary>פתרון</summary>
+    <p>$P(A^c\cap B^c)=P((A\cup B)^c)=1-P(A\cup B)=1-P(A)-P(B)+P(A)P(B)=(1-P(A))(1-P(B))=P(A^c)P(B^c)$. ∎ (השתמשנו בדה-מורגן, חוק המשלים, הכלה והפרדה ואי-תלות.)</p></details>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל 3.5 <span class="tg">הסבר תופעה מפתיעה</span> ⭐⭐<br>במעבדה ראית שהמאורע "הסכום הוא 7" בלתי-תלוי ב"הקובייה הראשונה = $k$" לכל $k$. הסבר <b>למה</b>, בלי חישוב מספרי.</p>
+  <details><summary>פתרון</summary>
+    <p>נניח שהקובייה הראשונה יצאה $k$ (כל ערך שהוא). כדי שהסכום יהיה 7, הקובייה השנייה חייבת להיות בדיוק $7-k$, והערך הזה קיים תמיד (בין 1 ל-6). לכן $P(\text{סכום }7\mid\text{ראשונה }k)=\frac16$ לכל $k$, והוא שווה ל-$P(\text{סכום }7)=\frac16$. הראשונה "לא יודעת" כלום על הסכום. (עבור סכום 8 זה כבר לא נכון: אם הראשונה 1, אי אפשר לקבל 8.)</p></details>
+</div>
+
+<div class="box bridge"><div class="t">🔗 איפה אנחנו בסיפור</div>
+<p>ראינו איך מידע משנה הסתברויות (סעיף 1), איך מחברים צעדים (סעיף 2), ומתי מידע לא רלוונטי (סעיף 3). עכשיו נשתמש בכל זה כדי לפתור בעיה נפוצה: <b>יש כמה "מצבי עולם" אפשריים, ולכל אחד הסתברות אחרת.</b></p></div>
+
+<!-- ======================= S4 ======================= -->
+<h2 id="s4"><span class="num">4</span>הסתברות שלמה: לחשב דרך "מקרים"</h2>
+<p class="q-lead">❓ במפעל שתי מכונות. מכונה A מייצרת 60% מהפריטים ו-2% מהם פגומים. מכונה B מייצרת 40% מהפריטים ו-5% מהם פגומים. אני בוחר פריט אקראי. מה הסיכוי שהוא פגום?</p>
+
+<h3>שלב 1: מציירים עץ</h3>
+<p>הפריט הגיע ממכונה אחת מהשתיים (שני "מצבי עולם"), ולכל אחת יש שיעור פגומים אחר. כל ענף נושא הסתברות <b>מותנית</b>, ובעלים רשומה המכפלה:</p>
+
+<svg class="treeSvg" viewBox="0 0 660 270" role="img" aria-label="עץ הסתברות: מכונה A או B, ואז פגום או תקין">
+  <line x1="60" y1="135" x2="250" y2="70"/><line x1="60" y1="135" x2="250" y2="200"/>
+  <line x1="290" y1="70" x2="470" y2="40"/><line x1="290" y1="70" x2="470" y2="100"/>
+  <line x1="290" y1="200" x2="470" y2="170"/><line x1="290" y1="200" x2="470" y2="230"/>
+  <circle cx="60" cy="135" r="6" fill="currentColor"/><circle cx="270" cy="70" r="6" fill="currentColor"/><circle cx="270" cy="200" r="6" fill="currentColor"/>
+  <text x="10" y="125" font-size="14">פריט</text>
+  <text x="120" y="86" font-size="13" class="hl">0.6</text><text x="120" y="178" font-size="13" class="hl">0.4</text>
+  <text x="235" y="52" font-size="14">מכונה A</text><text x="235" y="232" font-size="14">מכונה B</text>
+  <text x="352" y="42" font-size="12">0.02</text><text x="352" y="96" font-size="12">0.98</text>
+  <text x="352" y="170" font-size="12">0.05</text><text x="352" y="226" font-size="12">0.95</text>
+  <text x="478" y="44" font-size="13" class="hl">פגום</text><text x="528" y="44" font-size="13" class="hl">0.6·0.02 = 0.012</text>
+  <text x="478" y="104" font-size="13">תקין</text><text x="528" y="104" font-size="13">0.6·0.98 = 0.588</text>
+  <text x="478" y="174" font-size="13" class="hl">פגום</text><text x="528" y="174" font-size="13" class="hl">0.4·0.05 = 0.020</text>
+  <text x="478" y="234" font-size="13">תקין</text><text x="528" y="234" font-size="13">0.4·0.95 = 0.380</text>
+</svg>
+
+<h3>שלב 2: מחברים את העלים הרלוונטיים</h3>
+<p>"פגום" מופיע בשני עלים, ושני המסלולים <b>זרים</b> (פריט בא ממכונה אחת). לפי אקסיומת החיבור:</p>
+$$P(\text{פגום})=0.6\cdot0.02+0.4\cdot0.05=0.012+0.020=0.032.$$
+<p>זו התשובה: 3.2% מהפריטים פגומים. שים לב לאנלוגיה: <b>ממוצע משוקלל</b> של שיעורי הפגומים (2% ו-5%), כשהמשקלים הם נתחי הייצור (60% ו-40%).</p>
+
+<h3>שלב 3: הכלל הכללי</h3>
+<div class="box def"><div class="t">📐 נוסחת ההסתברות השלמה</div>
+<p>נניח ש-$B_1,B_2,\dots,B_n$ הם "מצבי עולם" <b>זרים</b> שמכסים הכל (בדיוק אחד מהם קורה). קבוצה כזו נקראת <b>חלוקה</b> (partition) של $\Omega$. אז לכל מאורע $A$:</p>
+$$P(A)=\sum_{i=1}^{n}P(A\mid B_i)\,P(B_i).$$
+<p><b>למה?</b> $A$ מתפרק לחלקים זרים $A\cap B_1,\dots,A\cap B_n$ (הטכניקה של שיעור 1), ו-$P(A\cap B_i)=P(A\mid B_i)P(B_i)$ לפי כלל הכפל. נחבר.</p></div>
+
+<div class="box trick"><div class="t">🎯 טריק: "חלק למקרים"</div>
+<p>כשקשה לחשב $P(A)$ ישירות, שאל: "יש משהו שאם הייתי יודע אותו, הבעיה הייתה קלה?" הוא ה-$B$. חלק לפי כל ערכיו האפשריים וחבר עם משקלים. זו הטכניקה הכי שימושית בהסתברות אחרי טריק המשלים.</p></div>
+
+<div class="box ml"><div class="t">🤖 קשר ל-ML</div>
+<p>"חלוקה לפי מצב נסתר" היא הרעיון מאחורי <b>מודלי תערובת</b> (mixture models, למשל Gaussian Mixture) ו-latent variables: מניחים שכל דגימה באה מ"אשכול" לא ידוע, והסיכוי לדגימה הוא ממוצע משוקלל של הסיכויים בכל אשכול. נחזור לזה.</p></div>
+
+<h3>תרגול לסעיף 4</h3>
+<div class="ex">
+  <p class="q">תרגיל 4.1 <span class="tg">חלוקה למקרים + סימטריה</span> ⭐⭐<br>בשקית 5 כדורים אדומים ו-3 כחולים. שולפים שניים בלי החזרה. מה הסיכוי שהכדור <b>השני</b> אדום?</p>
+  <details><summary>פתרון</summary>
+    <p>חלוקה לפי הצבע של הראשון: $P(\text{שני אדום})=\underbrace{\frac58}_{\text{ראשון אדום}}\cdot\frac47+\underbrace{\frac38}_{\text{ראשון כחול}}\cdot\frac57=\frac{20+15}{56}=\frac{35}{56}=\frac58$.</p>
+    <p><b>תובנה:</b> יצא בדיוק $\frac58$, כמו הסיכוי לכדור הראשון. זה לא מקרי: מבלי לדעת מה יצא ראשון, לכדור השני יש אותו סיכוי כמו לכל מיקום אחר ("סימטריה": כל כדור בשקית יכול להיות בכל מיקום).</p></details>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל 4.2 <span class="tg">ממוצע משוקלל</span> ⭐<br>70% מהסטודנטים התכוננו למבחן, ומהם 90% עוברים. 30% לא התכוננו, ומהם 40% עוברים. מה אחוז העוברים הכולל?</p>
+  <details><summary>פתרון</summary>
+    <p>$0.7\cdot0.9+0.3\cdot0.4=0.63+0.12=0.75$. כלומר 75%.</p></details>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל 4.3 <span class="tg">עץ בשלושה שלבים</span> ⭐⭐<br>בשקית שלושה מטבעות: מטבע הוגן, מטבע מוטה שנותן עץ בסיכוי 0.8, ומטבע שנותן עץ בסיכוי 0.1. בוחרים מטבע אקראי (כל אחד בסיכוי שווה) ומטילים פעם אחת. מה הסיכוי לעץ?</p>
+  <details><summary>פתרון</summary>
+    <p>$P(\text{עץ})=\frac13(0.5+0.8+0.1)=\frac13\cdot1.4\approx0.467$. ממוצע של שלושת ההסתברויות, כי למטבעות משקל שווה.</p></details>
+</div>
+
+<div class="box bridge"><div class="t">🔗 איפה אנחנו בסיפור</div>
+<p>הצלחנו לענות "מה הסיכוי לפגום?". עכשיו הפוך: <b>הפריט פגום. מה הסיכוי שהוא בא ממכונה A?</b> זו השאלה ההפוכה (הכיוון $P(B\mid A)$ במקום $P(A\mid B)$), והיא הלב של השיעור.</p></div>
+
+<!-- ======================= S5 ======================= -->
+<h2 id="s5"><span class="num">5</span>משפט בייס: הופכים את הכיוון</h2>
+<p class="q-lead">❓ בדיקה רפואית מזהה 99% מהחולים, ומתריעה בטעות על 5% מהבריאים. 1% מהאוכלוסייה חולה. הבדיקה שלך יצאה חיובית. מה הסיכוי שאתה חולה?</p>
+
+<h3>שלב 0: קודם נחש</h3>
+<p>עצור לרגע וכתוב מספר. רוב האנשים (כולל רופאים בניסויים מפורסמים) אומרים 90% עד 99%. התשובה הנכונה: <b>בערך 17%</b>. בואו נבין איך.</p>
+
+<h3>שלב 1: חשיבה בתדירויות טבעיות</h3>
+<p>במקום להסתכל על אחוזים, נדמיין <b>10,000 אנשים</b>:</p>
+<ol>
+  <li><b>חולים:</b> 1% מ-10,000 = 100. הבדיקה מזהה 99%: <b>99 חולים עם בדיקה חיובית</b>, ו-1 עם בדיקה שלילית (פספוס).</li>
+  <li><b>בריאים:</b> 9,900. הבדיקה מתריעה בטעות על 5%: $9{,}900\cdot0.05=$ <b>495 בריאים עם בדיקה חיובית</b>.</li>
+  <li><b>כל החיוביים:</b> $99+495=594$ אנשים.</li>
+  <li>מתוכם באמת חולים: 99. לכן $\frac{99}{594}=\frac16\approx16.7\%$.</li>
+</ol>
+<p><b>למה זה מפתיע?</b> כי הקבוצה של הבריאים כל כך גדולה, שגם אחוז קטן של שגיאות בה (5%) יוצר יותר "חיוביים" (495) מכל החולים (99). רוב החיוביים הם אזעקות שווא.</p>
+
+<h3>שלב 2: ראה את זה בעיניים</h3>
+<p>כל נקודה היא אדם (10,000 בסך הכל). שחק עם שלושת המשתנים והסתכל איך האחוז בתחתית משתנה:</p>
+<div class="widget" id="bvW">
+  <div class="wt">🔬 מעבדת בייס: 10,000 אנשים</div>
+  <div class="controls"><label>שכיחות המחלה (מה אחוז חולים): <input type="range" id="bvPrev" min="0.1" max="30" step="0.1" value="1"> <b id="bvPrevV">1%</b></label></div>
+  <div class="controls"><label>רגישות (מזהה חולים): <input type="range" id="bvSens" min="50" max="100" step="1" value="99"> <b id="bvSensV">99%</b></label></div>
+  <div class="controls"><label>אזעקות שווא (מתריע על בריאים): <input type="range" id="bvFpr" min="0" max="30" step="0.5" value="5"> <b id="bvFprV">5%</b></label></div>
+  <div class="controls">
+    <button class="btn" id="bvPre1">הדוגמה: 1%, 99%, 5%</button>
+    <button class="btn" id="bvPre2">מחלה שכיחה: 10%</button>
+    <button class="btn" id="bvPre3">הונאה נדירה: 0.1%, 99%, 1%</button>
+  </div>
+  <canvas id="bvC" width="600" height="600" style="max-width:420px;margin:8px auto"></canvas>
+  <div class="legend"><span><i style="background:#dc2626"></i>חולה, בדיקה חיובית</span><span><i style="background:#f59e0b"></i>חולה, בדיקה שלילית</span><span><i style="background:#2563eb"></i>בריא, בדיקה חיובית (אזעקת שווא)</span><span><i style="background:var(--line)"></i>בריא, בדיקה שלילית</span></div>
+  <div class="out" id="bvOut"></div>
+  <div class="out"><b>נסה:</b> (1) העלה את השכיחות ל-10%: האחוז קופץ ל-69% בערך. (2) החזר ל-1% והורד את האזעקות ל-0.5%: האחוז קופץ לכ-66%. (3) הוסף רגישות מ-99% ל-100%: כמעט ללא שינוי. <b>הגורם החשוב הוא השכיחות והאזעקות, לא הרגישות.</b></div>
+</div>
+
+<h3>שלב 3: הנוסחה (משפט בייס)</h3>
+<p>עשינו בדיוק את הצעדים האלה: "כמה חיוביים אמיתיים" חלקי "כמה חיוביים בסך הכל". נכתוב אותם בהסתברות. נתחיל מההגדרה (סעיף 1) ונשתמש בכלל הכפל (סעיף 2) על המונה ובהסתברות השלמה (סעיף 4) על המכנה:</p>
+$$P(B\mid A)=\frac{P(A\cap B)}{P(A)}=\frac{P(A\mid B)\,P(B)}{P(A)}\ ,\qquad P(A)=\sum_i P(A\mid B_i)P(B_i).$$
+<p>בדוגמה: $B$ = "חולה", $A$ = "בדיקה חיובית". $P(A\mid B)=0.99$, $P(B)=0.01$, והמכנה: $P(A)=0.99\cdot0.01+0.05\cdot0.99=0.0099+0.0495=0.0594$. לכן $P(B\mid A)=\frac{0.0099}{0.0594}=\frac16$ ✔. אותה תשובה כמו בספירת האנשים.</p>
+
+<div class="box def"><div class="t">📐 שמות החלקים (חשוב ל-ML)</div>
+<p>בסימון $P(\text{השערה}\mid\text{ראיה})=\dfrac{P(\text{ראיה}\mid\text{השערה})\cdot P(\text{השערה})}{P(\text{ראיה})}$:</p>
+<ul>
+<li><b>prior</b> (הסתברות קודמת) $P(\text{השערה})$: מה האמנתי לפני שראיתי את הראיה. כאן שכיחות המחלה, 1%.</li>
+<li><b>likelihood</b> (נראות) $P(\text{ראיה}\mid\text{השערה})$: כמה צפויה הראיה אם ההשערה נכונה. כאן 0.99.</li>
+<li><b>posterior</b> (הסתברות אחורית) $P(\text{השערה}\mid\text{ראיה})$: מה אני מאמין <i>אחרי</i> הראיה. כאן 1/6.</li>
+<li><b>evidence</b> (ראיה) $P(\text{ראיה})$: הסיכוי הכולל לראות את הראיה. שכיח לקרוא לו "גורם נרמול".</li>
+</ul></div>
+
+<div class="box intuition"><div class="t">💡 הלקח המרכזי</div>
+<p>הראיה לא עושה את כל העבודה. <b>האמונה הקודמת (prior) קובעת הרבה.</b> אם משהו נדיר מאוד לפני הבדיקה, גם בדיקה טובה לא תהפוך אותו לסביר. ($P(\text{חיובית}\mid\text{חולה})=99\%$, אבל $P(\text{חולה}\mid\text{חיובית})=17\%$: הכיוון חשוב, ובסעיף 1 הזהרנו מהבלבול הזה.)</p></div>
+
+<div class="box warn"><div class="t">⚠️ "כשל התובע" (prosecutor's fallacy)</div>
+<p>זו אותה טעות במשפטים: "הסיכוי שיימצא DNA תואם אצל אדם חף מפשע הוא 1 ל-100,000. נמצא DNA תואם אצל הנאשם, לכן הסיכוי שהוא חף מפשע הוא 1 ל-100,000". זה בלבול בין $P(\text{התאמה}\mid\text{חף})$ ל-$P(\text{חף}\mid\text{התאמה})$. אם העיר מונה מיליון תושבים, יש בה כ-10 אנשים חפים עם התאמה, ולכן ל"התאמה" לבד יש הסתברות הרבה יותר גבוהה לטעות.</p></div>
+
+<div class="quiz">
+  <div class="q"><b>בדוק את עצמך:</b> במעבדה למעלה, מחלה נדירה (0.1%) ובדיקה מצוינת (רגישות 99%, אזעקות שווא 1%). מה הסיכוי להיות חולה אחרי בדיקה חיובית?</div>
+  <div class="opts">
+    <button class="opt">כ-99%</button>
+    <button class="opt">כ-50%</button>
+    <button class="opt" data-ok="1">כ-9%</button>
+    <button class="opt">כ-1%</button>
+  </div>
+  <div class="explain" hidden>כ-9%. מתוך 10,000: 10 חולים (כ-10 חיוביים) ו-9,990 בריאים, מהם 1% = כ-100 אזעקות שווא. $\frac{10}{10+100}\approx9\%$. (לחץ על "הונאה נדירה" במעבדה.)</div>
+</div>
+
+<h3>תרגול לסעיף 5</h3>
+<div class="ex">
+  <p class="q">תרגיל 5.1 <span class="tg">בייס, הפעלה ישירה</span> ⭐<br>במפעל מסעיף 4: נבחר פריט והוא פגום. מה הסיכוי שהוא יוצר במכונה A?</p>
+  <details><summary>פתרון</summary>
+    <p>$P(A\mid\text{פגום})=\frac{P(\text{פגום}\mid A)P(A)}{P(\text{פגום})}=\frac{0.02\cdot0.6}{0.032}=\frac{0.012}{0.032}=0.375$. מכונה A מייצרת הרבה יותר פריטים, אבל מכונה B (עם 5% פגומים) אחראית ל-62.5% מהפגומים.</p></details>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל 5.2 <span class="tg">עדכון עוקב (posterior הופך ל-prior)</span> ⭐⭐<br>בהמשך לדוגמה הרפואית: אותו אדם חוזר על הבדיקה (בדיקה בלתי-תלויה), והיא יוצאת חיובית שוב. מה הסיכוי עכשיו שהוא חולה?</p>
+  <details><summary>רמז</summary><p>אחרי הבדיקה הראשונה, ההסתברות הקודמת (prior) החדשה היא 1/6 ולא 1%.</p></details>
+  <details><summary>פתרון</summary>
+    <p>prior חדש: $\frac16\approx0.1667$. בדיקה שנייה חיובית: $P(\text{חולה}\mid++)=\frac{0.99\cdot\frac16}{0.99\cdot\frac16+0.05\cdot\frac56}=\frac{0.165}{0.165+0.0417}\approx0.80$. שתי בדיקות חיוביות מעלות את הסיכוי מ-17% ל-80%. <b>כל ראיה חדשה מעדכנת את האמונה</b>, וה"posterior" של הצעד הקודם הופך ל-"prior" של הצעד הבא. זה הרעיון המרכזי של למידה בייסיאנית.</p></details>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל 5.3 <span class="tg">בעיית מונטי הול (אתגר + סימולציה)</span> ⭐⭐⭐<br>מאחורי אחת משלוש דלתות יש מכונית, ומאחורי השתיים האחרות עיזים. בחרת דלת (נניח 1). המנחה, שיודע איפה המכונית, פותח דלת אחרת שיש מאחוריה עז, ושואל: "רוצה להחליף?" האם כדאי להחליף?</p>
+  <details><summary>רמז</summary><p>בהתחלה סיכוי של 1/3 שבחרת נכון. מה קורה לסיכוי שהמכונית ב"שתי הדלתות האחרות" כשהמנחה פותח אחת מהן ויודע שיש בה עז?</p></details>
+  <details><summary>פתרון</summary>
+    <p>אם בחרת נכון בהתחלה (סיכוי $\frac13$), החלפה מפסידה. אם בחרת לא נכון (סיכוי $\frac23$), המנחה חייב לפתוח את הדלת השנייה עם העז, והחלפה <b>תמיד זוכה</b>. לכן $P(\text{זכייה בהחלפה})=\frac23$.</p>
+    <p>סימולציה לאישור:</p>
+<pre><code>import numpy as np
+rng = np.random.default_rng(0)
+
+def play(switch):
+    car = rng.integers(3)
+    pick = rng.integers(3)
+    # host opens a goat door that is neither the pick nor the car
+    host = rng.choice([d for d in range(3) if d != pick and d != car])
+    if switch:
+        pick = next(d for d in range(3) if d != pick and d != host)
+    return pick == car
+
+N = 100_000
+print(np.mean([play(True) for _ in range(N)]))    # ~0.667
+print(np.mean([play(False) for _ in range(N)]))   # ~0.333</code></pre>
+    <p>למה האינטואיציה טועה? כי המנחה <i>לא פותח דלת אקראית</i>: הפעולה שלו נושאת מידע (הוא יודע איפה המכונית). זו שוב התניה על מידע מדויק.</p></details>
+</div>
+
+<div class="box bridge"><div class="t">🔗 איפה אנחנו בסיפור</div>
+<p>יש לנו עכשיו את המנוע המרכזי: בייס הופך "אם ההשערה נכונה, מה הסיכוי לראיה?" ל"בהינתן הראיה, מה הסיכוי להשערה?". וזה בדיוק מה שמסווג עושה: מקבל <b>ראיה</b> (התמונה, המייל) ורוצה לדעת את <b>ההשערה</b> (איזו מחלקה).</p></div>
+
+<!-- ======================= S6 ======================= -->
+<h2 id="s6"><span class="num">6</span>גשר ל-ML: מסווג כמשפט בייס</h2>
+<p class="q-lead">❓ בשיעור 1 ראינו שמסווג מוציא הסתברות לכל מחלקה. מה זו, מבחינה מתמטית, ההסתברות הזו, ואיך אפשר לחשב אותה?</p>
+
+<h3>שלב 0: מסווג = $P(y\mid x)$</h3>
+<p>נסמן ב-$x$ את <b>הקלט</b> (למשל תוכן המייל, או כל הפיקסלים של תמונה) וב-$y$ את <b>המחלקה</b> (ספאם / לא ספאם, או חתול / כלב / ארנב). מה שהמסווג רוצה לדעת:</p>
+$$P(y\mid x)=\text{הסיכוי למחלקה }y\text{, בהינתן שראיתי את }x.$$
+<p>זו בדיוק הסתברות מותנית: $x$ הוא ה"ידוע" ($B$) ו-$y$ היא "השאלה" ($A$). ה-softmax משיעור 1 הוא פשוט אחת הדרכים לחשב אותה.</p>
+
+<h3>שלב 1: בייס נותן דרך אחרת לחשב אותה</h3>
+<p>במקום להתאמן ישירות על $P(y\mid x)$, אפשר להפוך בעזרת בייס:</p>
+$$P(y\mid x)=\frac{P(x\mid y)\;P(y)}{P(x)}\ \propto\ \underbrace{P(x\mid y)}_{\text{כמה האימייל "טיפוסי" למחלקה}}\cdot\underbrace{P(y)}_{\text{שכיחות המחלקה}}.$$
+<p>($\propto$ פירושו "פרופורציוני": המכנה $P(x)$ זהה לכל המחלקות, ולכן להשוואה ביניהן מספיק להשוות את המונים.) <b>מסווג שעובד כך נקרא generative</b>, כי הוא מדמה איך מייצרים דוגמאות מכל מחלקה.</p>
+
+<h3>שלב 2: דוגמה, מסנן ספאם עם מילה אחת</h3>
+<p>נסתכל על 1,000 מיילים: 400 ספאם ו-600 לא-ספאם. המילה "free" מופיעה ב-50% מהספאם (200 מיילים) וב-5% מהלא-ספאם (30 מיילים).</p>
+<table class="tbl">
+  <tr><th></th><th>סה"כ</th><th>מכילים "free"</th></tr>
+  <tr><th>ספאם</th><td>400</td><td>200</td></tr>
+  <tr><th>לא-ספאם</th><td>600</td><td>30</td></tr>
+</table>
+<p>קיבלנו מייל עם "free". מה הסיכוי שהוא ספאם? מבין 230 המיילים עם "free", 200 ספאם: $P(\text{ספאם}\mid\text{free})=\frac{200}{230}\approx0.87$. (זה בדיוק משפט בייס עם prior = 0.4 ו-likelihoods = 0.5 ו-0.05.)</p>
+
+<h3>שלב 3: הרבה מילים, ו"הנאיביות" של Naive Bayes</h3>
+<p>מייל אמיתי מכיל מאות מילים. כדי לחשב $P(x\mid y)$ של <i>כל הצירוף</i> של המילים היינו צריכים טבלה ענקית. הפתרון: <b>להניח שהמילים בלתי-תלויות זו בזו בהינתן המחלקה</b>, ולכפול (אי-תלות, סעיף 3):</p>
+$$P(x_1,x_2,\dots,x_k\mid y)\approx P(x_1\mid y)\cdot P(x_2\mid y)\cdots P(x_k\mid y).$$
+<p>הנחה זו "נאיבית" כי היא לא נכונה בדרך כלל ("Hong" ו-"Kong" מופיעות יחד), אבל היא מפשטת את הבעיה בצורה דרמטית, ובפועל המסנן עובד טוב. לדוגמה: נניח גם שהמילה "winner" מופיעה ב-30% מהספאם וב-2% מהלא-ספאם. מייל עם "free" <b>וגם</b> "winner":</p>
+<table class="tbl">
+  <tr><th></th><th>prior</th><th>$P(\text{free}\mid y)$</th><th>$P(\text{winner}\mid y)$</th><th>מכפלה</th></tr>
+  <tr><th>ספאם</th><td>0.4</td><td>0.5</td><td>0.3</td><td>0.06</td></tr>
+  <tr><th>לא-ספאם</th><td>0.6</td><td>0.05</td><td>0.02</td><td>0.0006</td></tr>
+</table>
+<p>מנרמלים (חלוקה בסכום, כמו ב-softmax): $P(\text{ספאם}\mid\text{free},\text{winner})=\frac{0.06}{0.06+0.0006}\approx0.99$. שתי ראיות יחד מעלות מ-87% ל-99%.</p>
+
+<div class="box warn"><div class="t">⚠️ הנחת האי-תלות היא נקודת החולשה</div>
+<p>אם הרבה מילים מתואמות (כולן מצביעות לאותו כיוון), Naive Bayes "סופר את אותה ראיה כמה פעמים" ויוצא בטוח מדי בעצמו. הוא מסווג טוב, אבל <b>ההסתברויות שהוא מחזיר לרוב לא מכוילות</b>. נשאר לשים לב לזה בפועל.</p></div>
+
+<h3>שלב 4: אזהרת השכיחות ב-ML: למה "99% דיוק" יכול להטעות</h3>
+<p>נניח שאנחנו מזהים הונאות בכרטיסי אשראי, ורק 0.1% מהעסקאות הן הונאה. מסווג פשוט שאומר "תמיד לא הונאה" מגיע ל-<b>99.9% דיוק (accuracy)</b>, ולא מזהה אף הונאה. עכשיו מודל "טוב": מזהה 99% מההונאות, ומתריע בטעות על 1% מהעסקאות התקינות. מה הסיכוי שעסקה שסומנה אכן הונאה?</p>
+<p>זו בדיוק הדוגמה הרפואית, והמעבדה שלמעלה כבר עשתה את זה: לחץ על "הונאה נדירה". מתוך 10,000 עסקאות: 10 הונאות (כ-10 מזוהות), ו-9,990 תקינות, מהן 1% = כ-100 אזעקות שווא. התוצאה: רק כ-9% מהעסקאות המסומנות הן באמת הונאה.</p>
+<div class="box def"><div class="t">📐 מושגי ML שהם בעצם הסתברות מותנית</div>
+<ul>
+<li><b>Recall / רגישות / TPR:</b> $P(\text{המודל מסמן}\mid\text{באמת חיובי})$. כמה מהחיוביים האמיתיים מצאנו.</li>
+<li><b>Precision / דיוק החיוביים:</b> $P(\text{באמת חיובי}\mid\text{המודל מסמן})$. מתוך מה שסימנו, כמה נכון. <b>זה ה-posterior!</b></li>
+<li><b>FPR:</b> $P(\text{המודל מסמן}\mid\text{באמת שלילי})$. כמה אזעקות שווא.</li>
+</ul>
+<p>מי שמבלבל בין recall ל-precision עושה בדיוק את הבלבול של $P(A\mid B)$ ו-$P(B\mid A)$ מסעיף 1.</p></div>
+
+<div class="box ml"><div class="t">🤖 מה בהמשך</div>
+<p>"prior" ו-"posterior" יחזרו בשיעור 8 (MAP: מה ה-prior אומר על הפרמטרים) ובשיעור 9 (הסקה בייסיאנית מלאה). ההנחה ה-i.i.d. תהפוך שם ל"likelihood של כל הדאטה = מכפלה".</p></div>
+
+<h3>תרגול לסעיף 6</h3>
+<div class="ex">
+  <p class="q">תרגיל 6.1 <span class="tg">Naive Bayes ידני</span> ⭐⭐<br>בדאטהסט של סקירות: 30% "חיוביות" ו-70% "שליליות". המילה "great" מופיעה ב-60% מהחיוביות וב-10% מהשליליות. המילה "boring" מופיעה ב-5% מהחיוביות וב-40% מהשליליות. סקירה מכילה את שתי המילים. מה הסיכוי שהיא חיובית (בהנחת Naive Bayes)?</p>
+  <details><summary>פתרון</summary>
+    <p>חיובית: $0.3\cdot0.6\cdot0.05=0.009$. שלילית: $0.7\cdot0.1\cdot0.4=0.028$. מנרמלים: $\frac{0.009}{0.009+0.028}=\frac{0.009}{0.037}\approx0.243$. הסקירה כנראה שלילית (76%), כי "boring" חזקה כראיה.</p></details>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל 6.2 <span class="tg">Precision מ-recall</span> ⭐⭐<br>מודל זיהוי ספאם: 20% מהמיילים הם ספאם. המודל מזהה 90% מהספאם, ומסמן בטעות 5% מהמיילים הלגיטימיים. אם המודל סימן מייל כספאם, מה הסיכוי שהוא באמת ספאם (precision)?</p>
+  <details><summary>פתרון</summary>
+    <p>מתוך 1,000 מיילים: 200 ספאם, מזוהים 180; 800 לגיטימיים, מסומנים בטעות 40. Precision: $\frac{180}{180+40}=\frac{180}{220}\approx0.82$.</p></details>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל 6.3 <span class="tg">מימוש בקוד</span> ⭐⭐<br>כתוב פונקציה <code>posterior(words, priors, likelihoods)</code> שמחזירה את ההסתברות האחורית של כל מחלקה, בהנחת Naive Bayes. היעזר ב-<b>לוגים</b> (סכום לוגריתמים במקום מכפלה) כדי להימנע ממספרים זעירים.</p>
+  <details><summary>רמז</summary><p>$\log\prod_i p_i=\sum_i\log p_i$. אחרי שמסכמים, מחזירים ל"הסתברות" עם exp ומנרמלים בחלוקה בסכום (בדיוק כמו softmax). לפני ה-exp, כדאי להחסיר את המקסימום כדי לא לקבל overflow.</p></details>
+  <details><summary>פתרון</summary>
+<pre><code>import numpy as np
+
+def posterior(words, priors, likelihoods):
+    """priors: {class: P(class)}; likelihoods: {class: {word: P(word|class)}}"""
+    classes = list(priors)
+    # log of  prior * prod_i P(word_i | class)
+    logp = np.array([
+        np.log(priors[c]) + sum(np.log(likelihoods[c][w]) for w in words)
+        for c in classes
+    ])
+    p = np.exp(logp - logp.max())        # subtract max: numerical stability
+    p /= p.sum()                         # normalize (just like softmax)
+    return dict(zip(classes, p))
+
+priors = {"spam": 0.4, "ham": 0.6}
+likelihoods = {
+    "spam": {"free": 0.5,  "winner": 0.3},
+    "ham":  {"free": 0.05, "winner": 0.02},
+}
+print(posterior(["free", "winner"], priors, likelihoods))   # spam ~ 0.990</code></pre>
+  <p>שים לב לחיבור: אחרי שסוכמים לוגים של "ציונים", מעבירים אותם דרך אותה פעולה בדיוק כמו ה-softmax של שיעור 1: exp וחלוקה בסכום. Naive Bayes הוא בעצם "מסווג עם softmax", שבו הציונים נובעים מבייס.</p></details>
+</div>
+
+<!-- ======================= MIXED ======================= -->
+<h2 id="mixed"><span class="num">★</span>תרגול משולב</h2>
+<p>בלי כותרת של טכניקה: תחליט בעצמך אילו כלים צריך. (הטכניקה כתובה בפתרון.)</p>
+
+<div class="ex">
+  <p class="q">תרגיל מ.1 ⭐⭐<br>מטילים שתי קוביות. ידוע שיצאה <b>לפחות אחת</b> שהראתה 6. מה הסיכוי שהסכום הוא לפחות 10?</p>
+  <details><summary>פתרון</summary>
+    <p><b>טכניקה: התניה כצמצום יקום.</b> $B$ = "לפחות קובייה אחת 6": 11 תאים. מתוכם סכום ≥ 10: $(4,6),(5,6),(6,4),(6,5),(6,6)$, כלומר 5. לכן $\frac5{11}\approx0.45$. (בלי הידיעה: $\frac6{36}=\frac16$. המידע מעלה פי כמעט שלושה.)</p></details>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל מ.2 (בעיית שלושת הקלפים של ברטראן) ⭐⭐⭐<br>בקופסה שלושה קלפים: אחד עם שני צדדים אדומים (RR), אחד עם שני לבנים (WW), ואחד עם צד אדום וצד לבן (RW). שולפים קלף אקראי ומניחים על השולחן: הצד העליון אדום. מה הסיכוי שגם הצד התחתון אדום?</p>
+  <details><summary>רמז</summary><p>הסימטריה הכי טובה כשסופרים <b>צדדים</b> ולא קלפים. כמה צדדים אדומים יש בסך הכל? באיזה קלף כל אחד מהם?</p></details>
+  <details><summary>פתרון</summary>
+    <p><b>טכניקה: בייס / ספירת תוצאות שוות-סיכוי.</b> בכל שליפה הצד שמופיע למעלה הוא אחד מ-6 צדדים שוות-סיכוי. ל"צד עליון אדום" יש 3 צדדים אפשריים: שני צדדים של RR ואחד של RW. ב-2 מהם התחתון אדום (קלף RR). לכן $\frac23$ (ולא $\frac12$ כפי שהאינטואיציה אומרת: "נשארו שני קלפים אפשריים"). שני הקלפים לא סבירים באותה מידה, כי ל-RR יש יותר "דרכים" להציג אדום.</p>
+    <p>בייס: $P(RR\mid\text{אדום למעלה})=\frac{1\cdot\frac13}{\frac13\cdot1+\frac13\cdot\frac12+0}=\frac{1/3}{1/2}=\frac23$ ✔.</p></details>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל מ.3 ⭐<br>מערכת מורכבת משני רכיבים <b>במקביל</b>: היא עובדת אם לפחות אחד עובד. כל רכיב נכשל בסיכוי 10%, באופן בלתי-תלוי. מה הסיכוי שהמערכת עובדת?</p>
+  <details><summary>פתרון</summary>
+    <p><b>טכניקה: משלים + אי-תלות.</b> המערכת נכשלת רק אם שניהם נכשלו: $0.1\cdot0.1=0.01$. לכן עובדת בסיכוי $0.99$.</p></details>
+</div>
+
+<div class="ex">
+  <p class="q">תרגיל מ.4 (ML) ⭐⭐<br>מסווג בינארי מזהה 95% מהמחלקה החיובית ומסמן בטעות 5% מהשלילית. החיוביים הם 10% מהדאטה. אם המסווג סימן דוגמה כחיובית, מה הסיכוי שהיא באמת חיובית?</p>
+  <details><summary>פתרון</summary>
+    <p><b>טכניקה: בייס / תדירויות טבעיות.</b> מתוך 1,000: 100 חיוביים (95 מזוהים), 900 שליליים (45 מסומנים בטעות). $\frac{95}{95+45}=\frac{95}{140}\approx0.68$. מסווג "95% מדויק" אבל ל-precision רק 68%, בגלל שהמחלקה החיובית נדירה.</p></details>
+</div>
+
+<!-- ======================= SUMMARY ======================= -->
+<h2 id="sum"><span class="num">7</span>סיכום: הסיפור בקצרה</h2>
+<ol class="story">
+  <li><b>הסתברות מותנית:</b> $P(A\mid B)=\frac{P(A\cap B)}{P(B)}$, "צמצום היקום" ל-$B$. היא הסתברות לכל דבר, וכל החוקים ממשיכים לעבוד.</li>
+  <li><b>כלל הכפל:</b> $P(A\cap B)=P(B)\,P(A\mid B)$. מציירים עץ ומכפילים לאורך המסלול.</li>
+  <li><b>אי-תלות:</b> $P(A\cap B)=P(A)P(B)$ (מידע לא משנה כלום). "זרים" ≠ "בלתי-תלויים". אי-תלות היא לרוב <i>הנחת מידול</i> (i.i.d. ב-ML).</li>
+  <li><b>הסתברות שלמה:</b> $P(A)=\sum_i P(A\mid B_i)P(B_i)$, חלוקה למקרים וחיבור משוקלל.</li>
+  <li><b>בייס:</b> $P(B\mid A)=\frac{P(A\mid B)P(B)}{P(A)}$. הופך כיוון. <b>ה-prior חשוב</b>: ראיה טובה על דבר נדיר עדיין משאירה אותו לא סביר. תחשוב בתדירויות טבעיות (10,000 אנשים).</li>
+  <li><b>ב-ML:</b> מסווג הוא $P(y\mid x)$. Naive Bayes = בייס + אי-תלות. Precision הוא posterior, ו-recall הוא likelihood: אל תבלבל ביניהם.</li>
+</ol>
+
+<div class="box intuition"><div class="t">🔭 בשיעור הבא</div>
+<p>עד עכשיו דיברנו על <b>מאורעות</b> ("זוגי", "חולה", "ספאם"). בשיעור 3 נעבור ל<b>מספרים</b>: משתנים מקריים. "מה הסכום של שתי קוביות", "כמה הטלות עד העץ הראשון", "מה גובה אדם אקראי". זה המעבר מהמילים למתמטיקה של נוסחאות, ושם נפגוש גם את הכלי המתמטי הראשון שלא למדת: <b>סכום אינסופי (טור הנדסי)</b>, שנלמד מאפס, בקצב איטי, כשנצטרך אותו.</p></div>
+
+<div class="pager">
+  <a href="lesson01.html">← שיעור 1</a>
+  <span class="muted">שיעור 3 — בקרוב</span>
+</div>
+
+</div>
+
+<script>
+/* Lesson 2 widgets: conditional lab, independence lab, Bayes / base-rate lab. */
+
+var EV2 = {
+  sum7:   ['הסכום הוא 7',               function (i, j) { return i + j === 7; }],
+  sum8:   ['הסכום הוא 8',               function (i, j) { return i + j === 8; }],
+  sum10:  ['הסכום ≥ 10',                 function (i, j) { return i + j >= 10; }],
+  sum4:   ['הסכום ≤ 4',                  function (i, j) { return i + j <= 4; }],
+  even:   ['הסכום זוגי',                 function (i, j) { return (i + j) % 2 === 0; }],
+  dbl:    ['דאבל (שתי הקוביות שוות)',    function (i, j) { return i === j; }],
+  first3: ['הקובייה הראשונה = 3',        function (i, j) { return i === 3; }],
+  f6:     ['הקובייה הראשונה = 6',        function (i, j) { return i === 6; }],
+  any6:   ['לפחות קובייה אחת = 6',       function (i, j) { return i === 6 || j === 6; }],
+  fEven:  ['הקובייה הראשונה זוגית',      function (i, j) { return i % 2 === 0; }],
+  s5:     ['הקובייה השנייה ≥ 5',         function (i, j) { return j >= 5; }]
+};
+
+function gcd2(a, b) { return b ? gcd2(b, a % b) : a; }
+function fr2(c, n) { if (c === 0) return '0'; var g = gcd2(c, n); return (c / g) + '/' + (n / g); }
+
+function fillSelects(selects) {
+  Object.keys(EV2).forEach(function (k) {
+    selects.forEach(function (s) {
+      var o = document.createElement('option'); o.value = k; o.textContent = EV2[k][0]; s.appendChild(o);
+    });
+  });
+}
+
+function buildDiceGrid(table, labelFn) {
+  var html = '<tr><th></th>';
+  for (var j = 1; j <= 6; j++) html += '<th>' + j + '</th>';
+  html += '</tr>';
+  for (var i = 1; i <= 6; i++) {
+    html += '<tr><th>' + i + '</th>';
+    for (var jj = 1; jj <= 6; jj++) html += '<td data-i="' + i + '" data-j="' + jj + '">' + (labelFn ? labelFn(i, jj) : '') + '</td>';
+    html += '</tr>';
+  }
+  table.innerHTML = html;
+  var cells = [];
+  table.querySelectorAll('td').forEach(function (td) { cells.push({ td: td, i: +td.dataset.i, j: +td.dataset.j }); });
+  return cells;
+}
+
+/* ============ Conditional probability lab ============ */
+(function () {
+  var sA = document.getElementById('cdA'), sB = document.getElementById('cdB');
+  if (!sA) return;
+  fillSelects([sA, sB]);
+  sA.value = 'dbl'; sB.value = 'even';
+  var cells = buildDiceGrid(document.getElementById('cdT'), function (i, j) { return i + ',' + j; });
+  var out = document.getElementById('cdOut');
+  function update() {
+    var fa = EV2[sA.value][1], fb = EV2[sB.value][1];
+    var nA = 0, nB = 0, nAB = 0;
+    cells.forEach(function (c) {
+      var a = fa(c.i, c.j), b = fb(c.i, c.j);
+      if (a) nA++; if (b) nB++; if (a && b) nAB++;
+      c.td.className = !b ? 'dim' : (a ? 'res' : 'inb');
+    });
+    if (nB === 0) { out.innerHTML = 'ל-B אין אף תא, ולכן אי אפשר להתנות בו (חילוק באפס).'; return; }
+    var p = nAB / nB, p0 = nA / 36, verdict;
+    if (nAB * 36 === nA * nB) verdict = '<b>המידע לא שינה כלום</b> (הסיכוי נשאר זהה).';
+    else if (p > p0) verdict = '<b>המידע העלה</b> את הסיכוי.';
+    else verdict = '<b>המידע הוריד</b> את הסיכוי.';
+    out.innerHTML = 'הידוע, B, תופס <b>' + nB + '</b> תאים (הם היקום החדש). מהם <b>' + nAB + '</b> גם ב-A. ' +
+      '<br>לכן P(A | B) = ' + nAB + '/' + nB + ' = <b>' + fr2(nAB, nB) + '</b> ≈ ' + p.toFixed(3) +
+      '<br>לעומת זאת, בלי הידיעה: P(A) = ' + nA + '/36 = ' + fr2(nA, 36) + ' ≈ ' + p0.toFixed(3) + '. ' + verdict;
+  }
+  sA.addEventListener('change', update); sB.addEventListener('change', update);
+  update();
+})();
+
+/* ============ Independence lab ============ */
+(function () {
+  var sA = document.getElementById('inA'), sB = document.getElementById('inB');
+  if (!sA) return;
+  fillSelects([sA, sB]);
+  sA.value = 'sum7'; sB.value = 'f6';
+  var cells = buildDiceGrid(document.getElementById('inT'), function (i, j) { return i + ',' + j; });
+  var out = document.getElementById('inOut');
+  function update() {
+    var fa = EV2[sA.value][1], fb = EV2[sB.value][1];
+    var nA = 0, nB = 0, nAB = 0;
+    cells.forEach(function (c) {
+      var a = fa(c.i, c.j), b = fb(c.i, c.j);
+      if (a) nA++; if (b) nB++; if (a && b) nAB++;
+      c.td.className = (a && b) ? 'cab' : (a ? 'ca' : (b ? 'cb' : ''));
+    });
+    var indep = (nAB * 36 === nA * nB);
+    var html = 'P(A) = ' + fr2(nA, 36) + ' &nbsp; P(B) = ' + fr2(nB, 36) + ' &nbsp; P(A∩B) = ' + fr2(nAB, 36) +
+      '<br>P(A)·P(B) = ' + fr2(nA * nB, 1296) + ' &nbsp;|&nbsp; P(A∩B) = ' + fr2(nAB, 36) + ' = ' + fr2(nAB * 36, 1296) +
+      '<br>' + (indep ? '<span class="same yes">שווים: A ו-B בלתי-תלויים ✔</span>' : '<span class="same no">שונים: A ו-B תלויים ✘</span>');
+    if (nAB === 0 && nA > 0 && nB > 0) html += '<br>שים לב: הם <b>זרים</b> (אין תא משותף), ולכן תלויים: ידיעה ש-A קרה מבטיחה ש-B לא.';
+    if (nB > 0) html += '<br>P(A | B) = ' + fr2(nAB, nB) + ' מול P(A) = ' + fr2(nA, 36) + '.';
+    out.innerHTML = html;
+  }
+  sA.addEventListener('change', update); sB.addEventListener('change', update);
+  update();
+})();
+
+/* ============ Bayes / base-rate lab ============ */
+(function () {
+  var pr = document.getElementById('bvPrev'), se = document.getElementById('bvSens'), fp = document.getElementById('bvFpr');
+  if (!pr) return;
+  var cv = document.getElementById('bvC'), ctx = cv.getContext('2d'), out = document.getElementById('bvOut');
+  var N = 10000, COLS = 100, COL = { tp: '#dc2626', fn: '#f59e0b', fp: '#2563eb' };
+  function setPreset(p, s, f) { pr.value = p; se.value = s; fp.value = f; draw(); }
+  function draw() {
+    var prev = parseFloat(pr.value) / 100, sens = parseFloat(se.value) / 100, fpr = parseFloat(fp.value) / 100;
+    document.getElementById('bvPrevV').textContent = pr.value + '%';
+    document.getElementById('bvSensV').textContent = se.value + '%';
+    document.getElementById('bvFprV').textContent = fp.value + '%';
+    var sick = Math.round(N * prev), healthy = N - sick;
+    var tp = Math.round(sick * sens), fn = sick - tp, fpc = Math.round(healthy * fpr), tn = healthy - fpc;
+    var gray = getComputedStyle(document.documentElement).getPropertyValue('--line').trim() || '#ccc';
+    var W = cv.width, cell = W / COLS;
+    ctx.clearRect(0, 0, W, cv.height);
+    var order = [[tp, COL.tp], [fn, COL.fn], [fpc, COL.fp], [tn, gray]], idx = 0;
+    order.forEach(function (g) {
+      for (var k = 0; k < g[0]; k++, idx++) {
+        var r = Math.floor(idx / COLS), c = idx % COLS;
+        ctx.fillStyle = g[1];
+        ctx.fillRect(c * cell + 1, r * cell + 1, cell - 2, cell - 2);
+      }
+    });
+    var pos = tp + fpc, post = pos > 0 ? tp / pos : 0;
+    out.innerHTML =
+      '<table class="tbl"><tr><th></th><th>בדיקה חיובית</th><th>בדיקה שלילית</th><th>סה"כ</th></tr>' +
+      '<tr><th>חולים</th><td><b style="color:#dc2626">' + tp.toLocaleString() + '</b></td><td><b style="color:#f59e0b">' + fn.toLocaleString() + '</b></td><td>' + sick.toLocaleString() + '</td></tr>' +
+      '<tr><th>בריאים</th><td><b style="color:#2563eb">' + fpc.toLocaleString() + '</b></td><td>' + tn.toLocaleString() + '</td><td>' + healthy.toLocaleString() + '</td></tr>' +
+      '<tr><th>סה"כ</th><td>' + pos.toLocaleString() + '</td><td>' + (N - pos).toLocaleString() + '</td><td>' + N.toLocaleString() + '</td></tr></table>' +
+      'מבין <b>' + pos.toLocaleString() + '</b> האנשים עם בדיקה חיובית, <b>' + tp.toLocaleString() + '</b> באמת חולים.<br>' +
+      'לכן P(חולה | חיובית) = ' + tp.toLocaleString() + '/' + pos.toLocaleString() + ' = <span class="big">' + (100 * post).toFixed(1) + '%</span>';
+  }
+  [pr, se, fp].forEach(function (s) { s.addEventListener('input', draw); });
+  document.getElementById('bvPre1').addEventListener('click', function () { setPreset(1, 99, 5); });
+  document.getElementById('bvPre2').addEventListener('click', function () { setPreset(10, 99, 5); });
+  document.getElementById('bvPre3').addEventListener('click', function () { setPreset(0.1, 99, 1); });
+  draw();
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+})();
+
+</script>
+</body>
+</html>

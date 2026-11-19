@@ -129,6 +129,17 @@ ol.story li { counter-increment: s; position: relative; padding: 6px 44px 6px 10
 ol.story li::before { content: counter(s); position: absolute; right: 10px; top: 6px; width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: #fff; font-size: .85rem; text-align: center; line-height: 24px; font-weight: 700; }
 .q-lead { font-size: 1.25rem; font-weight: 700; color: var(--accent); margin: .2em 0 .4em; }
 
+table.dice td.dim { opacity: .25; }
+table.dice td.inb { background: var(--accent-soft); border-color: var(--accent); }
+table.dice td.ca { background: rgba(37,99,235,.35); }
+table.dice td.cb { background: rgba(234,88,12,.35); }
+table.dice td.cab { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 700; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: .88rem; margin: 6px 0; }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-inline-end: 5px; vertical-align: -1px; }
+.treeSvg { width: 100%; max-width: 660px; height: auto; display: block; margin: 10px auto; direction: ltr; }
+.treeSvg text { fill: var(--fg); font-family: "Segoe UI", Heebo, Arial, sans-serif; }
+.treeSvg line { stroke: var(--muted); stroke-width: 1.6; }
+.treeSvg .hl { fill: var(--accent); font-weight: 700; }
 
 </style>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
@@ -214,12 +225,12 @@ ol.story li::before { content: counter(s); position: absolute; right: 10px; top:
     <p>שרשרת של שאלות: מהו סיכוי, חלק של מה, איך משלבים מאורעות, אילו חוקים, איך סופרים, והאם זה מתיישב עם האינטואיציה. כולל תרגול לכל סעיף.</p>
     <div class="mlhook">🤖 ל-ML: למה softmax הוא "התפלגות" ומה זה אומר שהמודל "בטוח ב-90%"</div>
   </a>
-  <div class="card soon">
-    <div class="n">שיעור 2 <span class="tag soon">בקרוב</span></div>
-    <h3>הסתברות מותנית, אי-תלות ומשפט בייס</h3>
-    <p>איך מעדכנים אמונה כשמגיע מידע חדש. פרדוקס המבחן הרפואי.</p>
-    <div class="mlhook">🤖 ל-ML: Naive Bayes, מסנן ספאם, הסיווג כ-P(y|x)</div>
-  </div>
+  <a class="card" href="lesson02.html">
+    <div class="n">שיעור 2 <span class="tag">זמין</span></div>
+    <h3>מה משתנה כשמקבלים מידע?</h3>
+    <p>הסתברות מותנית כצמצום היקום, כלל הכפל ועצים, אי-תלות, הסתברות שלמה ומשפט בייס. כולל מעבדה של 10,000 אנשים שמסבירה את פרדוקס המבחן הרפואי.</p>
+    <div class="mlhook">🤖 ל-ML: מסווג כ-P(y|x), Naive Bayes, ולמה 99% דיוק יכול להטעות</div>
+  </a>
   <div class="card soon">
     <div class="n">שיעור 3 <span class="tag soon">בקרוב</span></div>
     <h3>משתנים מקריים והתפלגויות</h3>
