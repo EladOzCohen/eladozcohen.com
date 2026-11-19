@@ -38,8 +38,12 @@ body {
   margin: 0; background: var(--bg); color: var(--fg);
   font-family: "Segoe UI", Heebo, Arial, sans-serif; font-size: 18px; line-height: 1.8;
 }
-.katex { direction: ltr; unicode-bidi: isolate; font-size: 1.08em; }
-.katex-display { direction: ltr; margin: 1em 0; overflow-x: auto; overflow-y: hidden; }
+/* Math is always laid out left-to-right, even inside RTL (Hebrew) paragraphs. Without this the tokens of a
+   formula come out reversed ("120 = !5"). !important + descendants, so no other stylesheet can undo it;
+   common.js additionally sets the same thing inline on every rendered formula. */
+.katex, .katex * { direction: ltr !important; }
+.katex { unicode-bidi: isolate !important; font-size: 1.08em; }
+.katex-display { direction: ltr !important; unicode-bidi: isolate !important; margin: 1em 0; overflow-x: auto; overflow-y: hidden; }
 .wrap { max-width: 860px; margin: 0 auto; padding: 0 16px 80px; }
 header.hero { padding: 48px 16px 28px; border-bottom: 1px solid var(--line); background: linear-gradient(180deg, var(--accent-soft), transparent); }
 header.hero .wrap { padding-bottom: 0; }
@@ -168,6 +172,29 @@ table.dice td.cab { background: var(--accent); color: #fff; border-color: var(--
         { left: '$', right: '$', display: false }
       ],
       throwOnError: false
+    });
+    hardenMathDirection();
+  }
+
+  // Belt and braces for RTL pages: force left-to-right on every rendered formula, inline and !important,
+  // so a missing or overridden stylesheet (or an RTL-forcing extension/viewer) cannot reverse the tokens.
+  function hardenMathDirection() {
+    document.querySelectorAll('.katex-display, .katex').forEach(function (el) {
+      el.setAttribute('dir', 'ltr');
+      el.style.setProperty('direction', 'ltr', 'important');
+      el.style.setProperty('unicode-bidi', 'isolate', 'important');
+    });
+    document.querySelectorAll('.katex *').forEach(function (el) {
+      el.style.setProperty('direction', 'ltr', 'important');
+    });
+    // Keep short inline formulas on one line: KaTeX may otherwise wrap "10! = 3,628,800" after the "=",
+    // which reads very oddly inside a right-to-left paragraph. Long formulas are left free to wrap.
+    document.querySelectorAll('.katex').forEach(function (el) {
+      if (el.closest('.katex-display')) return;
+      var h = el.querySelector('.katex-html'), p = el.closest('p, li, td, th, div, h3, summary');
+      if (!h || !p) return;
+      h.style.whiteSpace = 'nowrap';
+      if (el.getBoundingClientRect().width > p.clientWidth - 4) h.style.whiteSpace = '';
     });
   }
   window.addEventListener('load', renderMath);
